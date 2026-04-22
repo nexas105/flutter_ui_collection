@@ -173,7 +173,7 @@ class _UiButtonState extends State<UiButton> {
     return MouseRegion(
       cursor: widget._enabled
           ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
+          : SystemMouseCursors.forbidden,
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(

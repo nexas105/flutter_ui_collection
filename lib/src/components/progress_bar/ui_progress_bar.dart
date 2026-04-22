@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_theme.dart';
 
-/// A themed progress bar.
+/// A themed progress bar with animated value transitions.
 ///
 /// ```dart
-/// UiProgressBar(value: 0.65)
+/// UiProgressBar(value: 0.65, showLabel: true)
 /// ```
 class UiProgressBar extends StatelessWidget {
   const UiProgressBar({
@@ -15,6 +15,7 @@ class UiProgressBar extends StatelessWidget {
     this.showLabel = false,
     this.color,
     this.trackColor,
+    this.animate = true,
   });
 
   /// Progress value between 0.0 and 1.0.
@@ -23,6 +24,9 @@ class UiProgressBar extends StatelessWidget {
   final bool showLabel;
   final Color? color;
   final Color? trackColor;
+
+  /// Whether to animate value changes. Defaults to true.
+  final bool animate;
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +75,14 @@ class UiProgressBar extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(color: bgColor),
                 ),
-                // Fill
-                FractionallySizedBox(
+                // Fill (animated)
+                AnimatedFractionallySizedBox(
+                  duration: animate
+                      ? theme.animationDuration
+                      : Duration.zero,
+                  curve: theme.animationCurve,
                   widthFactor: clampedValue,
+                  alignment: Alignment.centerLeft,
                   child: Container(
                     decoration: BoxDecoration(
                       color: gradient == null ? barColor : null,

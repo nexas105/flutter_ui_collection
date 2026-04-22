@@ -1,16 +1,23 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
+import '../../theme/ui_color_scheme.dart';
 import '../../theme/ui_theme.dart';
 
 /// Avatar size presets.
 enum UiAvatarSize { small, medium, large }
 
+/// Status indicator for [UiAvatar].
+enum UiAvatarStatus { online, offline, busy, away }
+
 /// A circular avatar component.
 ///
 /// Displays an image, initials, or icon inside a themed circle.
+/// Supports an optional status indicator badge.
 ///
 /// ```dart
-/// UiAvatar(initials: 'TL', size: UiAvatarSize.large)
+/// UiAvatar(initials: 'TL', size: UiAvatarSize.large, status: UiAvatarStatus.online)
 /// ```
 class UiAvatar extends StatelessWidget {
   const UiAvatar({
@@ -20,6 +27,7 @@ class UiAvatar extends StatelessWidget {
     this.icon,
     this.size = UiAvatarSize.medium,
     this.backgroundColor,
+    this.status,
   });
 
   final ImageProvider? imageProvider;
@@ -27,6 +35,9 @@ class UiAvatar extends StatelessWidget {
   final IconData? icon;
   final UiAvatarSize size;
   final Color? backgroundColor;
+
+  /// Optional status indicator shown in the bottom-right corner.
+  final UiAvatarStatus? status;
 
   double _resolveSize() {
     switch (size) {
@@ -69,9 +80,12 @@ class UiAvatar extends StatelessWidget {
         ),
       );
     } else if (initials != null) {
+      final displayText = initials!
+          .substring(0, min(initials!.length, 2))
+          .toUpperCase();
       child = Center(
         child: Text(
-          initials!.substring(0, initials!.length.clamp(0, 2)).toUpperCase(),
+          displayText,
           style: typo.labelLarge.copyWith(
             color: colors.onPrimary,
             fontSize: diameter * 0.36,
@@ -88,7 +102,7 @@ class UiAvatar extends StatelessWidget {
       );
     }
 
-    return Container(
+    Widget avatar = Container(
       width: diameter,
       height: diameter,
       decoration: BoxDecoration(
@@ -99,5 +113,48 @@ class UiAvatar extends StatelessWidget {
       ),
       child: child,
     );
+
+    if (status != null) {
+      final statusSize = diameter * 0.28;
+      final statusColor = _resolveStatusColor(colors);
+
+      avatar = Stack(
+        clipBehavior: Clip.none,
+        children: [
+          avatar,
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              width: statusSize,
+              height: statusSize,
+              decoration: BoxDecoration(
+                color: statusColor,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: colors.surface,
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return avatar;
+  }
+
+  Color _resolveStatusColor(UiColorScheme colors) {
+    switch (status!) {
+      case UiAvatarStatus.online:
+        return colors.success;
+      case UiAvatarStatus.offline:
+        return colors.border;
+      case UiAvatarStatus.busy:
+        return colors.error;
+      case UiAvatarStatus.away:
+        return colors.warning;
+    }
   }
 }

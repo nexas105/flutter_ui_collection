@@ -7,7 +7,7 @@ import '../../theme/ui_theme.dart';
 /// ```dart
 /// UiChip(label: 'Flutter', selected: true, onTap: () {})
 /// ```
-class UiChip extends StatelessWidget {
+class UiChip extends StatefulWidget {
   const UiChip({
     super.key,
     required this.label,
@@ -15,6 +15,7 @@ class UiChip extends StatelessWidget {
     this.onTap,
     this.onDelete,
     this.icon,
+    this.enabled = true,
   });
 
   final String label;
@@ -22,6 +23,14 @@ class UiChip extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onDelete;
   final IconData? icon;
+  final bool enabled;
+
+  @override
+  State<UiChip> createState() => _UiChipState();
+}
+
+class _UiChipState extends State<UiChip> {
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,48 +39,76 @@ class UiChip extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    final bgColor = selected
-        ? colors.primary.withValues(alpha: 0.15)
-        : colors.surface;
-    final fgColor = selected ? colors.primary : colors.onSurface;
-    final borderColor = selected ? colors.primary : colors.border;
+    final Color bgColor;
+    if (widget.selected) {
+      bgColor = _hovered
+          ? colors.primary.withValues(alpha: 0.25)
+          : colors.primary.withValues(alpha: 0.15);
+    } else {
+      bgColor = _hovered
+          ? colors.onSurface.withValues(alpha: 0.08)
+          : colors.surface;
+    }
+    final fgColor = widget.selected ? colors.primary : colors.onSurface;
+    final borderColor = widget.selected ? colors.primary : colors.border;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: MouseRegion(
-        cursor: onTap != null
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: spacing.sm,
-            vertical: spacing.xs,
-          ),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: spacing.radiusFull,
-            border: Border.all(color: borderColor, width: theme.borderWidth),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null) ...[
-                Icon(icon, size: 14, color: fgColor),
-                SizedBox(width: spacing.xs),
-              ],
-              Text(label, style: typo.labelSmall.copyWith(color: fgColor)),
-              if (onDelete != null) ...[
-                SizedBox(width: spacing.xs),
-                GestureDetector(
-                  onTap: onDelete,
-                  child: Icon(
-                    IconData(0x2715, fontFamily: 'MaterialIcons'),
-                    size: 12,
-                    color: fgColor.withValues(alpha: 0.6),
+    List<BoxShadow>? glow;
+    if (widget.selected && theme.useGlow && colors.glow != null) {
+      glow = [
+        BoxShadow(
+          color: colors.glow!.withValues(alpha: 0.15),
+          blurRadius: 6,
+        ),
+      ];
+    }
+
+    return Opacity(
+      opacity: widget.enabled ? 1.0 : 0.5,
+      child: GestureDetector(
+        onTap: widget.enabled ? widget.onTap : null,
+        child: MouseRegion(
+          cursor: widget.enabled && widget.onTap != null
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: AnimatedContainer(
+            duration: theme.animationDuration,
+            curve: theme.animationCurve,
+            padding: EdgeInsets.symmetric(
+              horizontal: spacing.sm,
+              vertical: spacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: spacing.radiusFull,
+              border: Border.all(color: borderColor, width: theme.borderWidth),
+              boxShadow: glow,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.icon != null) ...[
+                  Icon(widget.icon, size: 14, color: fgColor),
+                  SizedBox(width: spacing.xs),
+                ],
+                Text(widget.label, style: typo.labelSmall.copyWith(color: fgColor)),
+                if (widget.onDelete != null && widget.enabled) ...[
+                  SizedBox(width: spacing.xs),
+                  GestureDetector(
+                    onTap: widget.onDelete,
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Icon(
+                        const IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                        size: 12,
+                        color: fgColor.withValues(alpha: 0.6),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
