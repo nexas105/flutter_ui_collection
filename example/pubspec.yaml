@@ -1,0 +1,16 @@
+name: example
+description: Flutter UI Collection showcase app.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_ui_collection:
+    path: ../
+
+flutter:
+  uses-material-design: true

@@ -1,3 +1,11 @@
+## 3.0.1
+
+### Full Showcase Example App
+- Complete Flutter example project with 3 tabs (Components, Effects, Modules)
+- Live theme switcher through all 10 presets
+- Interactive chat demo, chart demo, settings demo
+- Runnable via `cd example && flutter run`
+
 ## 2.0.0
 
 ### 5 New Modules (Major Release)
