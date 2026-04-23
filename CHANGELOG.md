@@ -1,3 +1,47 @@
+## 3.1.0
+
+### Chat Module Upgrade (8 new widgets)
+
+WhatsApp-level chat experience with voice messages, reactions, media, and group management.
+
+- `UiChatHeader` -- WhatsApp-style header with avatar, online status, call/video/more actions
+- `UiChatMediaMessage` -- image/video message bubble with caption and delivery status
+- `UiChatSearch` -- in-chat search bar with result navigation (up/down arrows)
+- `UiChatEmpty` -- empty state widget with icon, title, subtitle
+- `UiVoiceMessage` -- voice message bubble with play/pause, waveform visualization, progress
+- `UiMessageReactions` -- emoji reaction pills below messages with count
+- `UiMessageMenu` -- long-press context menu (reply, forward, copy, delete, pin)
+- `UiGroupInfo` -- group info view with avatar, description, members list
+
+### E-Commerce Module Upgrade (7 new widgets)
+
+Full shopping experience with cart management, checkout flow, and shop layout.
+
+- `UiCartController` -- reactive cart state management (add/remove, subtotal, total)
+- `UiCartScreen` -- full cart screen with auto-rebuild on controller changes
+- `UiCheckoutFlow` -- 3-step checkout (Address -> Payment -> Review) with order totals
+- `UiProductDetail` -- full product detail page with image, badges, price, rating, description
+- `UiProductBadge` -- pill-shaped badge (Sale, New, Bestseller, OutOfStock)
+- `UiShopLayout` -- complete shop page with search, category chips, product grid, cart badge
+- `UiWishlistButton` -- animated heart toggle with scale-bounce animation
+
+### Dashboard Module Upgrade (6 new widgets)
+
+Advanced data visualization with gauges, heatmaps, and interactive tables.
+
+- `UiDataTable` -- sortable data table with themed styling
+- `UiGauge` -- semi-circular gauge chart via CustomPaint
+- `UiHeatmap` -- GitHub-style contribution heatmap with color interpolation
+- `UiMetricCard` -- rich metric card with value, change indicator, optional chart
+- `UiProgressList` -- labeled progress bars with optional trailing text
+- `UiSparkline` -- tiny inline sparkline chart via CustomPaint
+
+### Stats
+- **21 new widgets** across 3 modules
+- **~210 Dart files**, ~40K LOC
+
+---
+
 ## 3.0.1
 
 ### Full Showcase Example App

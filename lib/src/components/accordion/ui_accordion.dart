@@ -151,19 +151,20 @@ class _AccordionItem extends StatelessWidget {
           ),
         ),
         // Content
-        AnimatedCrossFade(
-          firstChild: const SizedBox(width: double.infinity),
-          secondChild: Padding(
-            padding: EdgeInsets.fromLTRB(spacing.md, 0, spacing.md, spacing.md),
-            child: DefaultTextStyle(
-              style: typo.bodyMedium.copyWith(color: colors.onSurface),
-              child: section.content,
+        ClipRect(
+          child: AnimatedAlign(
+            duration: theme.animationDuration,
+            curve: theme.animationCurve,
+            alignment: Alignment.topCenter,
+            heightFactor: expanded ? 1.0 : 0.0,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(spacing.md, 0, spacing.md, spacing.md),
+              child: DefaultTextStyle(
+                style: typo.bodyMedium.copyWith(color: colors.onSurface),
+                child: section.content,
+              ),
             ),
           ),
-          crossFadeState:
-              expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-          duration: theme.animationDuration,
-          sizeCurve: theme.animationCurve,
         ),
       ],
     );

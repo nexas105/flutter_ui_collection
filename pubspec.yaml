@@ -1,9 +1,9 @@
 name: flutter_ui_collection
 description: >
-  A complete Flutter UI framework — 89 core components + 6 modules (Auth, Chat,
-  Dashboard, E-Commerce, Social, Settings), 8 design presets, 7 effects.
-  170+ files, ~30K LOC. Fully independent of Material Design.
-version: 3.0.1
+  A complete Flutter UI framework — 89 core components + 6 enhanced modules
+  (Auth, Chat/WhatsApp-level, Dashboard/Charts, E-Commerce/Cart+Checkout,
+  Social, Settings). 192 files, ~35K LOC. Material-free.
+version: 3.1.0
 homepage: https://github.com/tobiasludwig/flutter_ui_collection
 repository: https://github.com/tobiasludwig/flutter_ui_collection
 issue_tracker: https://github.com/tobiasludwig/flutter_ui_collection/issues

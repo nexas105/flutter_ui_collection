@@ -99,17 +99,18 @@ class _UiCollapsibleState extends State<UiCollapsible> {
               ),
             ),
           ),
-          AnimatedCrossFade(
-            firstChild: const SizedBox(width: double.infinity),
-            secondChild: Padding(
-              padding:
-                  EdgeInsets.fromLTRB(spacing.md, 0, spacing.md, spacing.md),
-              child: widget.child,
+          ClipRect(
+            child: AnimatedAlign(
+              duration: theme.animationDuration,
+              curve: theme.animationCurve,
+              alignment: Alignment.topCenter,
+              heightFactor: _expanded ? 1.0 : 0.0,
+              child: Padding(
+                padding:
+                    EdgeInsets.fromLTRB(spacing.md, 0, spacing.md, spacing.md),
+                child: widget.child,
+              ),
             ),
-            crossFadeState:
-                _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: theme.animationDuration,
-            sizeCurve: theme.animationCurve,
           ),
         ],
       ),

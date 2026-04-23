@@ -13,37 +13,67 @@ class ShowcaseApp extends StatefulWidget {
 }
 
 class _ShowcaseAppState extends State<ShowcaseApp> {
-  static final _themes = [
-    NeonTheme.dark,
-    NeonTheme.light,
-    GlassTheme.dark,
-    MinimalTheme.dark,
-    MinimalTheme.light,
-    CyberpunkTheme.dark,
-    RetroTheme.dark,
-    AuroraTheme.dark,
-    TerminalTheme.dark,
-    PastelTheme.light,
-  ];
+  // All themes grouped by preset: [dark, light] pairs
+  static final _presets = <String, List<UiThemeData>>{
+    'Neon': [NeonTheme.dark, NeonTheme.light],
+    'Glass': [GlassTheme.dark, GlassTheme.light],
+    'Minimal': [MinimalTheme.dark, MinimalTheme.light],
+    'Cyberpunk': [CyberpunkTheme.dark, CyberpunkTheme.light],
+    'Retro': [RetroTheme.dark, RetroTheme.light],
+    'Aurora': [AuroraTheme.dark, AuroraTheme.light],
+    'Terminal': [TerminalTheme.dark, TerminalTheme.amber],
+    'Pastel': [PastelTheme.dark, PastelTheme.light],
+  };
 
-  int _themeIndex = 0;
+  String _preset = 'Neon';
+  bool _isDark = true;
   int _pageIndex = 0;
 
-  void _nextTheme() {
-    setState(() => _themeIndex = (_themeIndex + 1) % _themes.length);
+  UiThemeData get _currentTheme {
+    final pair = _presets[_preset]!;
+    return _isDark ? pair[0] : pair[1];
+  }
+
+  void _nextPreset() {
+    final keys = _presets.keys.toList();
+    final i = (keys.indexOf(_preset) + 1) % keys.length;
+    setState(() => _preset = keys[i]);
+  }
+
+  void _toggleDarkLight() {
+    setState(() => _isDark = !_isDark);
   }
 
   @override
   Widget build(BuildContext context) {
     return UiApp(
-      theme: _themes[_themeIndex],
+      theme: _currentTheme,
       title: 'Flutter UI Collection',
       home: UiScaffold(
         appBar: UiAppBar(
           title: const Text('Flutter UI Collection'),
           actions: [
+            // Dark/Light toggle
             GestureDetector(
-              onTap: _nextTheme,
+              onTap: _toggleDarkLight,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Builder(builder: (context) {
+                  final t = UiTheme.of(context);
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: t.spacing.xs),
+                    child: Icon(
+                      _isDark ? UiIcons.lightMode : UiIcons.darkMode,
+                      size: 20,
+                      color: t.colorScheme.onSurface,
+                    ),
+                  );
+                }),
+              ),
+            ),
+            // Theme preset selector
+            GestureDetector(
+              onTap: _nextPreset,
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Builder(builder: (context) {
@@ -58,7 +88,7 @@ class _ShowcaseAppState extends State<ShowcaseApp> {
                       border: Border.all(color: t.colorScheme.border),
                     ),
                     child: Text(
-                      t.name,
+                      '$_preset ${_isDark ? "Dark" : "Light"}',
                       style: t.typography.labelSmall.copyWith(
                         color: t.colorScheme.primary,
                       ),

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_theme.dart';
@@ -159,10 +161,10 @@ class _StarPainter extends CustomPainter {
     for (int i = 0; i < 5; i++) {
       final outerAngle = (i * 72 - 90) * 3.14159265 / 180;
       final innerAngle = ((i * 72) + 36 - 90) * 3.14159265 / 180;
-      final ox = cx + r * _cos(outerAngle);
-      final oy = cy + r * _sin(outerAngle);
-      final ix = cx + ir * _cos(innerAngle);
-      final iy = cy + ir * _sin(innerAngle);
+      final ox = cx + r * math.cos(outerAngle);
+      final oy = cy + r * math.sin(outerAngle);
+      final ix = cx + ir * math.cos(innerAngle);
+      final iy = cy + ir * math.sin(innerAngle);
       if (i == 0) {
         path.moveTo(ox, oy);
       } else {
@@ -172,24 +174,6 @@ class _StarPainter extends CustomPainter {
     }
     path.close();
     return path;
-  }
-
-  double _cos(double x) {
-    // Use Taylor series for cos
-    x = x % (2 * 3.14159265);
-    final x2 = x * x;
-    final x4 = x2 * x2;
-    final x6 = x4 * x2;
-    return 1 - x2 / 2 + x4 / 24 - x6 / 720;
-  }
-
-  double _sin(double x) {
-    x = x % (2 * 3.14159265);
-    if (x > 3.14159265) x -= 2 * 3.14159265;
-    final x3 = x * x * x;
-    final x5 = x3 * x * x;
-    final x7 = x5 * x * x;
-    return x - x3 / 6 + x5 / 120 - x7 / 5040;
   }
 
   @override

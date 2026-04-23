@@ -62,12 +62,27 @@ class UiScaffold extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final showSidebar = sidebar != null && screenWidth >= sidebarBreakpoint;
 
-    return ColoredBox(
-      color: backgroundColor ?? colors.background,
-      child: Column(
-        children: [
-          // App bar
-          ?appBar,
+    // Use surface color behind status bar when appBar is present
+    final statusBarColor = appBar != null ? colors.surface : (backgroundColor ?? colors.background);
+
+    return Column(
+      children: [
+        // Status bar area (behind notch/dynamic island)
+        ColoredBox(
+          color: statusBarColor,
+          child: SizedBox(
+            height: MediaQuery.paddingOf(context).top,
+            width: double.infinity,
+          ),
+        ),
+        // Main content
+        Expanded(
+          child: ColoredBox(
+            color: backgroundColor ?? colors.background,
+            child: Column(
+              children: [
+                // App bar
+                ?appBar,
 
           // Body + Sidebar
           Expanded(
@@ -111,10 +126,13 @@ class UiScaffold extends StatelessWidget {
             ),
           ),
 
-          // Bottom bar
-          ?bottomBar,
-        ],
+              // Bottom bar
+              ?bottomBar,
+            ],
+          ),
+        ),
       ),
+    ],
     );
   }
 }
