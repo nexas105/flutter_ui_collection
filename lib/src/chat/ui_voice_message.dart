@@ -90,23 +90,7 @@ class UiVoiceMessage extends StatelessWidget {
             bottomRight: radius,
           );
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.2),
-          blurRadius: 8,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow.withValues(alpha: 0.1),
-          offset: const Offset(0, 1),
-          blurRadius: 3,
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows();
 
     final hour = timestamp.hour.toString().padLeft(2, '0');
     final minute = timestamp.minute.toString().padLeft(2, '0');
@@ -135,8 +119,8 @@ class UiVoiceMessage extends StatelessWidget {
               GestureDetector(
                 onTap: onPlayPause,
                 child: Container(
-                  width: 36,
-                  height: 36,
+                  width: theme.components.controlHeightSmall,
+                  height: theme.components.controlHeightSmall,
                   decoration: BoxDecoration(
                     color: activeColor,
                     shape: BoxShape.circle,
@@ -144,12 +128,8 @@ class UiVoiceMessage extends StatelessWidget {
                   child: CustomPaint(
                     size: const Size(36, 36),
                     painter: isPlaying
-                        ? _PauseIconPainter(
-                            color: bubbleColor,
-                          )
-                        : _PlayIconPainter(
-                            color: bubbleColor,
-                          ),
+                        ? _PauseIconPainter(color: bubbleColor)
+                        : _PlayIconPainter(color: bubbleColor),
                   ),
                 ),
               ),
@@ -218,9 +198,36 @@ class _WaveformPainter extends CustomPainter {
 
   // Deterministic pseudo-random bar heights.
   static const List<double> _barHeights = [
-    0.3, 0.5, 0.7, 0.4, 0.9, 0.6, 0.8, 0.35, 0.55, 0.95,
-    0.4, 0.7, 0.5, 0.85, 0.3, 0.65, 0.9, 0.45, 0.75, 0.5,
-    0.6, 0.8, 0.35, 0.7, 0.55, 0.9, 0.4, 0.6, 0.8, 0.45,
+    0.3,
+    0.5,
+    0.7,
+    0.4,
+    0.9,
+    0.6,
+    0.8,
+    0.35,
+    0.55,
+    0.95,
+    0.4,
+    0.7,
+    0.5,
+    0.85,
+    0.3,
+    0.65,
+    0.9,
+    0.45,
+    0.75,
+    0.5,
+    0.6,
+    0.8,
+    0.35,
+    0.7,
+    0.55,
+    0.9,
+    0.4,
+    0.6,
+    0.8,
+    0.45,
   ];
 
   @override

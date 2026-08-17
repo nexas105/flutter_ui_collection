@@ -177,11 +177,7 @@ class UiComment {
 
 /// A story entry for the story row.
 class UiStory {
-  const UiStory({
-    required this.user,
-    this.hasNew = false,
-    this.seen = false,
-  });
+  const UiStory({required this.user, this.hasNew = false, this.seen = false});
 
   /// The user who posted this story.
   final UiSocialUser user;
@@ -192,11 +188,7 @@ class UiStory {
   /// Whether the current user has seen this story.
   final bool seen;
 
-  UiStory copyWith({
-    UiSocialUser? user,
-    bool? hasNew,
-    bool? seen,
-  }) {
+  UiStory copyWith({UiSocialUser? user, bool? hasNew, bool? seen}) {
     return UiStory(
       user: user ?? this.user,
       hasNew: hasNew ?? this.hasNew,

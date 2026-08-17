@@ -420,7 +420,7 @@ class _TextInputField extends StatelessWidget {
     final typo = theme.typography;
 
     return Container(
-      height: 48,
+      height: theme.components.controlHeightMedium,
       padding: EdgeInsets.symmetric(horizontal: spacing.md),
       decoration: BoxDecoration(
         color: colors.surface,
@@ -434,7 +434,7 @@ class _TextInputField extends StatelessWidget {
             Text(
               placeholder,
               style: (typo.bodyMedium as TextStyle).copyWith(
-                color: (colors.onSurface as Color).withValues(alpha: 0.4),
+                color: colors.resolvedOnSurfaceSubtle,
               ),
             ),
           EditableText(
@@ -490,15 +490,9 @@ class _NavButtonState extends State<_NavButton> {
       fgColor = colors.onSurface;
     }
 
-    List<BoxShadow>? glow;
-    if (widget.isPrimary && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: (colors.primary as Color).withValues(alpha: 0.3),
-          blurRadius: 8,
-        ),
-      ];
-    }
+    final glow = widget.isPrimary
+        ? theme.surfaceShadows(accent: colors.primary as Color)
+        : null;
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _pressed = true),
@@ -555,9 +549,7 @@ class _ReviewRow extends StatelessWidget {
         Text(
           label,
           style: (style as TextStyle).copyWith(
-            color: bold
-                ? colors.onSurface
-                : (colors.onSurface as Color).withValues(alpha: 0.7),
+            color: bold ? colors.onSurface : colors.resolvedOnSurfaceMuted,
             fontWeight: bold ? FontWeight.w700 : null,
           ),
         ),

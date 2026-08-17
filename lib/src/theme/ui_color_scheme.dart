@@ -28,6 +28,7 @@ class UiColorScheme {
     this.surfaceRaised,
     this.surfaceOverlay,
     this.onSurfaceMuted,
+    this.onSurfaceSubtle,
   });
 
   final Color primary;
@@ -58,12 +59,16 @@ class UiColorScheme {
   final Color? surfaceRaised;
   final Color? surfaceOverlay;
   final Color? onSurfaceMuted;
+  final Color? onSurfaceSubtle;
 
   Color get resolvedCanvas => canvas ?? background;
   Color get resolvedSurfaceRaised => surfaceRaised ?? surface;
   Color get resolvedSurfaceOverlay => surfaceOverlay ?? surface;
   Color get resolvedOnSurfaceMuted =>
       onSurfaceMuted ?? onSurface.withValues(alpha: 0.62);
+  Color get resolvedOnSurfaceSubtle =>
+      onSurfaceSubtle ?? onSurface.withValues(alpha: 0.42);
+  Color get resolvedBorderSubtle => border.withValues(alpha: 0.3);
 
   UiColorScheme copyWith({
     Color? primary,
@@ -88,6 +93,7 @@ class UiColorScheme {
     Color? surfaceRaised,
     Color? surfaceOverlay,
     Color? onSurfaceMuted,
+    Color? onSurfaceSubtle,
   }) {
     return UiColorScheme(
       primary: primary ?? this.primary,
@@ -112,6 +118,7 @@ class UiColorScheme {
       surfaceRaised: surfaceRaised ?? this.surfaceRaised,
       surfaceOverlay: surfaceOverlay ?? this.surfaceOverlay,
       onSurfaceMuted: onSurfaceMuted ?? this.onSurfaceMuted,
+      onSurfaceSubtle: onSurfaceSubtle ?? this.onSurfaceSubtle,
     );
   }
 }

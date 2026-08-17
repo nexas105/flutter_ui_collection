@@ -87,7 +87,7 @@ class UiProductDetail extends StatelessWidget {
               child: Text(
                 product.name,
                 style: typo.titleLarge.copyWith(
-                  color: colors.onSurface.withValues(alpha: 0.3),
+                  color: colors.resolvedOnSurfaceSubtle,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -147,9 +147,7 @@ class UiProductDetail extends StatelessWidget {
                 if (product.description.isNotEmpty)
                   Text(
                     product.description,
-                    style: typo.bodyMedium.copyWith(
-                      color: colors.onSurface.withValues(alpha: 0.8),
-                    ),
+                    style: typo.bodyMedium.copyWith(color: colors.onSurface),
                   ),
                 SizedBox(height: spacing.lg),
 
@@ -199,7 +197,7 @@ class _RatingStars extends StatelessWidget {
         Text(
           '${rating.toStringAsFixed(1)} ($reviewCount reviews)',
           style: (typo.bodySmall as TextStyle).copyWith(
-            color: (colors.onSurface as Color).withValues(alpha: 0.6),
+            color: colors.resolvedOnSurfaceMuted,
           ),
         ),
       ],
@@ -234,15 +232,9 @@ class _AddToCartFullWidthState extends State<_AddToCartFullWidth> {
     final enabled = widget.inStock && widget.onTap != null;
     final bgColor = enabled ? colors.primary as Color : colors.border as Color;
 
-    List<BoxShadow>? glow;
-    if (enabled && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: (colors.primary as Color).withValues(alpha: 0.4),
-          blurRadius: 12,
-        ),
-      ];
-    }
+    final glow = enabled
+        ? theme.surfaceShadows(accent: colors.primary as Color)
+        : null;
 
     return GestureDetector(
       onTapDown: enabled ? (_) => setState(() => _pressed = true) : null,

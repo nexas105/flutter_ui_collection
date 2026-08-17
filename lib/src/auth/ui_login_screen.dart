@@ -202,13 +202,13 @@ class _UiLoginScreenState extends State<UiLoginScreen> {
                                   ? UiIcons.visibility
                                   : UiIcons.visibilityOff,
                               size: 16,
-                              color: colors.onSurface.withValues(alpha: 0.5),
+                              color: colors.resolvedOnSurfaceSubtle,
                             ),
                             SizedBox(width: spacing.xs),
                             Text(
                               _obscurePassword ? 'Show' : 'Hide',
                               style: typo.bodySmall.copyWith(
-                                color: colors.onSurface.withValues(alpha: 0.5),
+                                color: colors.resolvedOnSurfaceSubtle,
                               ),
                             ),
                           ],
@@ -250,8 +250,7 @@ class _UiLoginScreenState extends State<UiLoginScreen> {
                 ),
 
                 // Social login section
-                if (widget.showSocial &&
-                    widget.socialProviders.isNotEmpty) ...[
+                if (widget.showSocial && widget.socialProviders.isNotEmpty) ...[
                   SizedBox(height: spacing.lg),
                   const UiDivider(label: 'OR'),
                   SizedBox(height: spacing.lg),
@@ -329,7 +328,7 @@ class _AuthErrorBanner extends StatelessWidget {
         vertical: spacing.sm,
       ),
       decoration: BoxDecoration(
-        color: colors.error.withValues(alpha: 0.1),
+        color: colors.error.withValues(alpha: theme.components.tintOpacity),
         borderRadius: spacing.radiusMd,
         border: Border.all(
           color: colors.error.withValues(alpha: 0.3),

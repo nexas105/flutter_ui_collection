@@ -139,21 +139,17 @@ class _SparklinePainter extends CustomPainter {
     final points = <Offset>[];
     for (int i = 0; i < data.length; i++) {
       final x = i * stepX;
-      final y = padding +
-          chartHeight -
-          ((data[i] - minVal) / range) * chartHeight;
+      final y =
+          padding + chartHeight - ((data[i] - minVal) / range) * chartHeight;
       points.add(Offset(x, y));
     }
 
     // Clip for animation progress
     canvas.save();
-    canvas.clipRect(
-      Rect.fromLTWH(0, 0, size.width * progress, size.height),
-    );
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width * progress, size.height));
 
     // Build line path
-    final linePath = Path()
-      ..moveTo(points.first.dx, points.first.dy);
+    final linePath = Path()..moveTo(points.first.dx, points.first.dy);
     for (int i = 1; i < points.length; i++) {
       linePath.lineTo(points[i].dx, points[i].dy);
     }
@@ -169,10 +165,7 @@ class _SparklinePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            color.withValues(alpha: 0.3),
-            color.withValues(alpha: 0.02),
-          ],
+          colors: [color.withValues(alpha: 0.3), color.withValues(alpha: 0.02)],
         ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
       canvas.drawPath(fillPath, fillPaint);

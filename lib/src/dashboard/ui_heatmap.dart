@@ -4,10 +4,7 @@ import '../theme/ui_theme.dart';
 
 /// A single cell in a [UiHeatmap].
 class UiHeatmapCell {
-  const UiHeatmapCell({
-    required this.value,
-    this.label,
-  });
+  const UiHeatmapCell({required this.value, this.label});
 
   /// Intensity value from 0.0 (empty) to 1.0 (full).
   final double value;
@@ -58,7 +55,7 @@ class UiHeatmap extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
-    final empty = colorEmpty ?? colors.border.withValues(alpha: 0.3);
+    final empty = colorEmpty ?? colors.resolvedBorderSubtle;
     final full = colorFull ?? colors.primary;
 
     return Column(

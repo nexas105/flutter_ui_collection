@@ -63,8 +63,7 @@ class _UiSettingsSliderState extends State<UiSettingsSlider> {
   bool _dragging = false;
 
   double get _fraction =>
-      ((widget.value - widget.min) / (widget.max - widget.min))
-          .clamp(0.0, 1.0);
+      ((widget.value - widget.min) / (widget.max - widget.min)).clamp(0.0, 1.0);
 
   void _updateValue(double localX, double trackWidth) {
     if (!widget.enabled || widget.onChanged == null) return;
@@ -96,15 +95,9 @@ class _UiSettingsSliderState extends State<UiSettingsSlider> {
     const double trackHeight = 6.0;
     const double thumbSize = 20.0;
 
-    List<BoxShadow>? thumbGlow;
-    if ((_dragging || theme.useGlow) && colors.glow != null) {
-      thumbGlow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: _dragging ? 0.5 : 0.2),
-          blurRadius: _dragging ? 14 : 8,
-        ),
-      ];
-    }
+    final thumbGlow = (_dragging || theme.useGlow)
+        ? theme.surfaceShadows(emphasized: _dragging, accent: colors.primary)
+        : null;
 
     return Opacity(
       opacity: widget.enabled ? 1.0 : 0.5,
@@ -169,8 +162,9 @@ class _UiSettingsSliderState extends State<UiSettingsSlider> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: colors.border,
-                              borderRadius:
-                                  BorderRadius.circular(trackHeight / 2),
+                              borderRadius: BorderRadius.circular(
+                                trackHeight / 2,
+                              ),
                             ),
                           ),
                           // Active track
@@ -180,8 +174,9 @@ class _UiSettingsSliderState extends State<UiSettingsSlider> {
                               height: trackHeight,
                               decoration: BoxDecoration(
                                 color: colors.primary,
-                                borderRadius:
-                                    BorderRadius.circular(trackHeight / 2),
+                                borderRadius: BorderRadius.circular(
+                                  trackHeight / 2,
+                                ),
                               ),
                             ),
                           ),
@@ -196,7 +191,9 @@ class _UiSettingsSliderState extends State<UiSettingsSlider> {
                                 color: colors.primary,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                    color: colors.surface, width: 2),
+                                  color: colors.surface,
+                                  width: 2,
+                                ),
                                 boxShadow: thumbGlow,
                               ),
                             ),

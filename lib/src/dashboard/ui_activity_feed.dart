@@ -3,12 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/ui_theme.dart';
 
 /// Activity type for visual differentiation.
-enum UiActivityType {
-  info,
-  success,
-  warning,
-  error,
-}
+enum UiActivityType { info, success, warning, error }
 
 /// A single entry in a [UiActivityFeed].
 class UiActivityItem {
@@ -74,9 +69,7 @@ class UiActivityFeed extends StatelessWidget {
         padding: spacing.paddingMd,
         child: Text(
           'No activity',
-          style: typo.bodySmall.copyWith(
-            color: colors.onSurface.withValues(alpha: 0.5),
-          ),
+          style: typo.bodySmall.copyWith(color: colors.resolvedOnSurfaceSubtle),
         ),
       );
     }
@@ -93,10 +86,7 @@ class UiActivityFeed extends StatelessWidget {
             theme: theme,
           ),
           if (i < items.length - 1)
-            Container(
-              height: 1,
-              color: colors.border.withValues(alpha: 0.3),
-            ),
+            Container(height: 1, color: colors.resolvedBorderSubtle),
         ],
       ],
     );
@@ -160,7 +150,11 @@ class _ActivityRow extends StatelessWidget {
         children: [
           // Type dot or avatar
           if (item.avatar != null)
-            SizedBox(width: compact ? 24 : 32, height: compact ? 24 : 32, child: item.avatar)
+            SizedBox(
+              width: compact ? 24 : 32,
+              height: compact ? 24 : 32,
+              child: item.avatar,
+            )
           else
             Container(
               width: 8,
@@ -191,7 +185,7 @@ class _ActivityRow extends StatelessWidget {
                     child: Text(
                       item.description!,
                       style: typo.bodySmall.copyWith(
-                        color: colors.onSurface.withValues(alpha: 0.5),
+                        color: colors.resolvedOnSurfaceSubtle,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -205,7 +199,7 @@ class _ActivityRow extends StatelessWidget {
             Text(
               _formatTimestamp(item.timestamp),
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.4),
+                color: colors.resolvedOnSurfaceSubtle,
               ),
             ),
           ],

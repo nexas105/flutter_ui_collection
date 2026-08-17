@@ -38,11 +38,7 @@ class UiKpiData {
 /// )
 /// ```
 class UiKpiRow extends StatelessWidget {
-  const UiKpiRow({
-    super.key,
-    required this.kpis,
-    this.compact = false,
-  });
+  const UiKpiRow({super.key, required this.kpis, this.compact = false});
 
   final List<UiKpiData> kpis;
   final bool compact;

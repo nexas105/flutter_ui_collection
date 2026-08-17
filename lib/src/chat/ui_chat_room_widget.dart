@@ -114,22 +114,14 @@ class _UiChatRoomViewState extends State<UiChatRoomView> {
     final spacing = theme.spacing;
 
     return Container(
-      height: 56,
+      height: theme.components.controlHeightLarge,
       padding: EdgeInsets.symmetric(horizontal: spacing.md),
       decoration: BoxDecoration(
         color: colors.surface,
         border: Border(
           bottom: BorderSide(color: colors.border, width: theme.borderWidth),
         ),
-        boxShadow: theme.useShadows
-            ? [
-                BoxShadow(
-                  color: colors.shadow.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ]
-            : null,
+        boxShadow: theme.surfaceShadows(),
       ),
       child: Row(
         children: [
@@ -164,10 +156,7 @@ class _UiChatRoomViewState extends State<UiChatRoomView> {
     );
   }
 
-  Widget _buildMessageList(
-    UiThemeData theme,
-    List<UiChatMessage> messages,
-  ) {
+  Widget _buildMessageList(UiThemeData theme, List<UiChatMessage> messages) {
     return Expanded(
       child: ListView.builder(
         controller: widget.controller.scrollController,
@@ -183,11 +172,9 @@ class _UiChatRoomViewState extends State<UiChatRoomView> {
           // Because the list is reversed, index 0 is the newest message.
           // We show a date separator *after* a message when the next
           // (chronologically older) message is on a different day.
-          final bool showDateSeparator = index == messages.length - 1 ||
-              _isDifferentDay(
-                message.timestamp,
-                messages[index + 1].timestamp,
-              );
+          final bool showDateSeparator =
+              index == messages.length - 1 ||
+              _isDifferentDay(message.timestamp, messages[index + 1].timestamp);
 
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -255,10 +242,7 @@ class _UiChatRoomViewState extends State<UiChatRoomView> {
                 ),
 
               // ── Input bar ──
-              UiChatInputBar(
-                onSend: widget.onSend,
-                onAttach: widget.onAttach,
-              ),
+              UiChatInputBar(onSend: widget.onSend, onAttach: widget.onAttach),
             ],
           ),
         );

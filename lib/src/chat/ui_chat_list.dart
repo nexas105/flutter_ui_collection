@@ -46,7 +46,7 @@ class UiChatList extends StatelessWidget {
           margin: EdgeInsets.only(
             left: theme.spacing.md + 48 + theme.spacing.sm,
           ),
-          color: colors.border.withValues(alpha: 0.3),
+          color: colors.resolvedBorderSubtle,
         ),
         itemBuilder: (context, index) {
           final room = rooms[index];

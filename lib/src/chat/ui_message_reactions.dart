@@ -4,11 +4,7 @@ import '../theme/ui_theme.dart';
 
 /// A single emoji reaction with count and ownership state.
 class UiReaction {
-  const UiReaction({
-    required this.emoji,
-    this.count = 1,
-    this.isMine = false,
-  });
+  const UiReaction({required this.emoji, this.count = 1, this.isMine = false});
 
   /// The emoji string (e.g. "👍").
   final String emoji;
@@ -60,10 +56,9 @@ class UiMessageReactions extends StatelessWidget {
       spacing: spacing.xs,
       runSpacing: spacing.xs / 2,
       children: reactions.map((reaction) {
-        final borderColor =
-            reaction.isMine ? colors.primary : colors.border;
+        final borderColor = reaction.isMine ? colors.primary : colors.border;
         final bgColor = reaction.isMine
-            ? colors.primary.withValues(alpha: 0.12)
+            ? colors.primary.withValues(alpha: theme.components.pressedOpacity)
             : colors.surface;
 
         return GestureDetector(
@@ -86,17 +81,14 @@ class UiMessageReactions extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  reaction.emoji,
-                  style: const TextStyle(fontSize: 14),
-                ),
+                Text(reaction.emoji, style: const TextStyle(fontSize: 14)),
                 SizedBox(width: spacing.xs / 2),
                 Text(
                   reaction.count.toString(),
                   style: typo.labelSmall.copyWith(
                     color: reaction.isMine
                         ? colors.primary
-                        : colors.onSurface.withValues(alpha: 0.7),
+                        : colors.resolvedOnSurfaceMuted,
                   ),
                 ),
               ],

@@ -58,6 +58,32 @@ class UiThemeData {
   /// Default elevation for cards and surfaces.
   final double elevation;
 
+  /// Resolves the preset's shared depth treatment for cards and overlays.
+  ///
+  /// Modules should use this instead of rebuilding glow and shadow constants.
+  List<BoxShadow>? surfaceShadows({bool emphasized = false, Color? accent}) {
+    if (useGlow && colorScheme.glow != null) {
+      final glow = accent ?? colorScheme.glow!;
+      return [
+        BoxShadow(
+          color: glow.withValues(alpha: emphasized ? 0.32 : 0.18),
+          blurRadius: components.shadowBlur * (emphasized ? 1.15 : 0.75),
+          offset: components.shadowOffset * 0.5,
+        ),
+      ];
+    }
+    if (useShadows) {
+      return [
+        BoxShadow(
+          color: accent ?? colorScheme.shadow,
+          blurRadius: components.shadowBlur * (emphasized ? 1 : 0.65),
+          offset: components.shadowOffset,
+        ),
+      ];
+    }
+    return null;
+  }
+
   UiThemeData copyWith({
     String? name,
     UiColorScheme? colorScheme,

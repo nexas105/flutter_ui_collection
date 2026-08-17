@@ -90,10 +90,7 @@ class UiDataTable extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: colors.border,
-            width: theme.borderWidth,
-          ),
+          bottom: BorderSide(color: colors.border, width: theme.borderWidth),
         ),
       ),
       child: Row(
@@ -106,17 +103,16 @@ class UiDataTable extends StatelessWidget {
                 ascending: sortAscending,
                 onTap: columns[i].sortable && onSort != null
                     ? () {
-                        final newAscending =
-                            sortColumnIndex == i ? !sortAscending : true;
+                        final newAscending = sortColumnIndex == i
+                            ? !sortAscending
+                            : true;
                         onSort!(i, newAscending);
                       }
                     : null,
                 style: typo.labelMedium.copyWith(
-                  color: colors.onSurface.withValues(alpha: 0.7),
+                  color: colors.resolvedOnSurfaceMuted,
                 ),
-                activeStyle: typo.labelMedium.copyWith(
-                  color: colors.primary,
-                ),
+                activeStyle: typo.labelMedium.copyWith(color: colors.primary),
               ),
               columns[i],
             ),
@@ -137,12 +133,10 @@ class UiDataTable extends StatelessWidget {
             vertical: spacing.sm,
           ),
           decoration: BoxDecoration(
-            color: isStriped
-                ? colors.onSurface.withValues(alpha: 0.03)
-                : null,
+            color: isStriped ? colors.onSurface.withValues(alpha: 0.03) : null,
             border: Border(
               bottom: BorderSide(
-                color: colors.border.withValues(alpha: 0.3),
+                color: colors.resolvedBorderSubtle,
                 width: theme.borderWidth * 0.5,
               ),
             ),
@@ -160,10 +154,7 @@ class UiDataTable extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        header,
-        ...dataRows,
-      ],
+      children: [header, ...dataRows],
     );
   }
 }
@@ -204,11 +195,7 @@ class _HeaderCell extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(child: label),
-          if (arrow.isNotEmpty)
-            Text(
-              arrow,
-              style: activeStyle,
-            ),
+          if (arrow.isNotEmpty) Text(arrow, style: activeStyle),
         ],
       ),
     );

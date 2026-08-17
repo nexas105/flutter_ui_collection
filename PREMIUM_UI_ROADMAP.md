@@ -146,14 +146,14 @@ Akzeptanzkriterien:
 
 ## Phase 7 — Module Migration
 
-Status: **Geplant**
+Status: **Abgeschlossen**
 
-- [ ] Auth
-- [ ] Chat
-- [ ] Dashboard
-- [ ] E-Commerce
-- [ ] Social
-- [ ] Settings
+- [x] Auth
+- [x] Chat
+- [x] Dashboard
+- [x] E-Commerce
+- [x] Social
+- [x] Settings
 
 Akzeptanzkriterien:
 
@@ -196,8 +196,8 @@ Akzeptanzkriterien:
 
 ## Aktueller Arbeitsblock
 
-1. Auth, Chat und Dashboard auf zentrale Tokens und Kernkomponenten prüfen.
-2. E-Commerce, Social und Settings migrieren.
-3. Duplizierte Radius-, Schatten- und Opacity-Konstanten entfernen.
-4. Reale Zustände und lange Inhalte testen.
-5. Analyzer und Tests ausführen.
+1. Showcase-Struktur und bestehende Demo-Screens inventarisieren.
+2. Katalog durch kuratierte Produkt-Szenarien ersetzen.
+3. Preset-Vorschau sowie Mobile-, Tablet- und Desktop-Komposition ergänzen.
+4. Accessibility- und State-Lab integrieren.
+5. Screenshots und README-Material erzeugen.

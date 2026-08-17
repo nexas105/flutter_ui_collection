@@ -6,11 +6,7 @@ import '../theme/ui_theme.dart';
 
 /// Data segment for [UiPieChart].
 class UiPieChartData {
-  const UiPieChartData({
-    required this.value,
-    required this.label,
-    this.color,
-  });
+  const UiPieChartData({required this.value, required this.label, this.color});
 
   final double value;
   final String label;
@@ -174,7 +170,7 @@ class _UiPieChartState extends State<UiPieChart>
                           ? '${widget.data[i].label} (${(widget.data[i].value / total * 100).round()}%)'
                           : widget.data[i].label,
                       style: typo.labelSmall.copyWith(
-                        color: colors.onBackground.withValues(alpha: 0.7),
+                        color: colors.resolvedOnSurfaceMuted,
                       ),
                     ),
                   ],
@@ -284,7 +280,8 @@ class _PieChartPainter extends CustomPainter {
 
       if (data.length > 1) {
         final sepPaint = Paint()
-          ..color = centerColor?.withValues(alpha: 0.5) ?? const Color(0x40000000)
+          ..color =
+              centerColor?.withValues(alpha: 0.5) ?? const Color(0x40000000)
           ..strokeWidth = 1.5
           ..style = PaintingStyle.stroke;
 

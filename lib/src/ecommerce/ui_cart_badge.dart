@@ -66,12 +66,7 @@ class _UiCartBadgeState extends State<UiCartBadge>
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
 
-    List<BoxShadow>? glow;
-    if (theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(color: colors.glow!.withValues(alpha: 0.4), blurRadius: 8),
-      ];
-    }
+    final glow = theme.surfaceShadows(accent: colors.primary);
 
     return GestureDetector(
       onTap: widget.onTap,

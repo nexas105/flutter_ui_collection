@@ -69,7 +69,7 @@ class UiChatSearch extends StatelessWidget {
           // Search input.
           Expanded(
             child: Container(
-              height: 36,
+              height: theme.components.controlHeightSmall,
               padding: EdgeInsets.symmetric(horizontal: spacing.sm),
               decoration: BoxDecoration(
                 color: colors.background,
@@ -84,7 +84,9 @@ class UiChatSearch extends StatelessWidget {
                 focusNode: FocusNode(),
                 style: typo.bodyMedium.copyWith(color: colors.onSurface),
                 cursorColor: colors.primary,
-                backgroundCursorColor: colors.onSurface.withValues(alpha: 0.1),
+                backgroundCursorColor: colors.onSurface.withValues(
+                  alpha: theme.components.tintOpacity,
+                ),
                 onChanged: onSearch,
               ),
             ),
@@ -95,7 +97,7 @@ class UiChatSearch extends StatelessWidget {
             Text(
               '$currentResult of $resultCount',
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.6),
+                color: colors.resolvedOnSurfaceMuted,
               ),
             ),
           ],
@@ -140,9 +142,7 @@ class UiChatSearch extends StatelessWidget {
               width: 28,
               height: 28,
               child: CustomPaint(
-                painter: _CloseIconPainter(
-                  color: colors.onSurface.withValues(alpha: 0.8),
-                ),
+                painter: _CloseIconPainter(color: colors.onSurface),
               ),
             ),
           ),

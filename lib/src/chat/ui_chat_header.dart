@@ -101,17 +101,15 @@ class UiChatHeader extends StatelessWidget {
               width: 32,
               height: 32,
               child: CustomPaint(
-                painter: _BackArrowPainter(
-                  color: colors.onSurface,
-                ),
+                painter: _BackArrowPainter(color: colors.onSurface),
               ),
             ),
           ),
           SizedBox(width: spacing.sm),
           // Avatar.
           Container(
-            width: 38,
-            height: 38,
+            width: theme.components.controlHeightSmall,
+            height: theme.components.controlHeightSmall,
             decoration: BoxDecoration(
               color: colors.secondary,
               shape: BoxShape.circle,
@@ -141,7 +139,7 @@ class UiChatHeader extends StatelessWidget {
                     style: typo.bodySmall.copyWith(
                       color: isTyping
                           ? colors.primary
-                          : colors.onSurface.withValues(alpha: 0.6),
+                          : colors.resolvedOnSurfaceMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -245,12 +243,16 @@ class _PhoneIconPainter extends CustomPainter {
     final path = Path()
       ..moveTo(size.width * 0.13, size.height * 0.2)
       ..quadraticBezierTo(
-        size.width * 0.1, size.height * 0.55,
-        size.width * 0.38, size.height * 0.72,
+        size.width * 0.1,
+        size.height * 0.55,
+        size.width * 0.38,
+        size.height * 0.72,
       )
       ..quadraticBezierTo(
-        size.width * 0.6, size.height * 0.88,
-        size.width * 0.87, size.height * 0.8,
+        size.width * 0.6,
+        size.height * 0.88,
+        size.width * 0.87,
+        size.height * 0.8,
       )
       ..lineTo(size.width * 0.75, size.height * 0.62)
       ..lineTo(size.width * 0.55, size.height * 0.55)
@@ -285,7 +287,12 @@ class _VideoIconPainter extends CustomPainter {
 
     // Camera body.
     final bodyRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, size.height * 0.15, size.width * 0.65, size.height * 0.7),
+      Rect.fromLTWH(
+        0,
+        size.height * 0.15,
+        size.width * 0.65,
+        size.height * 0.7,
+      ),
       const Radius.circular(3),
     );
     canvas.drawRRect(bodyRect, paint);

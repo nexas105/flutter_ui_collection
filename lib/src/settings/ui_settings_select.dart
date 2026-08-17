@@ -4,11 +4,7 @@ import '../theme/ui_theme.dart';
 
 /// Represents a selectable option for [UiSettingsSelect].
 class UiSettingsOption<T> {
-  const UiSettingsOption({
-    required this.value,
-    required this.label,
-    this.icon,
-  });
+  const UiSettingsOption({required this.value, required this.label, this.icon});
 
   /// The option's value.
   final T value;
@@ -89,7 +85,7 @@ class _UiSettingsSelectState<T> extends State<UiSettingsSelect<T>>
     final typo = theme.typography;
 
     final Color bgColor = _hovered && _interactive
-        ? colors.onSurface.withValues(alpha: 0.04)
+        ? colors.onSurface.withValues(alpha: theme.components.subtleOpacity)
         : const Color(0x00000000);
 
     return Opacity(
@@ -119,11 +115,7 @@ class _UiSettingsSelectState<T> extends State<UiSettingsSelect<T>>
                 child: Row(
                   children: [
                     if (widget.leading != null) ...[
-                      Icon(
-                        widget.leading,
-                        size: 22,
-                        color: colors.primary,
-                      ),
+                      Icon(widget.leading, size: 22, color: colors.primary),
                       SizedBox(width: spacing.md),
                     ],
                     Expanded(
@@ -137,7 +129,7 @@ class _UiSettingsSelectState<T> extends State<UiSettingsSelect<T>>
                     Text(
                       _selectedLabel,
                       style: typo.bodySmall.copyWith(
-                        color: colors.onSurface.withValues(alpha: 0.6),
+                        color: colors.resolvedOnSurfaceMuted,
                       ),
                     ),
                     SizedBox(width: spacing.sm),
@@ -149,7 +141,7 @@ class _UiSettingsSelectState<T> extends State<UiSettingsSelect<T>>
                         '\u203A',
                         style: TextStyle(
                           fontSize: 22,
-                          color: colors.onSurface.withValues(alpha: 0.4),
+                          color: colors.resolvedOnSurfaceSubtle,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
@@ -224,9 +216,11 @@ class _UiSettingsOptionTileState<T> extends State<_UiSettingsOptionTile<T>> {
 
     final Color bgColor;
     if (widget.selected) {
-      bgColor = colors.primary.withValues(alpha: 0.08);
+      bgColor = colors.primary.withValues(alpha: theme.components.hoverOpacity);
     } else if (_hovered) {
-      bgColor = colors.onSurface.withValues(alpha: 0.04);
+      bgColor = colors.onSurface.withValues(
+        alpha: theme.components.subtleOpacity,
+      );
     } else {
       bgColor = const Color(0x00000000);
     }
@@ -253,7 +247,7 @@ class _UiSettingsOptionTileState<T> extends State<_UiSettingsOptionTile<T>> {
                   size: 18,
                   color: widget.selected
                       ? colors.primary
-                      : colors.onSurface.withValues(alpha: 0.7),
+                      : colors.resolvedOnSurfaceMuted,
                 ),
                 SizedBox(width: spacing.sm),
               ],
@@ -262,8 +256,9 @@ class _UiSettingsOptionTileState<T> extends State<_UiSettingsOptionTile<T>> {
                   widget.option.label,
                   style: typo.bodyMedium.copyWith(
                     color: widget.selected ? colors.primary : colors.onSurface,
-                    fontWeight:
-                        widget.selected ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: widget.selected
+                        ? FontWeight.w600
+                        : FontWeight.w400,
                   ),
                 ),
               ),

@@ -106,24 +106,9 @@ class _UiThemePreviewCardState extends State<_UiThemePreviewCard> {
     // Use the preview theme's colors for the card itself
     final previewColors = widget.preview.data.colorScheme;
 
-    List<BoxShadow>? shadows;
-    if (widget.selected && theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.3),
-          blurRadius: 12,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (widget.selected && theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.primary.withValues(alpha: 0.3),
-          blurRadius: 8,
-          offset: const Offset(0, 2),
-        ),
-      ];
-    }
+    final shadows = widget.selected
+        ? theme.surfaceShadows(emphasized: true, accent: colors.primary)
+        : null;
 
     return UiInteractiveRegion(
       enabled: true,
@@ -149,7 +134,9 @@ class _UiThemePreviewCardState extends State<_UiThemePreviewCard> {
                 color: widget.selected
                     ? colors.primary
                     : _hovered
-                    ? colors.onSurface.withValues(alpha: 0.2)
+                    ? colors.onSurface.withValues(
+                        alpha: theme.components.strongTintOpacity,
+                      )
                     : colors.border,
                 width: widget.selected ? 2.0 : theme.borderWidth,
               ),

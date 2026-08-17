@@ -132,10 +132,7 @@ class _AddStoryCircle extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: colors.surface,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: colors.border,
-                        width: 1,
-                      ),
+                      border: Border.all(color: colors.border, width: 1),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -153,7 +150,7 @@ class _AddStoryCircle extends StatelessWidget {
             Text(
               'Your story',
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.7),
+                color: colors.resolvedOnSurfaceMuted,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -186,8 +183,7 @@ class _StoryCircle extends StatelessWidget {
     final typo = theme.typography;
     final diameter = avatarRadius * 2;
     final author = story.user;
-    final initial =
-        author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
+    final initial = author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
 
     final ringColor = story.seen
         ? colors.border
@@ -213,10 +209,7 @@ class _StoryCircle extends StatelessWidget {
                       height: diameter + ringWidth * 2,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: ringColor,
-                          width: ringWidth,
-                        ),
+                        border: Border.all(color: ringColor, width: ringWidth),
                       ),
                     )
                   else
@@ -226,7 +219,8 @@ class _StoryCircle extends StatelessWidget {
                         diameter + ringWidth * 2,
                       ),
                       painter: _GradientRingPainter(
-                        colors: colors.gradient ??
+                        colors:
+                            colors.gradient ??
                             [colors.primary, colors.secondary],
                         strokeWidth: ringWidth,
                       ),
@@ -254,7 +248,7 @@ class _StoryCircle extends StatelessWidget {
             Text(
               author.name.split(' ').first,
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.7),
+                color: colors.resolvedOnSurfaceMuted,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -268,10 +262,7 @@ class _StoryCircle extends StatelessWidget {
 
 /// Paints a gradient ring (circle stroke with a sweep gradient).
 class _GradientRingPainter extends CustomPainter {
-  _GradientRingPainter({
-    required this.colors,
-    required this.strokeWidth,
-  });
+  _GradientRingPainter({required this.colors, required this.strokeWidth});
 
   final List<Color> colors;
   final double strokeWidth;
@@ -282,9 +273,7 @@ class _GradientRingPainter extends CustomPainter {
     final gradient = SweepGradient(
       startAngle: 0,
       endAngle: math.pi * 2,
-      colors: colors.length >= 2
-          ? colors
-          : [colors.first, colors.first],
+      colors: colors.length >= 2 ? colors : [colors.first, colors.first],
     );
 
     final paint = Paint()
@@ -293,11 +282,7 @@ class _GradientRingPainter extends CustomPainter {
       ..strokeWidth = strokeWidth;
 
     final radius = (size.width - strokeWidth) / 2;
-    canvas.drawCircle(
-      Offset(size.width / 2, size.height / 2),
-      radius,
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), radius, paint);
   }
 
   @override

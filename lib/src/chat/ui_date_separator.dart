@@ -11,10 +11,7 @@ import '../theme/ui_theme.dart';
 /// UiChatDateSeparator(date: DateTime(2025, 3, 15))
 /// ```
 class UiChatDateSeparator extends StatelessWidget {
-  const UiChatDateSeparator({
-    super.key,
-    required this.date,
-  });
+  const UiChatDateSeparator({super.key, required this.date});
 
   /// The date to display.
   final DateTime date;
@@ -29,8 +26,18 @@ class UiChatDateSeparator extends StatelessWidget {
     if (diff == 1) return 'Yesterday';
 
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     final month = months[date.month - 1];
 
@@ -57,27 +64,17 @@ class UiChatDateSeparator extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: Container(
-              height: 1,
-              color: lineColor,
-            ),
-          ),
+          Expanded(child: Container(height: 1, color: lineColor)),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: spacing.sm),
             child: Text(
               label,
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.5),
+                color: colors.resolvedOnSurfaceSubtle,
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-              height: 1,
-              color: lineColor,
-            ),
-          ),
+          Expanded(child: Container(height: 1, color: lineColor)),
         ],
       ),
     );

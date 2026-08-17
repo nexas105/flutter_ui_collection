@@ -60,7 +60,7 @@ class _UiSettingsTileState extends State<UiSettingsTile> {
     final typo = theme.typography;
 
     final Color bgColor = _hovered && widget.enabled
-        ? colors.onSurface.withValues(alpha: 0.04)
+        ? colors.onSurface.withValues(alpha: theme.components.subtleOpacity)
         : const Color(0x00000000);
 
     return Opacity(
@@ -84,11 +84,7 @@ class _UiSettingsTileState extends State<UiSettingsTile> {
             child: Row(
               children: [
                 if (widget.leading != null) ...[
-                  Icon(
-                    widget.leading,
-                    size: 22,
-                    color: colors.primary,
-                  ),
+                  Icon(widget.leading, size: 22, color: colors.primary),
                   SizedBox(width: spacing.md),
                 ],
                 Expanded(
@@ -107,7 +103,7 @@ class _UiSettingsTileState extends State<UiSettingsTile> {
                         Text(
                           widget.subtitle!,
                           style: typo.bodySmall.copyWith(
-                            color: colors.onSurface.withValues(alpha: 0.6),
+                            color: colors.resolvedOnSurfaceMuted,
                           ),
                         ),
                       ],

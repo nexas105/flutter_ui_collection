@@ -217,7 +217,7 @@ class _UiOtpScreenState extends State<UiOtpScreen> {
                 child: Text(
                   _resolvedDescription,
                   style: typo.bodyMedium.copyWith(
-                    color: colors.onBackground.withValues(alpha: 0.7),
+                    color: colors.resolvedOnSurfaceMuted,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -243,8 +243,8 @@ class _UiOtpScreenState extends State<UiOtpScreen> {
               // Verify button
               UiButton(
                 label: 'Verify',
-                onPressed: (_controller.isLoading ||
-                        _code.length != widget.length)
+                onPressed:
+                    (_controller.isLoading || _code.length != widget.length)
                     ? null
                     : _verify,
                 variant: UiButtonVariant.glow,
@@ -305,7 +305,7 @@ class _AuthErrorBanner extends StatelessWidget {
         vertical: spacing.sm,
       ),
       decoration: BoxDecoration(
-        color: colors.error.withValues(alpha: 0.1),
+        color: colors.error.withValues(alpha: theme.components.tintOpacity),
         borderRadius: spacing.radiusMd,
         border: Border.all(
           color: colors.error.withValues(alpha: 0.3),

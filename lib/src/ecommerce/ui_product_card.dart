@@ -51,24 +51,7 @@ class _UiProductCardState extends State<UiProductCard> {
     final hasSale =
         product.salePrice != null && product.salePrice! < product.price;
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: _hovered ? 0.25 : 0.1),
-          blurRadius: _hovered ? 20 : 12,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: _hovered ? 16 : 8,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows(emphasized: _hovered);
 
     return MouseRegion(
       cursor: widget.onTap != null
@@ -189,12 +172,14 @@ class _ImageArea extends StatelessWidget {
           children: [
             // Placeholder background
             Container(
-              color: (colors.border as Color).withValues(alpha: 0.3),
+              color: colors.resolvedBorderSubtle,
               child: Center(
                 child: Icon(
                   UiIcons.image,
                   size: 48,
-                  color: (colors.onSurface as Color).withValues(alpha: 0.2),
+                  color: (colors.onSurface as Color).withValues(
+                    alpha: theme.components.strongTintOpacity,
+                  ),
                 ),
               ),
             ),
@@ -304,7 +289,7 @@ class _RatingRow extends StatelessWidget {
         Text(
           '($reviewCount)',
           style: (typo.bodySmall as TextStyle).copyWith(
-            color: (colors.onSurface as Color).withValues(alpha: 0.6),
+            color: colors.resolvedOnSurfaceMuted,
           ),
         ),
       ],
@@ -340,15 +325,9 @@ class _AddToCartButtonState extends State<_AddToCartButton> {
     final enabled = widget.inStock && widget.onTap != null;
     final bgColor = enabled ? colors.primary : (colors.border as Color);
 
-    List<BoxShadow>? glow;
-    if (enabled && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: (colors.primary as Color).withValues(alpha: 0.3),
-          blurRadius: 8,
-        ),
-      ];
-    }
+    final glow = enabled
+        ? theme.surfaceShadows(accent: colors.primary as Color)
+        : null;
 
     return GestureDetector(
       onTapDown: enabled ? (_) => setState(() => _pressed = true) : null,

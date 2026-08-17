@@ -13,10 +13,7 @@ import '../theme/ui_theme.dart';
 /// UiTypingIndicator(userName: 'Alice')
 /// ```
 class UiTypingIndicator extends StatefulWidget {
-  const UiTypingIndicator({
-    super.key,
-    this.userName,
-  });
+  const UiTypingIndicator({super.key, this.userName});
 
   /// The name of the user who is typing. When null, only dots are shown.
   final String? userName;
@@ -51,7 +48,7 @@ class _UiTypingIndicatorState extends State<UiTypingIndicator>
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    final textColor = colors.onSurface.withValues(alpha: 0.6);
+    final textColor = colors.resolvedOnSurfaceMuted;
     final dotColor = colors.primary;
 
     return Padding(
@@ -112,10 +109,7 @@ class _BouncingDot extends StatelessWidget {
       child: Container(
         width: 6,
         height: 6,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
     );
   }

@@ -18,6 +18,9 @@ class UiComponentTokens {
     this.iconSizeLarge = 24,
     this.hoverOpacity = 0.08,
     this.pressedOpacity = 0.16,
+    this.subtleOpacity = 0.04,
+    this.tintOpacity = 0.1,
+    this.strongTintOpacity = 0.2,
     this.disabledOpacity = 0.42,
     this.focusRingWidth = 2,
     this.shadowBlur = 18,
@@ -37,6 +40,9 @@ class UiComponentTokens {
   final double iconSizeLarge;
   final double hoverOpacity;
   final double pressedOpacity;
+  final double subtleOpacity;
+  final double tintOpacity;
+  final double strongTintOpacity;
   final double disabledOpacity;
   final double focusRingWidth;
   final double shadowBlur;
@@ -59,6 +65,9 @@ class UiComponentTokens {
     double? iconSizeLarge,
     double? hoverOpacity,
     double? pressedOpacity,
+    double? subtleOpacity,
+    double? tintOpacity,
+    double? strongTintOpacity,
     double? disabledOpacity,
     double? focusRingWidth,
     double? shadowBlur,
@@ -78,6 +87,9 @@ class UiComponentTokens {
       iconSizeLarge: iconSizeLarge ?? this.iconSizeLarge,
       hoverOpacity: hoverOpacity ?? this.hoverOpacity,
       pressedOpacity: pressedOpacity ?? this.pressedOpacity,
+      subtleOpacity: subtleOpacity ?? this.subtleOpacity,
+      tintOpacity: tintOpacity ?? this.tintOpacity,
+      strongTintOpacity: strongTintOpacity ?? this.strongTintOpacity,
       disabledOpacity: disabledOpacity ?? this.disabledOpacity,
       focusRingWidth: focusRingWidth ?? this.focusRingWidth,
       shadowBlur: shadowBlur ?? this.shadowBlur,

@@ -5,10 +5,7 @@ import 'ui_chat_models.dart';
 
 /// A group member with admin status.
 class UiGroupMember {
-  const UiGroupMember({
-    required this.user,
-    this.isAdmin = false,
-  });
+  const UiGroupMember({required this.user, this.isAdmin = false});
 
   /// The chat user.
   final UiChatUser user;
@@ -104,7 +101,7 @@ class UiGroupInfo extends StatelessWidget {
               Text(
                 '${members.length} member${members.length == 1 ? '' : 's'}',
                 style: typo.bodySmall.copyWith(
-                  color: colors.onSurface.withValues(alpha: 0.6),
+                  color: colors.resolvedOnSurfaceMuted,
                 ),
               ),
               // Description.
@@ -112,9 +109,7 @@ class UiGroupInfo extends StatelessWidget {
                 SizedBox(height: spacing.md),
                 Text(
                   description!,
-                  style: typo.bodyMedium.copyWith(
-                    color: colors.onSurface.withValues(alpha: 0.8),
-                  ),
+                  style: typo.bodyMedium.copyWith(color: colors.onSurface),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -122,10 +117,7 @@ class UiGroupInfo extends StatelessWidget {
           ),
         ),
         // Divider.
-        Container(
-          height: theme.borderWidth,
-          color: colors.border,
-        ),
+        Container(height: theme.borderWidth, color: colors.border),
         // Members header.
         Padding(
           padding: EdgeInsets.symmetric(
@@ -137,7 +129,7 @@ class UiGroupInfo extends StatelessWidget {
             child: Text(
               'Members',
               style: typo.labelLarge.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.6),
+                color: colors.resolvedOnSurfaceMuted,
               ),
             ),
           ),
@@ -155,9 +147,7 @@ class UiGroupInfo extends StatelessWidget {
                   : '?';
 
               return GestureDetector(
-                onTap: onMemberTap != null
-                    ? () => onMemberTap!(user)
-                    : null,
+                onTap: onMemberTap != null ? () => onMemberTap!(user) : null,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.md,
@@ -167,8 +157,8 @@ class UiGroupInfo extends StatelessWidget {
                     children: [
                       // Member avatar.
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: theme.components.controlHeightMedium,
+                        height: theme.components.controlHeightMedium,
                         decoration: BoxDecoration(
                           color: colors.secondary,
                           shape: BoxShape.circle,
@@ -214,7 +204,9 @@ class UiGroupInfo extends StatelessWidget {
                             vertical: spacing.xs / 2,
                           ),
                           decoration: BoxDecoration(
-                            color: colors.primary.withValues(alpha: 0.12),
+                            color: colors.primary.withValues(
+                              alpha: theme.components.pressedOpacity,
+                            ),
                             borderRadius: spacing.radiusFull,
                             border: Border.all(
                               color: colors.primary.withValues(alpha: 0.4),
@@ -237,10 +229,7 @@ class UiGroupInfo extends StatelessWidget {
         ),
         // Leave button.
         if (onLeave != null) ...[
-          Container(
-            height: theme.borderWidth,
-            color: colors.border,
-          ),
+          Container(height: theme.borderWidth, color: colors.border),
           GestureDetector(
             onTap: onLeave,
             child: Padding(

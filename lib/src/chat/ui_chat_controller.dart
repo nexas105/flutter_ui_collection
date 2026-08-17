@@ -8,10 +8,8 @@ import 'ui_chat_models.dart';
 /// Consumers should listen to this controller (e.g. via
 /// [ListenableBuilder]) to rebuild when state changes.
 class UiChatController extends ChangeNotifier {
-  UiChatController({
-    required this.currentUser,
-    List<UiChatMessage>? messages,
-  }) : _messages = messages ?? [];
+  UiChatController({required this.currentUser, List<UiChatMessage>? messages})
+    : _messages = messages ?? [];
 
   /// The currently authenticated user.
   final UiChatUser currentUser;

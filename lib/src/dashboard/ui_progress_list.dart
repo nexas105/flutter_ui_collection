@@ -36,11 +36,7 @@ class UiProgressItem {
 /// )
 /// ```
 class UiProgressList extends StatelessWidget {
-  const UiProgressList({
-    super.key,
-    required this.items,
-    this.animated = true,
-  });
+  const UiProgressList({super.key, required this.items, this.animated = true});
 
   /// The progress items to display.
   final List<UiProgressItem> items;
@@ -57,10 +53,7 @@ class UiProgressList extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         for (int i = 0; i < items.length; i++) ...[
-          _ProgressRow(
-            item: items[i],
-            animated: animated,
-          ),
+          _ProgressRow(item: items[i], animated: animated),
           if (i < items.length - 1) SizedBox(height: spacing.sm),
         ],
       ],
@@ -69,10 +62,7 @@ class UiProgressList extends StatelessWidget {
 }
 
 class _ProgressRow extends StatefulWidget {
-  const _ProgressRow({
-    required this.item,
-    required this.animated,
-  });
+  const _ProgressRow({required this.item, required this.animated});
 
   final UiProgressItem item;
   final bool animated;
@@ -149,7 +139,7 @@ class _ProgressRowState extends State<_ProgressRow>
               return Container(
                 height: 6,
                 decoration: BoxDecoration(
-                  color: colors.border.withValues(alpha: 0.3),
+                  color: colors.resolvedBorderSubtle,
                   borderRadius: spacing.radiusFull,
                 ),
                 child: FractionallySizedBox(
@@ -175,7 +165,7 @@ class _ProgressRowState extends State<_ProgressRow>
             child: Text(
               widget.item.trailing!,
               style: typo.labelSmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.7),
+                color: colors.resolvedOnSurfaceMuted,
               ),
               textAlign: TextAlign.right,
             ),

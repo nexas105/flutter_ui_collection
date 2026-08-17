@@ -18,19 +18,17 @@ class UiCartController extends ChangeNotifier {
   List<UiCartItem> get items => List.unmodifiable(_items);
 
   /// Total number of individual items (sum of quantities).
-  int get itemCount =>
-      _items.fold<int>(0, (sum, item) => sum + item.quantity);
+  int get itemCount => _items.fold<int>(0, (sum, item) => sum + item.quantity);
 
   /// Whether the cart has no items.
   bool get isEmpty => _items.isEmpty;
 
   /// Sum of (effectivePrice * quantity) for every item.
   double get subtotal => _items.fold<double>(
-        0,
-        (sum, item) =>
-            sum +
-            (item.product.salePrice ?? item.product.price) * item.quantity,
-      );
+    0,
+    (sum, item) =>
+        sum + (item.product.salePrice ?? item.product.price) * item.quantity,
+  );
 
   /// Flat shipping cost. Set to update the total.
   double get shipping => _shipping;
@@ -59,9 +57,7 @@ class UiCartController extends ChangeNotifier {
     final index = _items.indexWhere((i) => i.product.id == product.id);
     if (index >= 0) {
       final existing = _items[index];
-      _items[index] = existing.copyWith(
-        quantity: existing.quantity + quantity,
-      );
+      _items[index] = existing.copyWith(quantity: existing.quantity + quantity);
     } else {
       _items.add(UiCartItem(product: product, quantity: quantity));
     }

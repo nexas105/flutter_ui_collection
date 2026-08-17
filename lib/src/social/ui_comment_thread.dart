@@ -110,8 +110,7 @@ class _CommentNodeState extends State<_CommentNode> {
 
     final comment = widget.comment;
     final author = comment.author;
-    final initial =
-        author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
+    final initial = author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
     final hasReplies = comment.replies.isNotEmpty;
     final canNest = widget.depth < widget.maxDepth;
     final indent = widget.depth * (spacing.md + spacing.sm);
@@ -183,7 +182,7 @@ class _CommentNodeState extends State<_CommentNode> {
                           Text(
                             _timeAgo(comment.timestamp),
                             style: typo.labelSmall.copyWith(
-                              color: colors.onSurface.withValues(alpha: 0.5),
+                              color: colors.resolvedOnSurfaceSubtle,
                             ),
                           ),
                         ],
@@ -192,9 +191,7 @@ class _CommentNodeState extends State<_CommentNode> {
                       // Content.
                       Text(
                         comment.content,
-                        style: typo.bodySmall.copyWith(
-                          color: colors.onSurface,
-                        ),
+                        style: typo.bodySmall.copyWith(color: colors.onSurface),
                       ),
                       SizedBox(height: spacing.xs),
                       // Actions: like, reply.
@@ -206,8 +203,9 @@ class _CommentNodeState extends State<_CommentNode> {
                                 : null,
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: spacing.xs),
+                              padding: EdgeInsets.symmetric(
+                                vertical: spacing.xs,
+                              ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -216,8 +214,9 @@ class _CommentNodeState extends State<_CommentNode> {
                                     style: typo.bodySmall.copyWith(
                                       color: comment.isLiked
                                           ? colors.error
-                                          : colors.onSurface
-                                              .withValues(alpha: 0.5),
+                                          : colors.onSurface.withValues(
+                                              alpha: 0.5,
+                                            ),
                                     ),
                                   ),
                                   if (comment.likeCount > 0) ...[
@@ -225,8 +224,9 @@ class _CommentNodeState extends State<_CommentNode> {
                                     Text(
                                       '${comment.likeCount}',
                                       style: typo.labelSmall.copyWith(
-                                        color: colors.onSurface
-                                            .withValues(alpha: 0.6),
+                                        color: colors.onSurface.withValues(
+                                          alpha: 0.6,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -241,13 +241,13 @@ class _CommentNodeState extends State<_CommentNode> {
                                 : null,
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: spacing.xs),
+                              padding: EdgeInsets.symmetric(
+                                vertical: spacing.xs,
+                              ),
                               child: Text(
                                 'Reply',
                                 style: typo.labelSmall.copyWith(
-                                  color:
-                                      colors.onSurface.withValues(alpha: 0.5),
+                                  color: colors.resolvedOnSurfaceSubtle,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -285,7 +285,7 @@ class _CommentNodeState extends State<_CommentNode> {
                         'Show ${comment.replies.length} '
                         '${comment.replies.length == 1 ? 'reply' : 'replies'}',
                         style: typo.labelSmall.copyWith(
-                          color: colors.onSurface.withValues(alpha: 0.5),
+                          color: colors.resolvedOnSurfaceSubtle,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -313,10 +313,7 @@ class _CommentNodeState extends State<_CommentNode> {
 
 /// Draws a small vertical connector line for nested comments.
 class _ConnectorPainter extends CustomPainter {
-  _ConnectorPainter({
-    required this.color,
-    required this.strokeWidth,
-  });
+  _ConnectorPainter({required this.color, required this.strokeWidth});
 
   final Color color;
   final double strokeWidth;
@@ -328,11 +325,7 @@ class _ConnectorPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
-    canvas.drawLine(
-      Offset(0, -size.height),
-      Offset(0, size.height),
-      paint,
-    );
+    canvas.drawLine(Offset(0, -size.height), Offset(0, size.height), paint);
   }
 
   @override

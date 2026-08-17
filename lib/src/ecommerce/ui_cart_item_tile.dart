@@ -53,11 +53,13 @@ class UiCartItemTile extends StatelessWidget {
             child: Container(
               width: 64,
               height: 64,
-              color: colors.border.withValues(alpha: 0.3),
+              color: colors.resolvedBorderSubtle,
               child: Icon(
                 UiIcons.image,
                 size: 28,
-                color: colors.onSurface.withValues(alpha: 0.2),
+                color: colors.onSurface.withValues(
+                  alpha: theme.components.strongTintOpacity,
+                ),
               ),
             ),
           ),
@@ -104,7 +106,9 @@ class UiCartItemTile extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(spacing.xs),
                   decoration: BoxDecoration(
-                    color: colors.error.withValues(alpha: 0.1),
+                    color: colors.error.withValues(
+                      alpha: theme.components.tintOpacity,
+                    ),
                     borderRadius: spacing.radiusSm,
                   ),
                   child: Icon(UiIcons.delete, size: 18, color: colors.error),
@@ -201,15 +205,15 @@ class _QuantityButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: enabled
                 ? (colors.surface as Color)
-                : (colors.border as Color).withValues(alpha: 0.2),
+                : (colors.border as Color).withValues(
+                    alpha: theme.components.strongTintOpacity,
+                  ),
             borderRadius: spacing.radiusSm,
           ),
           child: Icon(
             icon,
             size: 16,
-            color: enabled
-                ? colors.onSurface
-                : (colors.onSurface as Color).withValues(alpha: 0.3),
+            color: enabled ? colors.onSurface : colors.resolvedOnSurfaceSubtle,
           ),
         ),
       ),

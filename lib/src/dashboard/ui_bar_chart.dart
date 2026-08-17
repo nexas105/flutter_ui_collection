@@ -6,11 +6,7 @@ import '../theme/ui_theme.dart';
 
 /// Data point for [UiBarChart].
 class UiBarChartData {
-  const UiBarChartData({
-    required this.label,
-    required this.value,
-    this.color,
-  });
+  const UiBarChartData({required this.label, required this.value, this.color});
 
   final String label;
   final double value;
@@ -98,7 +94,9 @@ class _UiBarChartState extends State<UiBarChart>
     final typo = theme.typography;
 
     final useGradient =
-        theme.useGradients && colors.gradient != null && colors.gradient!.length >= 2;
+        theme.useGradients &&
+        colors.gradient != null &&
+        colors.gradient!.length >= 2;
     final useGlow = theme.useGlow && colors.glow != null;
 
     final labelHeight = widget.showLabels ? 24.0 : 0.0;
@@ -129,7 +127,7 @@ class _UiBarChartState extends State<UiBarChart>
                     valueStyle: typo.labelSmall.copyWith(
                       color: colors.onBackground,
                     ),
-                    gridColor: colors.border.withValues(alpha: 0.3),
+                    gridColor: colors.resolvedBorderSubtle,
                     valueHeight: valueHeight,
                   ),
                 ),
@@ -150,7 +148,9 @@ class _UiBarChartState extends State<UiBarChart>
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               style: typo.labelSmall.copyWith(
-                                color: colors.onBackground.withValues(alpha: 0.6),
+                                color: colors.onBackground.withValues(
+                                  alpha: 0.6,
+                                ),
                               ),
                             ),
                           ),
@@ -213,7 +213,11 @@ class _BarChartPainter extends CustomPainter {
 
     for (int i = 1; i <= 4; i++) {
       final y = chartHeight - (chartHeight * i / 4);
-      canvas.drawLine(Offset(0, y + valueHeight), Offset(size.width, y + valueHeight), gridPaint);
+      canvas.drawLine(
+        Offset(0, y + valueHeight),
+        Offset(size.width, y + valueHeight),
+        gridPaint,
+      );
     }
 
     for (int i = 0; i < count; i++) {
@@ -253,7 +257,10 @@ class _BarChartPainter extends CustomPainter {
       // Value text
       if (showValues && progress > 0.5) {
         final tp = TextPainter(
-          text: TextSpan(text: item.value.toStringAsFixed(0), style: valueStyle),
+          text: TextSpan(
+            text: item.value.toStringAsFixed(0),
+            style: valueStyle,
+          ),
           textDirection: TextDirection.ltr,
         )..layout();
         tp.paint(

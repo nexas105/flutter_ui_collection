@@ -87,7 +87,7 @@ class UiShopLayout extends StatelessWidget {
         // Category chips
         if (categories.isNotEmpty)
           SizedBox(
-            height: 44,
+            height: theme.components.controlHeightMedium,
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: spacing.md),
@@ -162,7 +162,7 @@ class _SearchBarState extends State<_SearchBar> {
     final typo = theme.typography;
 
     return Container(
-      height: 40,
+      height: theme.components.controlHeightSmall,
       padding: EdgeInsets.symmetric(horizontal: spacing.sm),
       decoration: BoxDecoration(
         color: colors.surface,
@@ -171,11 +171,7 @@ class _SearchBarState extends State<_SearchBar> {
       ),
       child: Row(
         children: [
-          Icon(
-            UiIcons.search,
-            size: 18,
-            color: (colors.onSurface as Color).withValues(alpha: 0.5),
-          ),
+          Icon(UiIcons.search, size: 18, color: colors.resolvedOnSurfaceSubtle),
           SizedBox(width: spacing.sm),
           Expanded(
             child: Stack(
@@ -185,7 +181,7 @@ class _SearchBarState extends State<_SearchBar> {
                   Text(
                     'Search products...',
                     style: (typo.bodyMedium as TextStyle).copyWith(
-                      color: (colors.onSurface as Color).withValues(alpha: 0.4),
+                      color: colors.resolvedOnSurfaceSubtle,
                     ),
                   ),
                 EditableText(

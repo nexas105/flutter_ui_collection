@@ -113,13 +113,15 @@ class _EmptyCart extends StatelessWidget {
           Icon(
             UiIcons.cart,
             size: 64,
-            color: colors.onSurface.withValues(alpha: 0.2),
+            color: colors.onSurface.withValues(
+              alpha: theme.components.strongTintOpacity,
+            ),
           ),
           SizedBox(height: spacing.md),
           Text(
             'Your cart is empty',
             style: typo.titleMedium.copyWith(
-              color: colors.onSurface.withValues(alpha: 0.6),
+              color: colors.resolvedOnSurfaceMuted,
             ),
           ),
           SizedBox(height: spacing.lg),

@@ -119,12 +119,9 @@ class _StatusStep extends StatelessWidget {
       iconColor = colors.onSurface;
     }
 
-    List<BoxShadow>? glow;
-    if (isActive && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(color: circleColor.withValues(alpha: 0.4), blurRadius: 10),
-      ];
-    }
+    final glow = isActive
+        ? theme.surfaceShadows(emphasized: true, accent: circleColor)
+        : null;
 
     final IconData icon;
     if (isCancelled) {
@@ -140,8 +137,8 @@ class _StatusStep extends StatelessWidget {
       children: [
         AnimatedContainer(
           duration: theme.animationDuration,
-          width: 36,
-          height: 36,
+          width: theme.components.controlHeightSmall,
+          height: theme.components.controlHeightSmall,
           decoration: BoxDecoration(
             color: circleColor,
             shape: BoxShape.circle,
@@ -155,7 +152,7 @@ class _StatusStep extends StatelessWidget {
           style: (typo.labelSmall as TextStyle).copyWith(
             color: isActive || isCompleted
                 ? colors.onSurface
-                : (colors.onSurface as Color).withValues(alpha: 0.5),
+                : colors.resolvedOnSurfaceSubtle,
             fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
           ),
           textAlign: TextAlign.center,
@@ -165,7 +162,7 @@ class _StatusStep extends StatelessWidget {
           Text(
             _formatDate(timestamp!),
             style: (typo.labelSmall as TextStyle).copyWith(
-              color: (colors.onSurface as Color).withValues(alpha: 0.4),
+              color: colors.resolvedOnSurfaceSubtle,
               fontSize: 9,
             ),
             textAlign: TextAlign.center,

@@ -77,7 +77,8 @@ class UiProductGrid extends StatelessWidget {
         }
 
         final rows = (itemCount / cols).ceil();
-        final availableWidth = constraints.maxWidth - resolvedPadding.horizontal;
+        final availableWidth =
+            constraints.maxWidth - resolvedPadding.horizontal;
         final itemWidth = (availableWidth - gap * (cols - 1)) / cols;
 
         return Padding(
@@ -113,10 +114,7 @@ class UiProductGrid extends StatelessWidget {
     }
 
     if (loading) {
-      return _ProductCardSkeleton(
-        imageHeight: imageHeight,
-        compact: compact,
-      );
+      return _ProductCardSkeleton(imageHeight: imageHeight, compact: compact);
     }
 
     final product = products[index];
@@ -228,7 +226,13 @@ class _ProductCardSkeletonState extends State<_ProductCardSkeleton>
                       _shimmerBox(base, highlight, 100, 12, spacing),
                       SizedBox(height: spacing.sm),
                       // Button skeleton
-                      _shimmerBox(base, highlight, double.infinity, 36, spacing),
+                      _shimmerBox(
+                        base,
+                        highlight,
+                        double.infinity,
+                        36,
+                        spacing,
+                      ),
                     ],
                   ],
                 ),

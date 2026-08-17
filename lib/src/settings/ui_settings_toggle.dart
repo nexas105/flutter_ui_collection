@@ -60,7 +60,7 @@ class _UiSettingsToggleState extends State<UiSettingsToggle> {
     final typo = theme.typography;
 
     final Color bgColor = _hovered && _interactive
-        ? colors.onSurface.withValues(alpha: 0.04)
+        ? colors.onSurface.withValues(alpha: theme.components.subtleOpacity)
         : const Color(0x00000000);
 
     // Toggle dimensions
@@ -73,23 +73,18 @@ class _UiSettingsToggleState extends State<UiSettingsToggle> {
     final trackColor = widget.value ? colors.primary : colors.border;
     final thumbColor = widget.value ? colors.onPrimary : colors.onSurface;
 
-    List<BoxShadow>? glow;
-    if (widget.value && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.4),
-          blurRadius: 10,
-        ),
-      ];
-    }
+    final glow = widget.value
+        ? theme.surfaceShadows(accent: colors.primary)
+        : null;
 
     return Opacity(
       opacity: widget.enabled ? 1.0 : 0.5,
       child: GestureDetector(
         onTap: _interactive ? () => widget.onChanged!(!widget.value) : null,
         child: MouseRegion(
-          cursor:
-              _interactive ? SystemMouseCursors.click : SystemMouseCursors.basic,
+          cursor: _interactive
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
           onEnter: (_) => setState(() => _hovered = true),
           onExit: (_) => setState(() => _hovered = false),
           child: AnimatedContainer(
@@ -103,11 +98,7 @@ class _UiSettingsToggleState extends State<UiSettingsToggle> {
             child: Row(
               children: [
                 if (widget.leading != null) ...[
-                  Icon(
-                    widget.leading,
-                    size: 22,
-                    color: colors.primary,
-                  ),
+                  Icon(widget.leading, size: 22, color: colors.primary),
                   SizedBox(width: spacing.md),
                 ],
                 Expanded(
@@ -126,7 +117,7 @@ class _UiSettingsToggleState extends State<UiSettingsToggle> {
                         Text(
                           widget.subtitle!,
                           style: typo.bodySmall.copyWith(
-                            color: colors.onSurface.withValues(alpha: 0.6),
+                            color: colors.resolvedOnSurfaceMuted,
                           ),
                         ),
                       ],

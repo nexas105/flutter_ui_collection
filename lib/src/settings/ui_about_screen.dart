@@ -63,24 +63,7 @@ class UiAboutScreen extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    List<BoxShadow>? cardShadows;
-    if (theme.useGlow && colors.glow != null) {
-      cardShadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.1),
-          blurRadius: 12,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      cardShadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: 8,
-          offset: const Offset(0, 2),
-        ),
-      ];
-    }
+    final cardShadows = theme.surfaceShadows();
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
@@ -116,7 +99,9 @@ class UiAboutScreen extends StatelessWidget {
               vertical: spacing.xs,
             ),
             decoration: BoxDecoration(
-              color: colors.primary.withValues(alpha: 0.1),
+              color: colors.primary.withValues(
+                alpha: theme.components.tintOpacity,
+              ),
               borderRadius: spacing.radiusFull,
             ),
             child: Text(
@@ -189,7 +174,7 @@ class _UiAboutLinkTileState extends State<_UiAboutLinkTile> {
     final typo = theme.typography;
 
     final Color bgColor = _hovered
-        ? colors.onSurface.withValues(alpha: 0.04)
+        ? colors.onSurface.withValues(alpha: theme.components.subtleOpacity)
         : const Color(0x00000000);
 
     return GestureDetector(
@@ -222,7 +207,7 @@ class _UiAboutLinkTileState extends State<_UiAboutLinkTile> {
                 '\u203A',
                 style: TextStyle(
                   fontSize: 22,
-                  color: colors.onSurface.withValues(alpha: 0.4),
+                  color: colors.resolvedOnSurfaceSubtle,
                   fontWeight: FontWeight.w300,
                 ),
               ),

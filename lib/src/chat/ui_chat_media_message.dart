@@ -80,23 +80,7 @@ class UiChatMediaMessage extends StatelessWidget {
             bottomRight: radius,
           );
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.2),
-          blurRadius: 8,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow.withValues(alpha: 0.1),
-          offset: const Offset(0, 1),
-          blurRadius: 3,
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows();
 
     final hour = timestamp.hour.toString().padLeft(2, '0');
     final minute = timestamp.minute.toString().padLeft(2, '0');
@@ -140,7 +124,7 @@ class UiChatMediaMessage extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: colors.onSurface.withValues(alpha: 0.6),
+                      color: colors.resolvedOnSurfaceMuted,
                       shape: BoxShape.circle,
                     ),
                     child: CustomPaint(

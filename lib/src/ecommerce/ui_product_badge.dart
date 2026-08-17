@@ -99,10 +99,7 @@ class UiProductBadge extends StatelessWidget {
       ),
       child: Text(
         label ?? _defaultLabel,
-        style: typo.labelSmall.copyWith(
-          color: fgColor,
-          height: 1.0,
-        ),
+        style: typo.labelSmall.copyWith(color: fgColor, height: 1.0),
       ),
     );
   }

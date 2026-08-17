@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_mention_text.dart';
 import 'ui_social_action_bar.dart';
@@ -81,35 +82,14 @@ class UiPostCard extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    final shadows = theme.useShadows
-        ? [
-            BoxShadow(
-              color: colors.shadow.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ]
-        : <BoxShadow>[];
-
-    final glowShadows = theme.useGlow && colors.glow != null
-        ? [
-            BoxShadow(
-              color: colors.glow!.withValues(alpha: 0.15),
-              blurRadius: 16,
-              spreadRadius: 1,
-            ),
-          ]
-        : <BoxShadow>[];
+    final shadows = theme.surfaceShadows();
 
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: spacing.radiusMd,
-        border: Border.all(
-          color: colors.border,
-          width: theme.borderWidth,
-        ),
-        boxShadow: [...shadows, ...glowShadows],
+        border: Border.all(color: colors.border, width: theme.borderWidth),
+        boxShadow: shadows,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,8 +145,7 @@ class UiPostCard extends StatelessWidget {
     dynamic typo,
   ) {
     final author = post.author;
-    final initial =
-        author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
+    final initial = author.name.isNotEmpty ? author.name[0].toUpperCase() : '?';
 
     return Padding(
       padding: EdgeInsets.all(spacing.md as double),
@@ -227,15 +206,17 @@ class UiPostCard extends StatelessWidget {
                       Text(
                         '@${author.username}',
                         style: (typo.bodySmall as TextStyle).copyWith(
-                          color: (colors.onSurface as Color)
-                              .withValues(alpha: 0.6),
+                          color: (colors.onSurface as Color).withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
                       Text(
                         ' \u00B7 ${_timeAgo(post.timestamp)}',
                         style: (typo.bodySmall as TextStyle).copyWith(
-                          color: (colors.onSurface as Color)
-                              .withValues(alpha: 0.5),
+                          color: (colors.onSurface as Color).withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                       ),
                     ],
@@ -253,7 +234,7 @@ class UiPostCard extends StatelessWidget {
               child: Text(
                 '\u2026',
                 style: (typo.titleMedium as TextStyle).copyWith(
-                  color: (colors.onSurface as Color).withValues(alpha: 0.5),
+                  color: colors.resolvedOnSurfaceSubtle,
                 ),
               ),
             ),
@@ -268,6 +249,7 @@ class UiPostCard extends StatelessWidget {
     dynamic colors,
     dynamic spacing,
   ) {
+    final theme = UiTheme.of(context);
     final images = post.images;
     final count = images.length.clamp(0, 4);
     if (count == 0) return const SizedBox.shrink();
@@ -278,26 +260,23 @@ class UiPostCard extends StatelessWidget {
     Widget imageSlot(int index) {
       return Container(
         decoration: BoxDecoration(
-          color: (colors.secondary as Color).withValues(alpha: 0.2),
+          color: (colors.secondary as Color).withValues(
+            alpha: theme.components.strongTintOpacity,
+          ),
           borderRadius: BorderRadius.circular(spacing.borderRadiusSm as double),
         ),
         alignment: Alignment.center,
-        child: Text(
-          '\u{1F4F7}',
-          style: TextStyle(
-            fontSize: 24,
-            color: (colors.onSurface as Color).withValues(alpha: 0.3),
-          ),
+        child: UiIcon(
+          UiIcons.image,
+          size: theme.components.iconSizeLarge,
+          color: colors.resolvedOnSurfaceSubtle,
         ),
       );
     }
 
     Widget grid;
     if (count == 1) {
-      grid = AspectRatio(
-        aspectRatio: 16 / 9,
-        child: imageSlot(0),
-      );
+      grid = AspectRatio(aspectRatio: 16 / 9, child: imageSlot(0));
     } else if (count == 2) {
       grid = AspectRatio(
         aspectRatio: 2 / 1,
@@ -370,10 +349,7 @@ class UiPostCard extends StatelessWidget {
 
 /// Custom-painted verified badge (checkmark in circle).
 class _VerifiedBadge extends StatelessWidget {
-  const _VerifiedBadge({
-    required this.color,
-    required this.size,
-  });
+  const _VerifiedBadge({required this.color, required this.size});
 
   final Color color;
   final double size;

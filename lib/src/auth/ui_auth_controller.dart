@@ -98,10 +98,7 @@ class UiAuthController extends ChangeNotifier {
 
   /// Runs [onLogin] with the given credentials.
   Future<UiAuthResult> login(String email, String password) {
-    return _run(
-      onLogin,
-      UiLoginArgs(email: email, password: password),
-    );
+    return _run(onLogin, UiLoginArgs(email: email, password: password));
   }
 
   /// Runs [onRegister] with the given details.
@@ -114,26 +111,17 @@ class UiAuthController extends ChangeNotifier {
 
   /// Runs [onResetPassword] with the given email.
   Future<UiAuthResult> resetPassword(String email) {
-    return _run(
-      onResetPassword,
-      UiResetPasswordArgs(email: email),
-    );
+    return _run(onResetPassword, UiResetPasswordArgs(email: email));
   }
 
   /// Runs [onVerifyOtp] with the given code.
   Future<UiAuthResult> verifyOtp(String code) {
-    return _run(
-      onVerifyOtp,
-      UiVerifyOtpArgs(code: code),
-    );
+    return _run(onVerifyOtp, UiVerifyOtpArgs(code: code));
   }
 
   /// Runs [onSocialLogin] with the given provider.
   Future<UiAuthResult> socialLogin(UiSocialProvider provider) {
-    return _run(
-      onSocialLogin,
-      UiSocialLoginArgs(provider: provider),
-    );
+    return _run(onSocialLogin, UiSocialLoginArgs(provider: provider));
   }
 
   Future<UiAuthResult> _run<T>(UiAuthCallback<T>? callback, T args) async {
@@ -165,5 +153,4 @@ class UiAuthController extends ChangeNotifier {
       errorMessage: _errorMessage,
     );
   }
-
 }

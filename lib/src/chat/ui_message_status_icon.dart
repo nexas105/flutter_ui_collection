@@ -28,11 +28,14 @@ class UiMessageStatusIcon extends StatelessWidget {
 
     switch (status) {
       case UiMessageStatus.sending:
-        return _ClockIcon(size: size, color: colors.onSurface.withValues(alpha: 0.5));
+        return _ClockIcon(size: size, color: colors.resolvedOnSurfaceSubtle);
       case UiMessageStatus.sent:
-        return _CheckIcon(size: size, color: colors.onSurface.withValues(alpha: 0.5));
+        return _CheckIcon(size: size, color: colors.resolvedOnSurfaceSubtle);
       case UiMessageStatus.delivered:
-        return _DoubleCheckIcon(size: size, color: colors.onSurface.withValues(alpha: 0.5));
+        return _DoubleCheckIcon(
+          size: size,
+          color: colors.resolvedOnSurfaceSubtle,
+        );
       case UiMessageStatus.read:
         return _DoubleCheckIcon(size: size, color: colors.primary);
       case UiMessageStatus.failed:

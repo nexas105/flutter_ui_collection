@@ -71,7 +71,7 @@ class UiChatEmpty extends StatelessWidget {
             Text(
               title,
               style: typo.titleMedium.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.6),
+                color: colors.resolvedOnSurfaceMuted,
               ),
               textAlign: TextAlign.center,
             ),
@@ -80,7 +80,7 @@ class UiChatEmpty extends StatelessWidget {
               Text(
                 subtitle,
                 style: typo.bodySmall.copyWith(
-                  color: colors.onSurface.withValues(alpha: 0.4),
+                  color: colors.resolvedOnSurfaceSubtle,
                 ),
                 textAlign: TextAlign.center,
               ),

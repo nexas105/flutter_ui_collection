@@ -6,11 +6,7 @@ import '../theme/ui_theme.dart';
 
 /// Data series for [UiLineChart].
 class UiLineChartData {
-  const UiLineChartData({
-    required this.points,
-    this.label,
-    this.color,
-  });
+  const UiLineChartData({required this.points, this.label, this.color});
 
   /// Y-values. Drawn left-to-right with even horizontal spacing.
   final List<double> points;
@@ -100,7 +96,9 @@ class _UiLineChartState extends State<UiLineChart>
     final colors = theme.colorScheme;
 
     final useGradient =
-        theme.useGradients && colors.gradient != null && colors.gradient!.length >= 2;
+        theme.useGradients &&
+        colors.gradient != null &&
+        colors.gradient!.length >= 2;
     final useGlow = theme.useGlow && colors.glow != null;
 
     // Generate distinct colors for series
@@ -111,8 +109,8 @@ class _UiLineChartState extends State<UiLineChart>
             (i == 0
                 ? colors.primary
                 : i == 1
-                    ? colors.secondary
-                    : colors.success),
+                ? colors.secondary
+                : colors.success),
       );
     }
 
@@ -131,7 +129,7 @@ class _UiLineChartState extends State<UiLineChart>
               filled: widget.filled,
               smooth: widget.smooth,
               seriesColors: seriesColors,
-              gridColor: colors.border.withValues(alpha: 0.3),
+              gridColor: colors.resolvedBorderSubtle,
               gradientColors: useGradient ? colors.gradient! : null,
               glowColor: useGlow ? colors.glow : null,
             ),
@@ -183,11 +181,19 @@ class _LineChartPainter extends CustomPainter {
 
       for (int i = 0; i <= 4; i++) {
         final y = padding + chartHeight * i / 4;
-        canvas.drawLine(Offset(padding, y), Offset(size.width - padding, y), gridPaint);
+        canvas.drawLine(
+          Offset(padding, y),
+          Offset(size.width - padding, y),
+          gridPaint,
+        );
       }
       for (int i = 0; i <= 6; i++) {
         final x = padding + chartWidth * i / 6;
-        canvas.drawLine(Offset(x, padding), Offset(x, size.height - padding), gridPaint);
+        canvas.drawLine(
+          Offset(x, padding),
+          Offset(x, size.height - padding),
+          gridPaint,
+        );
       }
     }
 
@@ -210,7 +216,8 @@ class _LineChartPainter extends CustomPainter {
       final offsets = <Offset>[];
       for (int i = 0; i < points.length; i++) {
         final x = padding + (i / (points.length - 1)) * chartWidth;
-        final y = padding + (1 - (points[i] - minVal) / effectiveRange) * chartHeight;
+        final y =
+            padding + (1 - (points[i] - minVal) / effectiveRange) * chartHeight;
         offsets.add(Offset(x, y));
       }
 

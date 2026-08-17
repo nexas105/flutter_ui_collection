@@ -94,15 +94,7 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    List<BoxShadow>? sendGlow;
-    if (theme.useGlow && colors.glow != null) {
-      sendGlow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.4),
-          blurRadius: 8,
-        ),
-      ];
-    }
+    final sendGlow = theme.surfaceShadows(accent: colors.primary);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -118,7 +110,7 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
               color: colors.surface,
               border: Border(
                 bottom: BorderSide(
-                  color: colors.border.withValues(alpha: 0.3),
+                  color: colors.resolvedBorderSubtle,
                   width: theme.borderWidth,
                 ),
               ),
@@ -137,10 +129,7 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
           decoration: BoxDecoration(
             color: colors.surface,
             border: Border(
-              top: BorderSide(
-                color: colors.border,
-                width: theme.borderWidth,
-              ),
+              top: BorderSide(color: colors.border, width: theme.borderWidth),
             ),
           ),
           child: Row(
@@ -161,8 +150,8 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
                       child: CustomPaint(
                         painter: _AttachPainter(
                           color: widget.enabled
-                              ? colors.onSurface.withValues(alpha: 0.6)
-                              : colors.onSurface.withValues(alpha: 0.3),
+                              ? colors.resolvedOnSurfaceMuted
+                              : colors.resolvedOnSurfaceSubtle,
                         ),
                       ),
                     ),
@@ -171,7 +160,10 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
               // Text input.
               Expanded(
                 child: Container(
-                  constraints: const BoxConstraints(minHeight: 36, maxHeight: 120),
+                  constraints: const BoxConstraints(
+                    minHeight: 36,
+                    maxHeight: 120,
+                  ),
                   padding: EdgeInsets.symmetric(
                     horizontal: spacing.sm,
                     vertical: spacing.xs,
@@ -193,7 +185,7 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
                             child: Text(
                               widget.placeholder,
                               style: typo.bodyMedium.copyWith(
-                                color: colors.onSurface.withValues(alpha: 0.4),
+                                color: colors.resolvedOnSurfaceSubtle,
                               ),
                             ),
                           ),
@@ -218,8 +210,8 @@ class _UiChatInputBarState extends State<UiChatInputBar> {
               GestureDetector(
                 onTap: (_hasText && widget.enabled) ? _handleSend : null,
                 child: Container(
-                  width: 36,
-                  height: 36,
+                  width: theme.components.controlHeightSmall,
+                  height: theme.components.controlHeightSmall,
                   decoration: BoxDecoration(
                     color: (_hasText && widget.enabled)
                         ? colors.primary

@@ -14,11 +14,7 @@ import 'ui_theme_data.dart';
 /// )
 /// ```
 class UiTheme extends InheritedWidget {
-  const UiTheme({
-    super.key,
-    required this.data,
-    required super.child,
-  });
+  const UiTheme({super.key, required this.data, required super.child});
 
   /// The theme configuration for this subtree.
   final UiThemeData data;
@@ -28,8 +24,11 @@ class UiTheme extends InheritedWidget {
   /// Throws if no [UiTheme] is found in the widget tree.
   static UiThemeData of(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<UiTheme>();
-    assert(widget != null, 'No UiTheme found in the widget tree. '
-        'Wrap your app with UiTheme(data: ..., child: ...).');
+    assert(
+      widget != null,
+      'No UiTheme found in the widget tree. '
+      'Wrap your app with UiTheme(data: ..., child: ...).',
+    );
     return widget!.data;
   }
 

@@ -42,24 +42,7 @@ class UiCartSummary extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 16,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: 12,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows();
 
     return Container(
       padding: spacing.paddingMd,
@@ -75,7 +58,9 @@ class UiCartSummary extends StatelessWidget {
         children: [
           // Header
           Text(
-            itemCount != null ? 'Order Summary ($itemCount items)' : 'Order Summary',
+            itemCount != null
+                ? 'Order Summary ($itemCount items)'
+                : 'Order Summary',
             style: typo.titleMedium.copyWith(
               color: colors.onSurface,
               fontWeight: FontWeight.w600,
@@ -109,10 +94,7 @@ class UiCartSummary extends StatelessWidget {
           ],
           SizedBox(height: spacing.sm),
           // Divider
-          Container(
-            height: 1,
-            color: colors.border,
-          ),
+          Container(height: 1, color: colors.border),
           SizedBox(height: spacing.sm),
           // Total
           _SummaryRow(
@@ -123,10 +105,7 @@ class UiCartSummary extends StatelessWidget {
           ),
           SizedBox(height: spacing.lg),
           // Checkout button
-          _CheckoutButton(
-            onTap: onCheckout,
-            theme: theme,
-          ),
+          _CheckoutButton(onTap: onCheckout, theme: theme),
         ],
       ),
     );
@@ -161,7 +140,7 @@ class _SummaryRow extends StatelessWidget {
         Text(
           label,
           style: (style as TextStyle).copyWith(
-            color: bold ? colors.onSurface : (colors.onSurface as Color).withValues(alpha: 0.7),
+            color: bold ? colors.onSurface : colors.resolvedOnSurfaceMuted,
             fontWeight: bold ? FontWeight.w700 : null,
           ),
         ),
@@ -178,10 +157,7 @@ class _SummaryRow extends StatelessWidget {
 }
 
 class _CheckoutButton extends StatefulWidget {
-  const _CheckoutButton({
-    required this.onTap,
-    required this.theme,
-  });
+  const _CheckoutButton({required this.onTap, required this.theme});
 
   final VoidCallback? onTap;
   final dynamic theme;
@@ -206,15 +182,12 @@ class _CheckoutButtonState extends State<_CheckoutButton> {
         ? colors.primary as Color
         : (colors.border as Color);
 
-    List<BoxShadow>? glow;
-    if (enabled && theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: (colors.primary as Color).withValues(alpha: _hovered ? 0.5 : 0.3),
-          blurRadius: _hovered ? 14 : 8,
-        ),
-      ];
-    }
+    final glow = enabled
+        ? theme.surfaceShadows(
+            emphasized: _hovered,
+            accent: colors.primary as Color,
+          )
+        : null;
 
     return MouseRegion(
       cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,

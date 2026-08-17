@@ -54,8 +54,7 @@ class UiGauge extends StatefulWidget {
   State<UiGauge> createState() => _UiGaugeState();
 }
 
-class _UiGaugeState extends State<UiGauge>
-    with SingleTickerProviderStateMixin {
+class _UiGaugeState extends State<UiGauge> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
 
@@ -136,7 +135,7 @@ class _UiGaugeState extends State<UiGauge>
                       Text(
                         widget.label!,
                         style: typo.labelSmall.copyWith(
-                          color: colors.onSurface.withValues(alpha: 0.6),
+                          color: colors.resolvedOnSurfaceMuted,
                         ),
                       ),
                   ],

@@ -3,13 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../theme/ui_theme.dart';
 
 /// Actions available in the message context menu.
-enum UiMessageAction {
-  reply,
-  forward,
-  copy,
-  delete,
-  pin,
-}
+enum UiMessageAction { reply, forward, copy, delete, pin }
 
 /// Long-press message overlay menu with themed action rows.
 ///
@@ -24,11 +18,7 @@ enum UiMessageAction {
 /// )
 /// ```
 class UiMessageMenu extends StatelessWidget {
-  const UiMessageMenu({
-    super.key,
-    required this.actions,
-    this.onAction,
-  });
+  const UiMessageMenu({super.key, required this.actions, this.onAction});
 
   /// The list of actions to display.
   final List<UiMessageAction> actions;
@@ -56,23 +46,7 @@ class UiMessageMenu extends StatelessWidget {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
     final spacing = theme.spacing;
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.25),
-          blurRadius: 12,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow.withValues(alpha: 0.15),
-          offset: const Offset(0, 2),
-          blurRadius: 8,
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows(emphasized: true);
 
     return Container(
       constraints: const BoxConstraints(minWidth: 160),
@@ -97,9 +71,7 @@ class UiMessageMenu extends StatelessWidget {
               action: actions[i],
               label: _labelFor(actions[i]),
               isDestructive: actions[i] == UiMessageAction.delete,
-              onTap: onAction != null
-                  ? () => onAction!(actions[i])
-                  : null,
+              onTap: onAction != null ? () => onAction!(actions[i]) : null,
             ),
           ],
         ],
@@ -146,17 +118,11 @@ class _ActionRow extends StatelessWidget {
               width: 20,
               height: 20,
               child: CustomPaint(
-                painter: _ActionIconPainter(
-                  action: action,
-                  color: iconColor,
-                ),
+                painter: _ActionIconPainter(action: action, color: iconColor),
               ),
             ),
             SizedBox(width: spacing.sm + 2),
-            Text(
-              label,
-              style: typo.bodyMedium.copyWith(color: textColor),
-            ),
+            Text(label, style: typo.bodyMedium.copyWith(color: textColor)),
           ],
         ),
       ),
@@ -227,10 +193,26 @@ class _ActionIconPainter extends CustomPainter {
 
       case UiMessageAction.delete:
         // Trash can.
-        canvas.drawLine(Offset(w * 0.2, h * 0.25), Offset(w * 0.8, h * 0.25), paint);
-        canvas.drawLine(Offset(w * 0.4, h * 0.1), Offset(w * 0.6, h * 0.1), paint);
-        canvas.drawLine(Offset(w * 0.4, h * 0.1), Offset(w * 0.4, h * 0.25), paint);
-        canvas.drawLine(Offset(w * 0.6, h * 0.1), Offset(w * 0.6, h * 0.25), paint);
+        canvas.drawLine(
+          Offset(w * 0.2, h * 0.25),
+          Offset(w * 0.8, h * 0.25),
+          paint,
+        );
+        canvas.drawLine(
+          Offset(w * 0.4, h * 0.1),
+          Offset(w * 0.6, h * 0.1),
+          paint,
+        );
+        canvas.drawLine(
+          Offset(w * 0.4, h * 0.1),
+          Offset(w * 0.4, h * 0.25),
+          paint,
+        );
+        canvas.drawLine(
+          Offset(w * 0.6, h * 0.1),
+          Offset(w * 0.6, h * 0.25),
+          paint,
+        );
         final bodyPath = Path()
           ..moveTo(w * 0.25, h * 0.25)
           ..lineTo(w * 0.3, h * 0.9)

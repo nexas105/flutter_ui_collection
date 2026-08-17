@@ -64,11 +64,8 @@ class _UiChatListTileState extends State<UiChatListTile> {
     String? lastPreview;
     if (widget.room.lastMessage != null) {
       final lm = widget.room.lastMessage!;
-      final prefix =
-          lm.sender.id == widget.currentUserId ? 'You: ' : '';
-      final body = lm.type == UiMessageType.image
-          ? '[Image]'
-          : lm.content;
+      final prefix = lm.sender.id == widget.currentUserId ? 'You: ' : '';
+      final body = lm.type == UiMessageType.image ? '[Image]' : lm.content;
       final truncated = body.length > 40 ? '${body.substring(0, 40)}...' : body;
       lastPreview = '$prefix$truncated';
     }
@@ -120,13 +117,13 @@ class _UiChatListTileState extends State<UiChatListTile> {
             children: [
               // Avatar with online dot.
               SizedBox(
-                width: 48,
-                height: 48,
+                width: theme.components.controlHeightLarge,
+                height: theme.components.controlHeightLarge,
                 child: Stack(
                   children: [
                     Container(
-                      width: 48,
-                      height: 48,
+                      width: theme.components.controlHeightLarge,
+                      height: theme.components.controlHeightLarge,
                       decoration: BoxDecoration(
                         color: colors.secondary,
                         shape: BoxShape.circle,
@@ -149,10 +146,7 @@ class _UiChatListTileState extends State<UiChatListTile> {
                           decoration: BoxDecoration(
                             color: colors.success,
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: colors.surface,
-                              width: 2,
-                            ),
+                            border: Border.all(color: colors.surface, width: 2),
                           ),
                         ),
                       ),
@@ -170,8 +164,9 @@ class _UiChatListTileState extends State<UiChatListTile> {
                       widget.room.name,
                       style: typo.titleSmall.copyWith(
                         color: colors.onSurface,
-                        fontWeight:
-                            hasUnread ? FontWeight.w700 : FontWeight.w500,
+                        fontWeight: hasUnread
+                            ? FontWeight.w700
+                            : FontWeight.w500,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -183,9 +178,10 @@ class _UiChatListTileState extends State<UiChatListTile> {
                         style: typo.bodySmall.copyWith(
                           color: hasUnread
                               ? colors.onSurface
-                              : colors.onSurface.withValues(alpha: 0.6),
-                          fontWeight:
-                              hasUnread ? FontWeight.w600 : FontWeight.w400,
+                              : colors.resolvedOnSurfaceMuted,
+                          fontWeight: hasUnread
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -206,7 +202,7 @@ class _UiChatListTileState extends State<UiChatListTile> {
                       style: typo.labelSmall.copyWith(
                         color: hasUnread
                             ? colors.primary
-                            : colors.onSurface.withValues(alpha: 0.5),
+                            : colors.resolvedOnSurfaceSubtle,
                         fontSize: 11,
                       ),
                     ),

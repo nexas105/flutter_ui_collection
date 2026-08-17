@@ -256,11 +256,10 @@ class _UiRegisterScreenState extends State<UiRegisterScreen> {
                 if (widget.requireTerms) ...[
                   UiCheckbox(
                     value: _agreedToTerms,
-                    onChanged: (v) =>
-                        setState(() {
-                          _agreedToTerms = v ?? false;
-                          if (_agreedToTerms) _termsError = null;
-                        }),
+                    onChanged: (v) => setState(() {
+                      _agreedToTerms = v ?? false;
+                      if (_agreedToTerms) _termsError = null;
+                    }),
                     label: widget.termsText,
                   ),
                   if (_termsError != null) ...[
@@ -289,8 +288,7 @@ class _UiRegisterScreenState extends State<UiRegisterScreen> {
                 ),
 
                 // Social login section
-                if (widget.showSocial &&
-                    widget.socialProviders.isNotEmpty) ...[
+                if (widget.showSocial && widget.socialProviders.isNotEmpty) ...[
                   SizedBox(height: spacing.lg),
                   const UiDivider(label: 'OR'),
                   SizedBox(height: spacing.lg),
@@ -351,10 +349,7 @@ class _UiRegisterScreenState extends State<UiRegisterScreen> {
 }
 
 class _PasswordVisibilityToggle extends StatelessWidget {
-  const _PasswordVisibilityToggle({
-    required this.obscure,
-    required this.onTap,
-  });
+  const _PasswordVisibilityToggle({required this.obscure, required this.onTap});
 
   final bool obscure;
   final VoidCallback onTap;
@@ -376,13 +371,13 @@ class _PasswordVisibilityToggle extends StatelessWidget {
             Icon(
               obscure ? UiIcons.visibility : UiIcons.visibilityOff,
               size: 16,
-              color: colors.onSurface.withValues(alpha: 0.5),
+              color: colors.resolvedOnSurfaceSubtle,
             ),
             SizedBox(width: spacing.xs),
             Text(
               obscure ? 'Show' : 'Hide',
               style: typo.bodySmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.5),
+                color: colors.resolvedOnSurfaceSubtle,
               ),
             ),
           ],
@@ -409,7 +404,7 @@ class _AuthErrorBanner extends StatelessWidget {
         vertical: spacing.sm,
       ),
       decoration: BoxDecoration(
-        color: colors.error.withValues(alpha: 0.1),
+        color: colors.error.withValues(alpha: theme.components.tintOpacity),
         borderRadius: spacing.radiusMd,
         border: Border.all(
           color: colors.error.withValues(alpha: 0.3),

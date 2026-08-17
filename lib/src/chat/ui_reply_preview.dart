@@ -43,8 +43,9 @@ class UiChatReplyPreview extends StatelessWidget {
     final content = message.type == UiMessageType.image
         ? '[Image]'
         : message.content;
-    final truncated =
-        content.length > 80 ? '${content.substring(0, 80)}...' : content;
+    final truncated = content.length > 80
+        ? '${content.substring(0, 80)}...'
+        : content;
 
     return GestureDetector(
       onTap: onTap,
@@ -54,13 +55,10 @@ class UiChatReplyPreview extends StatelessWidget {
           vertical: spacing.xs,
         ),
         decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colors.primary,
-              width: 3.0,
-            ),
+          border: Border(left: BorderSide(color: colors.primary, width: 3.0)),
+          color: colors.primary.withValues(
+            alpha: theme.components.hoverOpacity,
           ),
-          color: colors.primary.withValues(alpha: 0.08),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(spacing.borderRadiusSm),
             bottomRight: Radius.circular(spacing.borderRadiusSm),
@@ -75,9 +73,7 @@ class UiChatReplyPreview extends StatelessWidget {
                 children: [
                   Text(
                     message.sender.name,
-                    style: typo.labelSmall.copyWith(
-                      color: colors.primary,
-                    ),
+                    style: typo.labelSmall.copyWith(color: colors.primary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -85,7 +81,7 @@ class UiChatReplyPreview extends StatelessWidget {
                   Text(
                     truncated,
                     style: typo.bodySmall.copyWith(
-                      color: colors.onSurface.withValues(alpha: 0.7),
+                      color: colors.resolvedOnSurfaceMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -103,7 +99,7 @@ class UiChatReplyPreview extends StatelessWidget {
                     height: 18,
                     child: CustomPaint(
                       painter: _ClosePainter(
-                        color: colors.onSurface.withValues(alpha: 0.5),
+                        color: colors.resolvedOnSurfaceSubtle,
                       ),
                     ),
                   ),

@@ -79,31 +79,17 @@ class UiStatCard extends StatelessWidget {
         trendColor = colors.error;
         trendArrow = '\u2193';
       case UiStatCardTrend.neutral:
-        trendColor = colors.onSurface.withValues(alpha: 0.5);
+        trendColor = colors.resolvedOnSurfaceSubtle;
         trendArrow = '\u2192';
       case null:
         trendColor = null;
         trendArrow = null;
     }
 
-    List<BoxShadow>? shadows;
-    if (glowBorder && theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: (colors.glow ?? accent).withValues(alpha: 0.25),
-          blurRadius: 16,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: 12,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows(
+      emphasized: glowBorder,
+      accent: glowBorder ? accent : null,
+    );
 
     Widget card = Container(
       padding: spacing.paddingMd,
@@ -148,7 +134,7 @@ class UiStatCard extends StatelessWidget {
                     child: Text(
                       label,
                       style: typo.labelMedium.copyWith(
-                        color: colors.onSurface.withValues(alpha: 0.6),
+                        color: colors.resolvedOnSurfaceMuted,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -206,7 +192,10 @@ class _SparklinePainter extends CustomPainter {
 
     for (int i = 0; i < data.length; i++) {
       final x = i * stepX;
-      final y = size.height - ((data[i] - minVal) / range) * size.height * 0.6 - size.height * 0.1;
+      final y =
+          size.height -
+          ((data[i] - minVal) / range) * size.height * 0.6 -
+          size.height * 0.1;
       points.add(Offset(x, y));
     }
 

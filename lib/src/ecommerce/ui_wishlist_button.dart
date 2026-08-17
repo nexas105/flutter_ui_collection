@@ -75,10 +75,7 @@ class _UiWishlistButtonState extends State<UiWishlistButton>
             // Overshoot then settle: scale from 1 -> 1.3 -> 1
             final t = _controller.value;
             final scale = 1.0 + 0.3 * math.sin(t * math.pi);
-            return Transform.scale(
-              scale: scale,
-              child: child,
-            );
+            return Transform.scale(scale: scale, child: child);
           },
           child: CustomPaint(
             size: Size(widget.size, widget.size),

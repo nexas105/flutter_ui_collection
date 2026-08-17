@@ -98,38 +98,16 @@ class UiUserProfileHeader extends StatelessWidget {
     final avatarDiameter = avatarRadius * 2;
     final avatarOverlap = avatarRadius; // half sticking out above.
 
-    final initial =
-        user.name.isNotEmpty ? user.name[0].toUpperCase() : '?';
+    final initial = user.name.isNotEmpty ? user.name[0].toUpperCase() : '?';
 
-    final shadows = theme.useShadows
-        ? [
-            BoxShadow(
-              color: colors.shadow.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ]
-        : <BoxShadow>[];
-
-    final glowShadows = theme.useGlow && colors.glow != null
-        ? [
-            BoxShadow(
-              color: colors.glow!.withValues(alpha: 0.15),
-              blurRadius: 16,
-              spreadRadius: 1,
-            ),
-          ]
-        : <BoxShadow>[];
+    final shadows = theme.surfaceShadows();
 
     return Container(
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: spacing.radiusMd,
-        border: Border.all(
-          color: colors.border,
-          width: theme.borderWidth,
-        ),
-        boxShadow: [...shadows, ...glowShadows],
+        border: Border.all(color: colors.border, width: theme.borderWidth),
+        boxShadow: shadows,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +130,8 @@ class UiUserProfileHeader extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: colors.gradient ??
+                        colors:
+                            colors.gradient ??
                             [
                               colors.primary.withValues(alpha: 0.3),
                               colors.secondary.withValues(alpha: 0.3),
@@ -168,19 +147,14 @@ class UiUserProfileHeader extends StatelessWidget {
                   left: spacing.md,
                   top: coverHeight - avatarOverlap,
                   child: GestureDetector(
-                    onTap: onUserTap != null
-                        ? () => onUserTap!(user)
-                        : null,
+                    onTap: onUserTap != null ? () => onUserTap!(user) : null,
                     child: Container(
                       width: avatarDiameter,
                       height: avatarDiameter,
                       decoration: BoxDecoration(
                         color: colors.secondary,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colors.surface,
-                          width: 3,
-                        ),
+                        border: Border.all(color: colors.surface, width: 3),
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -219,17 +193,14 @@ class UiUserProfileHeader extends StatelessWidget {
                     ),
                     if (user.isVerified) ...[
                       SizedBox(width: spacing.xs),
-                      _VerifiedBadge(
-                        color: colors.primary,
-                        size: 18,
-                      ),
+                      _VerifiedBadge(color: colors.primary, size: 18),
                     ],
                   ],
                 ),
                 Text(
                   '@${user.username}',
                   style: typo.bodySmall.copyWith(
-                    color: colors.onSurface.withValues(alpha: 0.6),
+                    color: colors.resolvedOnSurfaceMuted,
                   ),
                 ),
               ],
@@ -242,9 +213,7 @@ class UiUserProfileHeader extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: spacing.md),
               child: Text(
                 bio!,
-                style: typo.bodyMedium.copyWith(
-                  color: colors.onSurface,
-                ),
+                style: typo.bodyMedium.copyWith(color: colors.onSurface),
               ),
             ),
           ],
@@ -344,7 +313,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: (typo.labelSmall as TextStyle).copyWith(
-            color: (colors.onSurface as Color).withValues(alpha: 0.6),
+            color: colors.resolvedOnSurfaceMuted,
           ),
         ),
       ],
@@ -378,14 +347,11 @@ class _ActionButtonState extends State<_ActionButton> {
     final typo = theme.typography;
 
     final bgColor = widget.filled
-        ? (_pressed
-            ? colors.primary.withValues(alpha: 0.85)
-            : colors.primary)
+        ? (_pressed ? colors.primary.withValues(alpha: 0.85) : colors.primary)
         : (_pressed
-            ? colors.primary.withValues(alpha: 0.08)
-            : colors.surface);
-    final textColor =
-        widget.filled ? colors.onPrimary : colors.primary;
+              ? colors.primary.withValues(alpha: theme.components.hoverOpacity)
+              : colors.surface);
+    final textColor = widget.filled ? colors.onPrimary : colors.primary;
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _pressed = true),
@@ -404,10 +370,7 @@ class _ActionButtonState extends State<_ActionButton> {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: spacing.radiusFull,
-          border: Border.all(
-            color: colors.primary,
-            width: theme.borderWidth,
-          ),
+          border: Border.all(color: colors.primary, width: theme.borderWidth),
         ),
         alignment: Alignment.center,
         child: Text(
@@ -424,10 +387,7 @@ class _ActionButtonState extends State<_ActionButton> {
 
 /// Custom-painted verified badge (checkmark in circle).
 class _VerifiedBadge extends StatelessWidget {
-  const _VerifiedBadge({
-    required this.color,
-    required this.size,
-  });
+  const _VerifiedBadge({required this.color, required this.size});
 
   final Color color;
   final double size;

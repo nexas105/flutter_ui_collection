@@ -73,13 +73,13 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _likeScale = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.3), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.3, end: 1.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _likeController,
-      curve: Curves.easeInOut,
-    ));
+    _likeScale =
+        TweenSequence<double>([
+          TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.3), weight: 50),
+          TweenSequenceItem(tween: Tween(begin: 1.3, end: 1.0), weight: 50),
+        ]).animate(
+          CurvedAnimation(parent: _likeController, curve: Curves.easeInOut),
+        );
   }
 
   @override
@@ -121,7 +121,7 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
     final typo = theme.typography;
 
     final countStyle = typo.labelSmall.copyWith(
-      color: colors.onSurface.withValues(alpha: 0.7),
+      color: colors.resolvedOnSurfaceMuted,
     );
 
     return Row(
@@ -150,7 +150,7 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
                     filled: widget.isLiked,
                     color: widget.isLiked
                         ? colors.error
-                        : colors.onSurface.withValues(alpha: 0.6),
+                        : colors.resolvedOnSurfaceMuted,
                     size: 20,
                   ),
                 ),
@@ -175,10 +175,7 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _CommentIcon(
-                  color: colors.onSurface.withValues(alpha: 0.6),
-                  size: 20,
-                ),
+                _CommentIcon(color: colors.resolvedOnSurfaceMuted, size: 20),
                 if (widget.commentCount > 0) ...[
                   SizedBox(width: spacing.xs),
                   Text(_formatCount(widget.commentCount), style: countStyle),
@@ -200,10 +197,7 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _ShareIcon(
-                  color: colors.onSurface.withValues(alpha: 0.6),
-                  size: 20,
-                ),
+                _ShareIcon(color: colors.resolvedOnSurfaceMuted, size: 20),
                 if (widget.shareCount > 0) ...[
                   SizedBox(width: spacing.xs),
                   Text(_formatCount(widget.shareCount), style: countStyle),
@@ -226,7 +220,7 @@ class _UiSocialActionBarState extends State<UiSocialActionBar>
               filled: widget.isBookmarked,
               color: widget.isBookmarked
                   ? colors.primary
-                  : colors.onSurface.withValues(alpha: 0.6),
+                  : colors.resolvedOnSurfaceMuted,
               size: 20,
             ),
           ),
@@ -284,8 +278,7 @@ class _AnimatedBuilderWidget extends StatefulWidget {
   final Widget? child;
 
   @override
-  State<_AnimatedBuilderWidget> createState() =>
-      _AnimatedBuilderWidgetState();
+  State<_AnimatedBuilderWidget> createState() => _AnimatedBuilderWidgetState();
 }
 
 class _AnimatedBuilderWidgetState extends State<_AnimatedBuilderWidget> {
@@ -377,10 +370,7 @@ class _HeartPainter extends CustomPainter {
 
 /// Custom-painted comment bubble icon.
 class _CommentIcon extends StatelessWidget {
-  const _CommentIcon({
-    required this.color,
-    required this.size,
-  });
+  const _CommentIcon({required this.color, required this.size});
 
   final Color color;
   final double size;
@@ -415,36 +405,28 @@ class _CommentPainter extends CustomPainter {
     final path = Path()
       ..moveTo(r, h * 0.15)
       ..lineTo(w - r, h * 0.15)
-      ..arcToPoint(Offset(w, h * 0.15 + r),
-          radius: Radius.circular(r))
+      ..arcToPoint(Offset(w, h * 0.15 + r), radius: Radius.circular(r))
       ..lineTo(w, h * 0.6 - r)
-      ..arcToPoint(Offset(w - r, h * 0.6),
-          radius: Radius.circular(r))
+      ..arcToPoint(Offset(w - r, h * 0.6), radius: Radius.circular(r))
       ..lineTo(w * 0.45, h * 0.6)
       ..lineTo(w * 0.25, h * 0.82)
       ..lineTo(w * 0.25, h * 0.6)
       ..lineTo(r, h * 0.6)
-      ..arcToPoint(Offset(0, h * 0.6 - r),
-          radius: Radius.circular(r))
+      ..arcToPoint(Offset(0, h * 0.6 - r), radius: Radius.circular(r))
       ..lineTo(0, h * 0.15 + r)
-      ..arcToPoint(Offset(r, h * 0.15),
-          radius: Radius.circular(r))
+      ..arcToPoint(Offset(r, h * 0.15), radius: Radius.circular(r))
       ..close();
 
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(_CommentPainter oldDelegate) =>
-      oldDelegate.color != color;
+  bool shouldRepaint(_CommentPainter oldDelegate) => oldDelegate.color != color;
 }
 
 /// Custom-painted share/forward icon.
 class _ShareIcon extends StatelessWidget {
-  const _ShareIcon({
-    required this.color,
-    required this.size,
-  });
+  const _ShareIcon({required this.color, required this.size});
 
   final Color color;
   final double size;
@@ -489,8 +471,7 @@ class _SharePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SharePainter oldDelegate) =>
-      oldDelegate.color != color;
+  bool shouldRepaint(_SharePainter oldDelegate) => oldDelegate.color != color;
 }
 
 /// Custom-painted bookmark icon.

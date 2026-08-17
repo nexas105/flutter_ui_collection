@@ -58,18 +58,12 @@ class UiProduct {
 
 /// Represents a product with a quantity in the shopping cart.
 class UiCartItem {
-  const UiCartItem({
-    required this.product,
-    this.quantity = 1,
-  });
+  const UiCartItem({required this.product, this.quantity = 1});
 
   final UiProduct product;
   final int quantity;
 
-  UiCartItem copyWith({
-    UiProduct? product,
-    int? quantity,
-  }) {
+  UiCartItem copyWith({UiProduct? product, int? quantity}) {
     return UiCartItem(
       product: product ?? this.product,
       quantity: quantity ?? this.quantity,

@@ -58,9 +58,8 @@ class UiMentionText extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
-    final baseStyle = style ?? theme.typography.bodyMedium.copyWith(
-      color: colors.onSurface,
-    );
+    final baseStyle =
+        style ?? theme.typography.bodyMedium.copyWith(color: colors.onSurface);
     final mColor = mentionColor ?? colors.primary;
     final hColor = hashtagColor ?? colors.secondary;
 
@@ -70,10 +69,12 @@ class UiMentionText extends StatelessWidget {
     for (final match in _pattern.allMatches(text)) {
       // Add plain text before this match.
       if (match.start > lastEnd) {
-        spans.add(TextSpan(
-          text: text.substring(lastEnd, match.start),
-          style: baseStyle,
-        ));
+        spans.add(
+          TextSpan(
+            text: text.substring(lastEnd, match.start),
+            style: baseStyle,
+          ),
+        );
       }
 
       final token = match.group(0)!;
@@ -108,10 +109,7 @@ class UiMentionText extends StatelessWidget {
 
     // Add any remaining plain text.
     if (lastEnd < text.length) {
-      spans.add(TextSpan(
-        text: text.substring(lastEnd),
-        style: baseStyle,
-      ));
+      spans.add(TextSpan(text: text.substring(lastEnd), style: baseStyle));
     }
 
     return Text.rich(

@@ -64,7 +64,7 @@ class UiChatMessageWidget extends StatelessWidget {
           child: Text(
             message.content,
             style: typo.bodySmall.copyWith(
-              color: colors.onSurface.withValues(alpha: 0.5),
+              color: colors.resolvedOnSurfaceSubtle,
               fontStyle: FontStyle.italic,
             ),
             textAlign: TextAlign.center,
@@ -76,8 +76,9 @@ class UiChatMessageWidget extends StatelessWidget {
     final bubbleColor = _isMe ? colors.primary : colors.surface;
     final textColor = _isMe ? colors.onPrimary : colors.onSurface;
     final alignment = _isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final mainAlignment =
-        _isMe ? MainAxisAlignment.end : MainAxisAlignment.start;
+    final mainAlignment = _isMe
+        ? MainAxisAlignment.end
+        : MainAxisAlignment.start;
 
     // Directional rounding: sharp corner on the sender's side.
     final radius = Radius.circular(spacing.borderRadiusLg);
@@ -96,23 +97,7 @@ class UiChatMessageWidget extends StatelessWidget {
             bottomRight: radius,
           );
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.2),
-          blurRadius: 8,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow.withValues(alpha: 0.1),
-          offset: const Offset(0, 1),
-          blurRadius: 3,
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows();
 
     // Time label.
     final hour = message.timestamp.hour.toString().padLeft(2, '0');
@@ -151,10 +136,7 @@ class UiChatMessageWidget extends StatelessWidget {
         mainAxisAlignment: mainAlignment,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (!_isMe) ...[
-            avatarWidget,
-            SizedBox(width: spacing.xs),
-          ],
+          if (!_isMe) ...[avatarWidget, SizedBox(width: spacing.xs)],
           Flexible(
             child: GestureDetector(
               onLongPress: onLongPress,

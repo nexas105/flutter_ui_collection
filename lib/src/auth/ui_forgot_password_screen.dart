@@ -26,7 +26,7 @@ class UiForgotPasswordScreen extends StatefulWidget {
     this.title = 'Forgot Password',
     this.description =
         'Enter the email address associated with your account and '
-            "we'll send you a link to reset your password.",
+        "we'll send you a link to reset your password.",
     this.onBack,
     this.onSuccess,
     this.maxWidth = 400.0,
@@ -51,8 +51,7 @@ class UiForgotPasswordScreen extends StatefulWidget {
   final double maxWidth;
 
   @override
-  State<UiForgotPasswordScreen> createState() =>
-      _UiForgotPasswordScreenState();
+  State<UiForgotPasswordScreen> createState() => _UiForgotPasswordScreenState();
 }
 
 class _UiForgotPasswordScreenState extends State<UiForgotPasswordScreen> {
@@ -165,7 +164,7 @@ class _UiForgotPasswordScreenState extends State<UiForgotPasswordScreen> {
                 child: Text(
                   widget.description,
                   style: typo.bodyMedium.copyWith(
-                    color: colors.onBackground.withValues(alpha: 0.7),
+                    color: colors.resolvedOnSurfaceMuted,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -202,18 +201,13 @@ class _UiForgotPasswordScreenState extends State<UiForgotPasswordScreen> {
                         prefixIcon: UiIcons.email,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.done,
-                        validators: [
-                          UiValidators.required,
-                          UiValidators.email,
-                        ],
+                        validators: [UiValidators.required, UiValidators.email],
                       ),
                       SizedBox(height: spacing.lg),
 
                       // Error message
                       if (_controller.errorMessage != null) ...[
-                        _AuthErrorBanner(
-                          message: _controller.errorMessage!,
-                        ),
+                        _AuthErrorBanner(message: _controller.errorMessage!),
                         SizedBox(height: spacing.md),
                       ],
 
@@ -255,7 +249,7 @@ class _SuccessBanner extends StatelessWidget {
         vertical: spacing.sm,
       ),
       decoration: BoxDecoration(
-        color: colors.success.withValues(alpha: 0.1),
+        color: colors.success.withValues(alpha: theme.components.tintOpacity),
         borderRadius: spacing.radiusMd,
         border: Border.all(
           color: colors.success.withValues(alpha: 0.3),
@@ -295,7 +289,7 @@ class _AuthErrorBanner extends StatelessWidget {
         vertical: spacing.sm,
       ),
       decoration: BoxDecoration(
-        color: colors.error.withValues(alpha: 0.1),
+        color: colors.error.withValues(alpha: theme.components.tintOpacity),
         borderRadius: spacing.radiusMd,
         border: Border.all(
           color: colors.error.withValues(alpha: 0.3),

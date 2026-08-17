@@ -54,28 +54,20 @@ class _UiSocialButtonState extends State<UiSocialButton> {
     final typo = theme.typography;
 
     final bgColor = _hovered
-        ? colors.primary.withValues(alpha: 0.08)
+        ? colors.primary.withValues(alpha: theme.components.hoverOpacity)
         : const Color(0x00000000);
     final borderColor = widget._enabled
         ? colors.border
         : colors.border.withValues(alpha: 0.4);
     final fgColor = widget._enabled
         ? colors.onSurface
-        : colors.onSurface.withValues(alpha: 0.4);
+        : colors.resolvedOnSurfaceSubtle;
 
     final resolvedIcon = widget.icon ?? widget.provider.icon;
     final resolvedLabel =
         widget.label ?? 'Continue with ${widget.provider.label}';
 
-    List<BoxShadow>? shadows;
-    if (_hovered && theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 8,
-        ),
-      ];
-    }
+    final shadows = _hovered ? theme.surfaceShadows(emphasized: true) : null;
 
     final content = widget.loading
         ? SizedBox(
@@ -107,12 +99,15 @@ class _UiSocialButtonState extends State<UiSocialButton> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTapDown:
-            widget._enabled ? (_) => setState(() => _pressed = true) : null,
-        onTapUp:
-            widget._enabled ? (_) => setState(() => _pressed = false) : null,
-        onTapCancel:
-            widget._enabled ? () => setState(() => _pressed = false) : null,
+        onTapDown: widget._enabled
+            ? (_) => setState(() => _pressed = true)
+            : null,
+        onTapUp: widget._enabled
+            ? (_) => setState(() => _pressed = false)
+            : null,
+        onTapCancel: widget._enabled
+            ? () => setState(() => _pressed = false)
+            : null,
         onTap: widget.onPressed,
         child: AnimatedContainer(
           duration: theme.animationDuration,
@@ -122,7 +117,11 @@ class _UiSocialButtonState extends State<UiSocialButton> {
             horizontal: spacing.md,
           ),
           decoration: BoxDecoration(
-            color: _pressed ? colors.primary.withValues(alpha: 0.12) : bgColor,
+            color: _pressed
+                ? colors.primary.withValues(
+                    alpha: theme.components.pressedOpacity,
+                  )
+                : bgColor,
             borderRadius: spacing.radiusMd,
             border: Border.all(color: borderColor, width: theme.borderWidth),
             boxShadow: shadows,

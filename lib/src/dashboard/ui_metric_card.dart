@@ -65,32 +65,12 @@ class _UiMetricCardState extends State<UiMetricCard> {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    final useGlow = theme.useGlow && colors.glow != null;
-
-    List<BoxShadow>? shadows;
-    if (useGlow && _hovered) {
-      shadows = [
-        BoxShadow(
-          color: (colors.glow ?? colors.primary).withValues(alpha: 0.3),
-          blurRadius: 20,
-          spreadRadius: 2,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: _hovered ? 16 : 12,
-          offset: const Offset(0, 4),
-        ),
-      ];
-    }
+    final shadows = theme.surfaceShadows(emphasized: _hovered);
 
     // Change badge
     Widget? changeBadge;
     if (widget.change != null) {
-      final badgeColor =
-          widget.changePositive ? colors.success : colors.error;
+      final badgeColor = widget.changePositive ? colors.success : colors.error;
       final arrow = widget.changePositive ? '\u2191' : '\u2193';
 
       changeBadge = Container(
@@ -99,7 +79,7 @@ class _UiMetricCardState extends State<UiMetricCard> {
           vertical: spacing.xs * 0.5,
         ),
         decoration: BoxDecoration(
-          color: badgeColor.withValues(alpha: 0.12),
+          color: badgeColor.withValues(alpha: theme.components.pressedOpacity),
           borderRadius: spacing.radiusSm,
         ),
         child: Text(
@@ -135,7 +115,7 @@ class _UiMetricCardState extends State<UiMetricCard> {
                 Icon(
                   widget.icon,
                   size: 16,
-                  color: colors.onSurface.withValues(alpha: 0.5),
+                  color: colors.resolvedOnSurfaceSubtle,
                 ),
                 SizedBox(width: spacing.xs),
               ],
@@ -143,7 +123,7 @@ class _UiMetricCardState extends State<UiMetricCard> {
                 child: Text(
                   widget.title,
                   style: typo.labelMedium.copyWith(
-                    color: colors.onSurface.withValues(alpha: 0.6),
+                    color: colors.resolvedOnSurfaceMuted,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -164,7 +144,7 @@ class _UiMetricCardState extends State<UiMetricCard> {
             Text(
               widget.subtitle!,
               style: typo.bodySmall.copyWith(
-                color: colors.onSurface.withValues(alpha: 0.5),
+                color: colors.resolvedOnSurfaceSubtle,
               ),
             ),
           ],

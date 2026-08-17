@@ -158,6 +158,119 @@ void main() {
     });
   });
 
+  group('Premium module migration', () {
+    const longLabel =
+        'A deliberately long localized label that verifies resilient content layout';
+
+    Future<void> pumpInPreset(
+      WidgetTester tester,
+      Widget child,
+      UiThemeData theme,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          Center(child: SizedBox(width: 680, height: 760, child: child)),
+          theme: theme,
+        ),
+      );
+      await tester.pump();
+      expect(tester.takeException(), isNull, reason: theme.name);
+    }
+
+    testWidgets('auth handles long content in contrasting grammars', (
+      tester,
+    ) async {
+      for (final theme in [MinimalTheme.light, CyberpunkTheme.dark]) {
+        await pumpInPreset(
+          tester,
+          const UiLoginScreen(title: longLabel, showSocial: false),
+          theme,
+        );
+      }
+    });
+
+    testWidgets('chat uses preset geometry with long room content', (
+      tester,
+    ) async {
+      final room = UiChatRoom(
+        id: 'premium-room',
+        name: longLabel,
+        lastMessage: UiChatMessage(
+          id: 'message',
+          roomId: 'premium-room',
+          sender: const UiChatUser(id: 'other', name: 'Alexandra'),
+          content: longLabel,
+          timestamp: DateTime(2026, 8, 17),
+        ),
+      );
+      for (final theme in [MinimalTheme.light, CyberpunkTheme.dark]) {
+        await pumpInPreset(
+          tester,
+          UiChatListTile(room: room, currentUserId: 'me'),
+          theme,
+        );
+      }
+    });
+
+    testWidgets('dashboard, commerce and social cards tolerate long content', (
+      tester,
+    ) async {
+      final post = UiPost(
+        id: 'post',
+        author: const UiSocialUser(
+          id: 'author',
+          name: longLabel,
+          username: 'premium_collection',
+        ),
+        content: '$longLabel. $longLabel.',
+        timestamp: DateTime(2026, 8, 17),
+      );
+      const product = UiProduct(
+        id: 'product',
+        name: longLabel,
+        description: longLabel,
+        price: 129.99,
+      );
+
+      for (final theme in [MinimalTheme.light, CyberpunkTheme.dark]) {
+        await pumpInPreset(
+          tester,
+          const UiStatCard(label: longLabel, value: '€ 12.345,67'),
+          theme,
+        );
+        await pumpInPreset(
+          tester,
+          const UiProductCard(product: product),
+          theme,
+        );
+        await pumpInPreset(tester, UiPostCard(post: post), theme);
+      }
+    });
+
+    testWidgets('settings reference handles long localized sections', (
+      tester,
+    ) async {
+      for (final theme in [MinimalTheme.light, CyberpunkTheme.dark]) {
+        await pumpInPreset(
+          tester,
+          const UiSettingsScreen(
+            title: longLabel,
+            description: longLabel,
+            sections: [
+              UiSettingsSection(
+                title: longLabel,
+                children: [
+                  Padding(padding: EdgeInsets.all(24), child: Text(longLabel)),
+                ],
+              ),
+            ],
+          ),
+          theme,
+        );
+      }
+    });
+  });
+
   group('UiTheme', () {
     testWidgets('provides theme data to descendants', (tester) async {
       late UiThemeData resolved;

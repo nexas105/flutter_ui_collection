@@ -76,7 +76,8 @@ class UiDashboardLayout extends StatelessWidget {
           effectiveColumns = 1;
         }
 
-        final colWidth = (maxWidth - gap * (effectiveColumns - 1)) / effectiveColumns;
+        final colWidth =
+            (maxWidth - gap * (effectiveColumns - 1)) / effectiveColumns;
 
         // Simple greedy row packing
         final rows = <List<_PlacedTile>>[];
@@ -113,8 +114,12 @@ class UiDashboardLayout extends StatelessWidget {
               SizedBox(
                 height: rows[r].fold<double>(
                   rowHeight,
-                  (maxH, pt) => pt.tile.rowSpan * rowHeight + (pt.tile.rowSpan - 1) * gap > maxH
-                      ? pt.tile.rowSpan * rowHeight + (pt.tile.rowSpan - 1) * gap
+                  (maxH, pt) =>
+                      pt.tile.rowSpan * rowHeight +
+                              (pt.tile.rowSpan - 1) * gap >
+                          maxH
+                      ? pt.tile.rowSpan * rowHeight +
+                            (pt.tile.rowSpan - 1) * gap
                       : maxH,
                 ),
                 child: Row(
@@ -123,7 +128,9 @@ class UiDashboardLayout extends StatelessWidget {
                     for (int t = 0; t < rows[r].length; t++) ...[
                       if (t > 0) SizedBox(width: gap),
                       SizedBox(
-                        width: rows[r][t].span * colWidth + (rows[r][t].span - 1) * gap,
+                        width:
+                            rows[r][t].span * colWidth +
+                            (rows[r][t].span - 1) * gap,
                         child: rows[r][t].tile.child,
                       ),
                     ],

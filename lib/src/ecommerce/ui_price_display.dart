@@ -46,7 +46,7 @@ class UiPriceDisplay extends StatelessWidget {
       fontWeight: FontWeight.w700,
     );
     final originalStyle = (large ? typo.bodyLarge : typo.bodySmall).copyWith(
-      color: colors.onSurface.withValues(alpha: 0.5),
+      color: colors.resolvedOnSurfaceSubtle,
       decoration: TextDecoration.lineThrough,
     );
 
@@ -63,7 +63,8 @@ class UiPriceDisplay extends StatelessWidget {
           ),
           SizedBox(width: spacing.xs),
           _DiscountBadge(
-            percentage: ((originalPrice! - price) / originalPrice! * 100).round(),
+            percentage: ((originalPrice! - price) / originalPrice! * 100)
+                .round(),
             theme: theme,
           ),
         ],
@@ -73,10 +74,7 @@ class UiPriceDisplay extends StatelessWidget {
 }
 
 class _DiscountBadge extends StatelessWidget {
-  const _DiscountBadge({
-    required this.percentage,
-    required this.theme,
-  });
+  const _DiscountBadge({required this.percentage, required this.theme});
 
   final int percentage;
   final dynamic theme;
@@ -87,21 +85,10 @@ class _DiscountBadge extends StatelessWidget {
     final typo = theme.typography;
     final spacing = theme.spacing;
 
-    List<BoxShadow>? glow;
-    if (theme.useGlow && colors.glow != null) {
-      glow = [
-        BoxShadow(
-          color: (colors.error as Color).withValues(alpha: 0.3),
-          blurRadius: 6,
-        ),
-      ];
-    }
+    final glow = theme.surfaceShadows(accent: colors.error as Color);
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: spacing.xs + 2,
-        vertical: 2,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: spacing.xs + 2, vertical: 2),
       decoration: BoxDecoration(
         color: colors.error,
         borderRadius: spacing.radiusSm,
@@ -109,9 +96,7 @@ class _DiscountBadge extends StatelessWidget {
       ),
       child: Text(
         '-$percentage%',
-        style: (typo.labelSmall as TextStyle).copyWith(
-          color: colors.onError,
-        ),
+        style: (typo.labelSmall as TextStyle).copyWith(color: colors.onError),
       ),
     );
   }
