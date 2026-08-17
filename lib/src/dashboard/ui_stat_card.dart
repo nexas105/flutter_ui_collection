@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 
 /// Trend direction for [UiStatCard].
@@ -70,20 +71,20 @@ class UiStatCard extends StatelessWidget {
     final accent = color ?? colors.primary;
 
     final Color? trendColor;
-    final String? trendArrow;
+    final IconData? trendIcon;
     switch (trend) {
       case UiStatCardTrend.up:
         trendColor = colors.success;
-        trendArrow = '\u2191';
+        trendIcon = UiIcons.arrowUp;
       case UiStatCardTrend.down:
         trendColor = colors.error;
-        trendArrow = '\u2193';
+        trendIcon = UiIcons.arrowDown;
       case UiStatCardTrend.neutral:
         trendColor = colors.resolvedOnSurfaceSubtle;
-        trendArrow = '\u2192';
+        trendIcon = UiIcons.arrowForward;
       case null:
         trendColor = null;
-        trendArrow = null;
+        trendIcon = null;
     }
 
     final shadows = theme.surfaceShadows(
@@ -148,9 +149,25 @@ class UiStatCard extends StatelessWidget {
               ),
               if (trendValue != null && trendColor != null) ...[
                 SizedBox(height: spacing.xs),
-                Text(
-                  '${trendArrow ?? ''} $trendValue',
-                  style: typo.labelSmall.copyWith(color: trendColor),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (trendIcon != null) ...[
+                      UiIcon(
+                        trendIcon,
+                        size: theme.components.iconSizeSmall,
+                        color: trendColor,
+                      ),
+                      SizedBox(width: spacing.xs),
+                    ],
+                    Flexible(
+                      child: Text(
+                        trendValue!,
+                        style: typo.labelSmall.copyWith(color: trendColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ],

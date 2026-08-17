@@ -12,5 +12,11 @@ dependencies:
   flutter_ui_collection:
     path: ../
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
 flutter:
   uses-material-design: true
+  assets:
+    - assets/fonts/ShowcaseSans.ttf

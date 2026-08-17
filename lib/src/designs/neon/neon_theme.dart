@@ -81,7 +81,7 @@ abstract final class NeonTheme {
     name: 'Neon Light',
     colorScheme: const UiColorScheme(
       primary: Color(0xFF0099AA),
-      onPrimary: Color(0xFFFFFFFF),
+      onPrimary: Color(0xFF000000),
       secondary: Color(0xFFBB00AA),
       onSecondary: Color(0xFFFFFFFF),
       surface: Color(0xFFF0F0FF),
@@ -91,7 +91,7 @@ abstract final class NeonTheme {
       error: Color(0xFFCC2255),
       onError: Color(0xFFFFFFFF),
       success: Color(0xFF00AA55),
-      onSuccess: Color(0xFFFFFFFF),
+      onSuccess: Color(0xFF000000),
       warning: Color(0xFFCC9900),
       onWarning: Color(0xFF000000),
       border: Color(0xFFCCCCEE),

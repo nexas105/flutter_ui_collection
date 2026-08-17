@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+import 'dart:ui' show CheckedState;
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -81,6 +84,18 @@ Widget _wrap(Widget child, {UiThemeData? theme}) {
   );
 }
 
+double _contrastRatio(Color foreground, Color background) {
+  final lighter = math.max(
+    foreground.computeLuminance(),
+    background.computeLuminance(),
+  );
+  final darker = math.min(
+    foreground.computeLuminance(),
+    background.computeLuminance(),
+  );
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 void main() {
   group('Premium preset grammar', () {
     final presets = <UiThemeData>[
@@ -154,6 +169,71 @@ void main() {
         expect(light.components.cardPadding, dark.components.cardPadding);
         expect(light.icons.weight, dark.icons.weight);
         expect(light.animationDuration, dark.animationDuration);
+      }
+    });
+
+    test('all preset text and control pairs meet WCAG AA contrast', () {
+      final failures = <String>[];
+      final variants = <UiThemeData>[
+        MinimalTheme.light,
+        MinimalTheme.dark,
+        NeonTheme.light,
+        NeonTheme.dark,
+        GlassTheme.light,
+        GlassTheme.dark,
+        CyberpunkTheme.light,
+        CyberpunkTheme.dark,
+        RetroTheme.light,
+        RetroTheme.dark,
+        AuroraTheme.light,
+        AuroraTheme.dark,
+        TerminalTheme.dark,
+        TerminalTheme.amber,
+        PastelTheme.light,
+        PastelTheme.dark,
+      ];
+
+      for (final theme in variants) {
+        final colors = theme.colorScheme;
+        final renderedSurface = Color.alphaBlend(
+          colors.surface,
+          colors.background,
+        );
+        final pairs = <String, (Color, Color)>{
+          'background': (colors.onBackground, colors.background),
+          'surface': (colors.onSurface, renderedSurface),
+          'primary': (colors.onPrimary, colors.primary),
+          'secondary': (colors.onSecondary, colors.secondary),
+          'error': (colors.onError, colors.error),
+          'success': (colors.onSuccess, colors.success),
+          'warning': (colors.onWarning, colors.warning),
+        };
+        for (final entry in pairs.entries) {
+          final ratio = _contrastRatio(entry.value.$1, entry.value.$2);
+          if (ratio < 4.5) {
+            failures.add(
+              '${theme.name} ${entry.key}: ${ratio.toStringAsFixed(2)}',
+            );
+          }
+        }
+      }
+      expect(failures, isEmpty, reason: failures.join('\n'));
+    });
+
+    test('preset effects stay inside production rendering budgets', () {
+      for (final theme in presets) {
+        expect(
+          theme.animationDuration,
+          lessThanOrEqualTo(const Duration(milliseconds: 400)),
+        );
+        expect(theme.components.shadowBlur, lessThanOrEqualTo(28));
+        expect(theme.components.shadowOffset.distance, lessThanOrEqualTo(12));
+        if (theme.useGlow) {
+          expect(theme.colorScheme.glow, isNotNull, reason: theme.name);
+        }
+        if (theme.useGradients) {
+          expect(theme.colorScheme.gradient, isNotEmpty, reason: theme.name);
+        }
       }
     });
   });
@@ -268,6 +348,66 @@ void main() {
           theme,
         );
       }
+    });
+  });
+
+  group('Premium accessibility gate', () {
+    testWidgets('buttons expose semantics and follow keyboard focus order', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      var firstActivations = 0;
+      var secondActivations = 0;
+
+      await tester.pumpWidget(
+        UiApp(
+          theme: NeonTheme.dark,
+          home: FocusTraversalGroup(
+            child: Row(
+              children: [
+                UiButton(
+                  label: 'Continue',
+                  autofocus: true,
+                  onPressed: () => firstActivations++,
+                ),
+                UiButton(label: 'Cancel', onPressed: () => secondActivations++),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final firstSemantics = tester.getSemantics(find.byType(UiButton).first);
+      expect(firstSemantics.flagsCollection.isButton, isTrue);
+      expect(firstSemantics.label, contains('Continue'));
+
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      expect(firstActivations, 1);
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      expect(secondActivations, 1);
+      semantics.dispose();
+    });
+
+    testWidgets('toggle reports checked state and accessible tap target', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _wrap(const UiToggle(value: true, onChanged: null)),
+      );
+
+      final node = tester.getSemantics(find.byType(UiToggle));
+      expect(node.flagsCollection.isChecked, isNot(CheckedState.none));
+      expect(node.flagsCollection.isChecked, CheckedState.isTrue);
+      expect(
+        tester.getSize(find.byType(UiToggle)).height,
+        greaterThanOrEqualTo(44),
+      );
+      semantics.dispose();
     });
   });
 

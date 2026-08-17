@@ -163,13 +163,13 @@ Akzeptanzkriterien:
 
 ## Phase 8 — Showcase App
 
-Status: **Geplant**
+Status: **Abgeschlossen**
 
-- [ ] Katalogstruktur durch kuratierte Produkt-Szenarien ersetzen
-- [ ] Preset-Wechsel mit aussagekräftigen Vorschauen
-- [ ] Mobile, Tablet und Desktop gezielt demonstrieren
-- [ ] Accessibility- und State-Lab integrieren
-- [ ] Screenshots für README und Releases erzeugen
+- [x] Katalogstruktur durch kuratierte Produkt-Szenarien ersetzen
+- [x] Preset-Wechsel mit aussagekräftigen Vorschauen
+- [x] Mobile, Tablet und Desktop gezielt demonstrieren
+- [x] Accessibility- und State-Lab integrieren
+- [x] Screenshots für README und Releases erzeugen
 
 Akzeptanzkriterien:
 
@@ -178,14 +178,14 @@ Akzeptanzkriterien:
 
 ## Phase 9 — Quality Gate
 
-Status: **Geplant**
+Status: **Abgeschlossen**
 
-- [ ] Golden Tests für Kernkomponenten und Presets
-- [ ] Semantics-Tests
-- [ ] Keyboard- und Focus-Tests
-- [ ] Kontrastprüfung
-- [ ] Responsive Screenshot-Tests
-- [ ] Performance-Prüfung für Blur, Glow und Animation
+- [x] Golden Tests für Kernkomponenten und Presets
+- [x] Semantics-Tests
+- [x] Keyboard- und Focus-Tests
+- [x] Kontrastprüfung
+- [x] Responsive Screenshot-Tests
+- [x] Performance-Prüfung für Blur, Glow und Animation
 - [x] Analyzer-Warnungen auf null reduzieren
 
 Akzeptanzkriterien:
@@ -196,8 +196,6 @@ Akzeptanzkriterien:
 
 ## Aktueller Arbeitsblock
 
-1. Showcase-Struktur und bestehende Demo-Screens inventarisieren.
-2. Katalog durch kuratierte Produkt-Szenarien ersetzen.
-3. Preset-Vorschau sowie Mobile-, Tablet- und Desktop-Komposition ergänzen.
-4. Accessibility- und State-Lab integrieren.
-5. Screenshots und README-Material erzeugen.
+1. Alle neun Phasen sind implementiert.
+2. Paket-, Example-, Golden- und Release-Build-Gates sind grün.
+3. Die Roadmap wird bei künftigen Erweiterungen als Quality Contract gepflegt.

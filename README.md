@@ -4,6 +4,12 @@ A complete Flutter UI framework -- **89 core components**, **6 app modules**, **
 
 **One import. One theme. Done.**
 
+![Premium desktop showcase](example/test/goldens/showcase_overview_desktop.png)
+
+Responsive product scenarios and the accessibility state lab are captured as
+[mobile](example/test/goldens/showcase_scenarios_mobile.png) and
+[tablet](example/test/goldens/showcase_state_lab_tablet.png) regression images.
+
 ```dart
 import 'package:flutter_ui_collection/flutter_ui_collection.dart';
 ```
@@ -35,7 +41,7 @@ void main() {
 
 ```yaml
 dependencies:
-  flutter_ui_collection: ^2.0.0
+  flutter_ui_collection: ^3.1.0
 ```
 
 ### What's Inside
