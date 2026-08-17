@@ -34,7 +34,8 @@ abstract final class NeonTheme {
       gradient: [Color(0xFF00F0FF), Color(0xFFFF00E5)],
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Avenir Next',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFFE0E0FF),
     ),
     spacing: const UiSpacing(
@@ -74,7 +75,8 @@ abstract final class NeonTheme {
       gradient: [Color(0xFF0099AA), Color(0xFFBB00AA)],
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Avenir Next',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFF1A1A2E),
     ),
     useGlow: true,

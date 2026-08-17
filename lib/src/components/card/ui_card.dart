@@ -40,27 +40,27 @@ class UiCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
-    final spacing = theme.spacing;
+    final components = theme.components;
 
-    final resolvedRadius = borderRadius ?? spacing.radiusMd;
-    final resolvedPadding = padding ?? spacing.paddingMd;
-    final resolvedColor = color ?? colors.surface;
+    final resolvedRadius = borderRadius ?? components.cardBorderRadius;
+    final resolvedPadding = padding ?? EdgeInsets.all(components.cardPadding);
+    final resolvedColor = color ?? colors.resolvedSurfaceRaised;
 
     List<BoxShadow>? shadows;
     if (theme.useGlow && colors.glow != null) {
       shadows = [
         BoxShadow(
           color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 16,
-          spreadRadius: 1,
+          blurRadius: components.shadowBlur,
+          offset: components.shadowOffset,
         ),
       ];
     } else if (theme.useShadows) {
       shadows = [
         BoxShadow(
           color: colors.shadow,
-          blurRadius: 12,
-          offset: const Offset(0, 4),
+          blurRadius: components.shadowBlur,
+          offset: components.shadowOffset,
         ),
       ];
     }
@@ -71,7 +71,9 @@ class UiCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: blur ? resolvedColor.withValues(alpha: 0.6) : resolvedColor,
         borderRadius: resolvedRadius,
-        border: Border.all(color: colors.border, width: theme.borderWidth),
+        border: theme.useShadows || theme.useGlow
+            ? null
+            : Border.all(color: colors.border, width: theme.borderWidth),
         boxShadow: shadows,
       ),
       child: child,

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -62,10 +63,7 @@ class UiGallery extends StatelessWidget {
             cursor: SystemMouseCursors.click,
             child: ClipRRect(
               borderRadius: radius,
-              child: Image(
-                image: images[index],
-                fit: BoxFit.cover,
-              ),
+              child: Image(image: images[index], fit: BoxFit.cover),
             ),
           ),
         );
@@ -145,10 +143,7 @@ class _GalleryViewerState extends State<_GalleryViewer> {
               minScale: 0.5,
               maxScale: 4.0,
               child: Center(
-                child: Image(
-                  image: widget.images[index],
-                  fit: BoxFit.contain,
-                ),
+                child: Image(image: widget.images[index], fit: BoxFit.contain),
               ),
             );
           },
@@ -170,7 +165,7 @@ class _GalleryViewerState extends State<_GalleryViewer> {
                 ),
                 child: const Center(
                   child: Icon(
-                    IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                    UiIcons.close,
                     size: 20,
                     color: Color(0xFFFFFFFF),
                   ),
@@ -193,7 +188,9 @@ class _GalleryViewerState extends State<_GalleryViewer> {
               ),
               child: Text(
                 '${_currentIndex + 1} / ${widget.images.length}',
-                style: typo.labelMedium.copyWith(color: const Color(0xFFFFFFFF)),
+                style: typo.labelMedium.copyWith(
+                  color: const Color(0xFFFFFFFF),
+                ),
               ),
             ),
           ),

@@ -31,7 +31,8 @@ abstract final class PastelTheme {
       shadow: Color(0x22000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Trebuchet MS',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFFE8E0F0),
       baseWeight: FontWeight.w400,
     ),
@@ -70,7 +71,8 @@ abstract final class PastelTheme {
       shadow: Color(0x11000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Trebuchet MS',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFF3D3550),
       baseWeight: FontWeight.w400,
     ),

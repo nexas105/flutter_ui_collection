@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -28,6 +29,8 @@ class UiButton extends StatefulWidget {
     this.icon,
     this.expand = false,
     this.loading = false,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   final String label;
@@ -41,6 +44,8 @@ class UiButton extends StatefulWidget {
 
   /// Shows a loading indicator instead of the label.
   final bool loading;
+  final FocusNode? focusNode;
+  final bool autofocus;
 
   bool get _enabled => onPressed != null && !loading;
 
@@ -57,23 +62,24 @@ class _UiButtonState extends State<UiButton> {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
     final spacing = theme.spacing;
+    final components = theme.components;
     final typo = theme.typography;
 
-    final double verticalPadding;
+    final double minimumHeight;
     final double horizontalPadding;
     final TextStyle textStyle;
 
     switch (widget.size) {
       case UiButtonSize.small:
-        verticalPadding = spacing.xs;
+        minimumHeight = components.controlHeightSmall;
         horizontalPadding = spacing.sm;
         textStyle = typo.labelSmall;
       case UiButtonSize.medium:
-        verticalPadding = spacing.sm;
+        minimumHeight = components.controlHeightMedium;
         horizontalPadding = spacing.md;
         textStyle = typo.labelMedium;
       case UiButtonSize.large:
-        verticalPadding = spacing.md;
+        minimumHeight = components.controlHeightLarge;
         horizontalPadding = spacing.lg;
         textStyle = typo.labelLarge;
     }
@@ -86,44 +92,56 @@ class _UiButtonState extends State<UiButton> {
     switch (widget.variant) {
       case UiButtonVariant.filled:
         bgColor = widget._enabled
-            ? (_pressed ? colors.primary.withValues(alpha: 0.8) : colors.primary)
-            : colors.primary.withValues(alpha: 0.4);
+            ? (_pressed
+                  ? Color.lerp(
+                      colors.primary,
+                      colors.onPrimary,
+                      components.pressedOpacity,
+                    )!
+                  : colors.primary)
+            : colors.primary.withValues(alpha: components.disabledOpacity);
         fgColor = colors.onPrimary;
         border = null;
         if (theme.useShadows) {
           shadows = [
             BoxShadow(
               color: colors.shadow,
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              blurRadius: components.shadowBlur * 0.55,
+              offset: components.shadowOffset * 0.5,
             ),
           ];
         }
       case UiButtonVariant.outlined:
         bgColor = _hovered
-            ? colors.primary.withValues(alpha: 0.1)
+            ? colors.primary.withValues(alpha: components.hoverOpacity)
             : const Color(0x00000000);
         fgColor = widget._enabled
             ? colors.primary
-            : colors.primary.withValues(alpha: 0.4);
+            : colors.primary.withValues(alpha: components.disabledOpacity);
         border = Border.all(
           color: widget._enabled
               ? colors.primary
-              : colors.primary.withValues(alpha: 0.4),
+              : colors.primary.withValues(alpha: components.disabledOpacity),
           width: theme.borderWidth,
         );
       case UiButtonVariant.ghost:
         bgColor = _hovered
-            ? colors.onSurface.withValues(alpha: 0.08)
+            ? colors.onSurface.withValues(alpha: components.hoverOpacity)
             : const Color(0x00000000);
         fgColor = widget._enabled
             ? colors.onSurface
-            : colors.onSurface.withValues(alpha: 0.4);
+            : colors.onSurface.withValues(alpha: components.disabledOpacity);
         border = null;
       case UiButtonVariant.glow:
         bgColor = widget._enabled
-            ? (_pressed ? colors.primary.withValues(alpha: 0.9) : colors.primary)
-            : colors.primary.withValues(alpha: 0.4);
+            ? (_pressed
+                  ? Color.lerp(
+                      colors.primary,
+                      colors.onPrimary,
+                      components.pressedOpacity,
+                    )!
+                  : colors.primary)
+            : colors.primary.withValues(alpha: components.disabledOpacity);
         fgColor = colors.onPrimary;
         border = null;
         if (theme.useGlow && colors.glow != null) {
@@ -147,7 +165,11 @@ class _UiButtonState extends State<UiButton> {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.icon != null) ...[
-                Icon(widget.icon, size: (textStyle.fontSize ?? 14) + 2, color: fgColor),
+                Icon(
+                  widget.icon,
+                  size: (textStyle.fontSize ?? 14) + 2,
+                  color: fgColor,
+                ),
                 SizedBox(width: spacing.xs),
               ],
               Text(widget.label, style: textStyle.copyWith(color: fgColor)),
@@ -157,33 +179,43 @@ class _UiButtonState extends State<UiButton> {
     final buttonChild = AnimatedContainer(
       duration: theme.animationDuration,
       curve: theme.animationCurve,
-      padding: EdgeInsets.symmetric(
-        vertical: verticalPadding,
-        horizontal: horizontalPadding,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      constraints: BoxConstraints(minHeight: minimumHeight),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: spacing.radiusMd,
+        borderRadius: components.controlBorderRadius,
         border: border,
         boxShadow: shadows,
       ),
       child: content,
     );
 
-    return MouseRegion(
-      cursor: widget._enabled
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.forbidden,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
-        onTapDown: widget._enabled ? (_) => setState(() => _pressed = true) : null,
-        onTapUp: widget._enabled ? (_) => setState(() => _pressed = false) : null,
-        onTapCancel: widget._enabled ? () => setState(() => _pressed = false) : null,
-        onTap: widget.onPressed,
-        child: widget.expand
-            ? SizedBox(width: double.infinity, child: buttonChild)
-            : buttonChild,
+    return UiInteractiveRegion(
+      enabled: widget._enabled,
+      onActivate: widget.onPressed,
+      semanticLabel: widget.label,
+      button: true,
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
+      borderRadius: components.controlBorderRadius,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: GestureDetector(
+          onTapDown: widget._enabled
+              ? (_) => setState(() => _pressed = true)
+              : null,
+          onTapUp: widget._enabled
+              ? (_) => setState(() => _pressed = false)
+              : null,
+          onTapCancel: widget._enabled
+              ? () => setState(() => _pressed = false)
+              : null,
+          onTap: widget.onPressed,
+          child: widget.expand
+              ? SizedBox(width: double.infinity, child: buttonChild)
+              : buttonChild,
+        ),
       ),
     );
   }

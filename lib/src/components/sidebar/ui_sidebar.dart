@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_color_scheme.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme.dart';
@@ -8,11 +9,7 @@ import '../../theme/ui_typography.dart';
 
 /// A single sidebar navigation item.
 class UiSidebarItem {
-  const UiSidebarItem({
-    required this.label,
-    this.icon,
-    this.badge,
-  });
+  const UiSidebarItem({required this.label, this.icon, this.badge});
 
   final String label;
   final IconData? icon;
@@ -68,7 +65,7 @@ class UiSidebar extends StatelessWidget {
       curve: theme.animationCurve,
       width: collapsed ? 64 : width,
       decoration: BoxDecoration(
-        color: colors.surface,
+        color: colors.resolvedSurfaceRaised,
         border: Border(
           right: BorderSide(color: colors.border, width: theme.borderWidth),
         ),
@@ -76,10 +73,7 @@ class UiSidebar extends StatelessWidget {
       child: Column(
         children: [
           if (header != null)
-            Padding(
-              padding: EdgeInsets.all(spacing.md),
-              child: header!,
-            ),
+            Padding(padding: EdgeInsets.all(spacing.md), child: header!),
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(
@@ -87,16 +81,12 @@ class UiSidebar extends StatelessWidget {
                 vertical: spacing.xs,
               ),
               itemCount: items.length,
-              itemBuilder: (context, index) => _buildItem(
-                index, theme, colors, spacing, typo,
-              ),
+              itemBuilder: (context, index) =>
+                  _buildItem(index, theme, colors, spacing, typo),
             ),
           ),
           if (footer != null)
-            Padding(
-              padding: EdgeInsets.all(spacing.md),
-              child: footer!,
-            ),
+            Padding(padding: EdgeInsets.all(spacing.md), child: footer!),
         ],
       ),
     );
@@ -121,10 +111,15 @@ class UiSidebar extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(bottom: spacing.xs),
-      child: GestureDetector(
-        onTap: () => onChanged(index),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
+      child: UiInteractiveRegion(
+        enabled: true,
+        onActivate: () => onChanged(index),
+        semanticLabel: item.label,
+        button: true,
+        selected: selected,
+        borderRadius: theme.components.controlBorderRadius,
+        child: GestureDetector(
+          onTap: () => onChanged(index),
           child: AnimatedContainer(
             duration: theme.animationDuration,
             curve: theme.animationCurve,
@@ -136,15 +131,18 @@ class UiSidebar extends StatelessWidget {
               color: selected
                   ? colors.primary.withValues(alpha: 0.15)
                   : const Color(0x00000000),
-              borderRadius: spacing.radiusMd,
+              borderRadius: theme.components.controlBorderRadius,
               boxShadow: glow,
+            ),
+            constraints: BoxConstraints(
+              minHeight: theme.components.controlHeightMedium,
             ),
             child: Row(
               children: [
                 if (item.icon != null)
                   Icon(
-                    item.icon,
-                    size: 20,
+                    theme.icons.resolve(item.icon!),
+                    size: theme.components.iconSizeMedium,
                     color: selected ? colors.primary : colors.onSurface,
                   ),
                 if (!collapsed) ...[

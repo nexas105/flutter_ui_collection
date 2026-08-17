@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_color_scheme.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme.dart';
@@ -48,8 +49,8 @@ class UiTabBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: spacing.radiusMd,
+        color: colors.resolvedSurfaceRaised,
+        borderRadius: theme.components.controlBorderRadius,
         border: Border.all(color: colors.border, width: theme.borderWidth),
       ),
       padding: EdgeInsets.all(spacing.xs),
@@ -81,10 +82,15 @@ class UiTabBar extends StatelessWidget {
       ];
     }
 
-    return GestureDetector(
-      onTap: () => onChanged(index),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
+    return UiInteractiveRegion(
+      enabled: true,
+      onActivate: () => onChanged(index),
+      semanticLabel: tab.label,
+      button: true,
+      selected: selected,
+      borderRadius: theme.components.controlBorderRadius,
+      child: GestureDetector(
+        onTap: () => onChanged(index),
         child: AnimatedContainer(
           duration: theme.animationDuration,
           curve: theme.animationCurve,
@@ -94,8 +100,11 @@ class UiTabBar extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: selected ? colors.primary : const Color(0x00000000),
-            borderRadius: spacing.radiusSm,
+            borderRadius: theme.components.controlBorderRadius,
             boxShadow: glow,
+          ),
+          constraints: BoxConstraints(
+            minHeight: theme.components.controlHeightMedium,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +112,8 @@ class UiTabBar extends StatelessWidget {
             children: [
               if (tab.icon != null) ...[
                 Icon(
-                  tab.icon,
-                  size: 16,
+                  theme.icons.resolve(tab.icon!),
+                  size: theme.components.iconSizeSmall,
                   color: selected ? colors.onPrimary : colors.onSurface,
                 ),
                 SizedBox(width: spacing.xs),

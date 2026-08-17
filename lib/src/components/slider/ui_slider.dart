@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed slider for selecting a value from a range.
@@ -23,6 +24,8 @@ class UiSlider extends StatefulWidget {
     this.height = 6.0,
     this.thumbSize = 20.0,
     this.enabled = true,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   /// Current value between [min] and [max].
@@ -43,6 +46,8 @@ class UiSlider extends StatefulWidget {
   final double thumbSize;
 
   final bool enabled;
+  final FocusNode? focusNode;
+  final bool autofocus;
 
   @override
   State<UiSlider> createState() => _UiSliderState();
@@ -78,7 +83,7 @@ class _UiSliderState extends State<UiSlider> {
       ];
     }
 
-    return Opacity(
+    final control = Opacity(
       opacity: widget.enabled ? 1.0 : 0.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +96,12 @@ class _UiSliderState extends State<UiSlider> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if (widget.label != null)
-                    Text(widget.label!, style: typo.labelMedium.copyWith(color: colors.onBackground)),
+                    Text(
+                      widget.label!,
+                      style: typo.labelMedium.copyWith(
+                        color: colors.onBackground,
+                      ),
+                    ),
                   if (widget.showValue)
                     Text(
                       widget.value.toStringAsFixed(widget.max >= 100 ? 0 : 1),
@@ -136,7 +146,9 @@ class _UiSliderState extends State<UiSlider> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: colors.border,
-                            borderRadius: BorderRadius.circular(widget.height / 2),
+                            borderRadius: BorderRadius.circular(
+                              widget.height / 2,
+                            ),
                           ),
                         ),
                         // Active track
@@ -146,7 +158,9 @@ class _UiSliderState extends State<UiSlider> {
                             height: widget.height,
                             decoration: BoxDecoration(
                               color: colors.primary,
-                              borderRadius: BorderRadius.circular(widget.height / 2),
+                              borderRadius: BorderRadius.circular(
+                                widget.height / 2,
+                              ),
                             ),
                           ),
                         ),
@@ -160,7 +174,10 @@ class _UiSliderState extends State<UiSlider> {
                             decoration: BoxDecoration(
                               color: colors.primary,
                               shape: BoxShape.circle,
-                              border: Border.all(color: colors.surface, width: 2),
+                              border: Border.all(
+                                color: colors.surface,
+                                width: 2,
+                              ),
                               boxShadow: thumbGlow,
                             ),
                           ),
@@ -173,6 +190,37 @@ class _UiSliderState extends State<UiSlider> {
             },
           ),
         ],
+      ),
+    );
+
+    final keyboardStep = (widget.max - widget.min) / 20;
+    void changeBy(double delta) {
+      if (!widget.enabled || widget.onChanged == null) return;
+      widget.onChanged!((widget.value + delta).clamp(widget.min, widget.max));
+    }
+
+    String formatValue(double value) =>
+        value.toStringAsFixed(widget.max >= 100 ? 0 : 1);
+
+    return UiInteractiveRegion(
+      enabled: widget.enabled && widget.onChanged != null,
+      semanticLabel: widget.label,
+      slider: true,
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
+      value: formatValue(widget.value),
+      increasedValue: formatValue(
+        (widget.value + keyboardStep).clamp(widget.min, widget.max),
+      ),
+      decreasedValue: formatValue(
+        (widget.value - keyboardStep).clamp(widget.min, widget.max),
+      ),
+      onIncrease: () => changeBy(keyboardStep),
+      onDecrease: () => changeBy(-keyboardStep),
+      borderRadius: theme.components.controlBorderRadius,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 44),
+        child: control,
       ),
     );
   }

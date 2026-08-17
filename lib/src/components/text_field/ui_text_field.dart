@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed text input field with full input support.
@@ -100,11 +101,15 @@ class _UiTextFieldState extends State<UiTextField> {
   void didUpdateWidget(UiTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.focusNode != widget.focusNode) {
-      (oldWidget.focusNode ?? _internalFocusNode)?.removeListener(_onFocusChanged);
+      (oldWidget.focusNode ?? _internalFocusNode)?.removeListener(
+        _onFocusChanged,
+      );
       _focusNode.addListener(_onFocusChanged);
     }
     if (oldWidget.controller != widget.controller) {
-      (oldWidget.controller ?? _internalController)?.removeListener(_onTextChanged);
+      (oldWidget.controller ?? _internalController)?.removeListener(
+        _onTextChanged,
+      );
       _controller.addListener(_onTextChanged);
     }
   }
@@ -156,8 +161,9 @@ class _UiTextFieldState extends State<UiTextField> {
 
     // Keyboard brightness
     final bgLuminance = colors.background.computeLuminance();
-    final keyboardBrightness =
-        bgLuminance > 0.5 ? Brightness.light : Brightness.dark;
+    final keyboardBrightness = bgLuminance > 0.5
+        ? Brightness.light
+        : Brightness.dark;
 
     // Text styles
     final inputStyle = typo.bodyMedium.copyWith(color: colors.onSurface);
@@ -192,11 +198,7 @@ class _UiTextFieldState extends State<UiTextField> {
     // Suffix resolution
     Widget? suffix;
     if (widget.hasError) {
-      suffix = Icon(
-        const IconData(0xe237, fontFamily: 'MaterialIcons'),
-        size: 18,
-        color: colors.error,
-      );
+      suffix = Icon(UiIcons.error, size: 18, color: colors.error);
     } else if (widget.suffixWidget != null) {
       suffix = widget.suffixWidget;
     } else if (widget.suffixIcon != null) {
@@ -208,7 +210,7 @@ class _UiTextFieldState extends State<UiTextField> {
     }
 
     return Opacity(
-      opacity: widget.enabled ? 1.0 : 0.5,
+      opacity: widget.enabled ? 1.0 : theme.components.disabledOpacity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -234,12 +236,17 @@ class _UiTextFieldState extends State<UiTextField> {
                 color: widget.enabled
                     ? colors.surface
                     : colors.surface.withValues(alpha: 0.5),
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.controlBorderRadius,
                 border: Border.all(
                   color: borderColor,
-                  width: _focused ? theme.borderWidth + 0.5 : theme.borderWidth,
+                  width: _focused
+                      ? theme.components.focusRingWidth
+                      : theme.borderWidth,
                 ),
                 boxShadow: shadows,
+              ),
+              constraints: BoxConstraints(
+                minHeight: theme.components.controlHeightMedium,
               ),
               padding: EdgeInsets.symmetric(
                 horizontal: spacing.sm,

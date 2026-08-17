@@ -93,7 +93,7 @@ class UiApp extends StatelessWidget {
                 color: resolvedTheme.colorScheme.onBackground,
               ),
               child: ColoredBox(
-                color: resolvedTheme.colorScheme.background,
+                color: resolvedTheme.colorScheme.resolvedCanvas,
                 child: navigator ?? const SizedBox.shrink(),
               ),
             ),

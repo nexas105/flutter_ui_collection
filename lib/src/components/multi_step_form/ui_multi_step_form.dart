@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A single step in a multi-step form.
@@ -155,30 +156,35 @@ class UiMultiStepFormState extends State<UiMultiStepForm> {
                                 ? colors.primary
                                 : colors.border,
                             shape: BoxShape.circle,
-                            boxShadow: i == _currentStep &&
+                            boxShadow:
+                                i == _currentStep &&
                                     theme.useGlow &&
                                     colors.glow != null
                                 ? [
                                     BoxShadow(
-                                      color:
-                                          colors.glow!.withValues(alpha: 0.3),
+                                      color: colors.glow!.withValues(
+                                        alpha: 0.3,
+                                      ),
                                       blurRadius: 8,
-                                    )
+                                    ),
                                   ]
                                 : null,
                           ),
                           child: Center(
                             child: i < _currentStep
                                 ? Icon(
-                                    const IconData(0xe156,
-                                        fontFamily: 'MaterialIcons'),
+                                    UiIcons.check,
                                     size: 16,
-                                    color: colors.onPrimary)
-                                : Text('${i + 1}',
+                                    color: colors.onPrimary,
+                                  )
+                                : Text(
+                                    '${i + 1}',
                                     style: typo.labelSmall.copyWith(
-                                        color: i <= _currentStep
-                                            ? colors.onPrimary
-                                            : colors.onSurface)),
+                                      color: i <= _currentStep
+                                          ? colors.onPrimary
+                                          : colors.onSurface,
+                                    ),
+                                  ),
                           ),
                         ),
                         SizedBox(height: spacing.xs),
@@ -188,8 +194,9 @@ class UiMultiStepFormState extends State<UiMultiStepForm> {
                             color: i == _currentStep
                                 ? colors.primary
                                 : colors.onSurface.withValues(alpha: 0.5),
-                            fontWeight:
-                                i == _currentStep ? FontWeight.w600 : null,
+                            fontWeight: i == _currentStep
+                                ? FontWeight.w600
+                                : null,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -227,56 +234,73 @@ class UiMultiStepFormState extends State<UiMultiStepForm> {
                       cursor: SystemMouseCursors.click,
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: spacing.md, vertical: spacing.sm),
+                          horizontal: spacing.md,
+                          vertical: spacing.sm,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: spacing.radiusMd,
                           border: Border.all(
-                              color: colors.border, width: theme.borderWidth),
+                            color: colors.border,
+                            width: theme.borderWidth,
+                          ),
                         ),
-                        child: Text(widget.backLabel,
-                            style: typo.labelMedium
-                                .copyWith(color: colors.onSurface)),
+                        child: Text(
+                          widget.backLabel,
+                          style: typo.labelMedium.copyWith(
+                            color: colors.onSurface,
+                          ),
+                        ),
                       ),
                     ),
                   ),
             const Spacer(),
             isLastStep
                 ? (widget.submitBuilder?.call(next) ??
-                    GestureDetector(
-                      onTap: next,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: spacing.md, vertical: spacing.sm),
-                          decoration: BoxDecoration(
-                            color: colors.primary,
-                            borderRadius: spacing.radiusMd,
+                      GestureDetector(
+                        onTap: next,
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: spacing.md,
+                              vertical: spacing.sm,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.primary,
+                              borderRadius: spacing.radiusMd,
+                            ),
+                            child: Text(
+                              widget.submitLabel,
+                              style: typo.labelMedium.copyWith(
+                                color: colors.onPrimary,
+                              ),
+                            ),
                           ),
-                          child: Text(widget.submitLabel,
-                              style: typo.labelMedium
-                                  .copyWith(color: colors.onPrimary)),
                         ),
-                      ),
-                    ))
+                      ))
                 : (widget.nextBuilder?.call(next) ??
-                    GestureDetector(
-                      onTap: next,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: spacing.md, vertical: spacing.sm),
-                          decoration: BoxDecoration(
-                            color: colors.primary,
-                            borderRadius: spacing.radiusMd,
+                      GestureDetector(
+                        onTap: next,
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: spacing.md,
+                              vertical: spacing.sm,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.primary,
+                              borderRadius: spacing.radiusMd,
+                            ),
+                            child: Text(
+                              widget.nextLabel,
+                              style: typo.labelMedium.copyWith(
+                                color: colors.onPrimary,
+                              ),
+                            ),
                           ),
-                          child: Text(widget.nextLabel,
-                              style: typo.labelMedium
-                                  .copyWith(color: colors.onPrimary)),
                         ),
-                      ),
-                    )),
+                      )),
           ],
         ),
       ],

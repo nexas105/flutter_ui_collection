@@ -29,11 +29,7 @@ class UiContextMenuItem {
 /// )
 /// ```
 class UiContextMenu extends StatefulWidget {
-  const UiContextMenu({
-    super.key,
-    required this.items,
-    required this.child,
-  });
+  const UiContextMenu({super.key, required this.items, required this.child});
 
   final List<UiContextMenuItem> items;
   final Widget child;
@@ -99,17 +95,21 @@ class _ContextMenuOverlay extends StatelessWidget {
 
     final List<BoxShadow> shadows = [];
     if (theme.useGlow && colors.glow != null) {
-      shadows.add(BoxShadow(
-        color: colors.glow!.withValues(alpha: 0.2),
-        blurRadius: 16,
-        spreadRadius: 1,
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.glow!.withValues(alpha: 0.2),
+          blurRadius: 16,
+          spreadRadius: 1,
+        ),
+      );
     } else if (theme.useShadows) {
-      shadows.add(BoxShadow(
-        color: colors.shadow,
-        blurRadius: 12,
-        offset: const Offset(0, 4),
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.shadow,
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+        ),
+      );
     }
 
     return GestureDetector(
@@ -123,10 +123,12 @@ class _ContextMenuOverlay extends StatelessWidget {
             child: Container(
               constraints: const BoxConstraints(minWidth: 160, maxWidth: 280),
               decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: spacing.radiusMd,
+                color: colors.resolvedSurfaceOverlay,
+                borderRadius: theme.components.cardBorderRadius,
                 border: Border.all(
-                    color: colors.border, width: theme.borderWidth),
+                  color: colors.border,
+                  width: theme.borderWidth,
+                ),
                 boxShadow: shadows,
               ),
               padding: EdgeInsets.symmetric(vertical: spacing.xs),

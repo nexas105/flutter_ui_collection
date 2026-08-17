@@ -146,7 +146,7 @@ class _UiAutoCompleteState<T> extends State<UiAutoComplete<T>> {
     final typo = theme.typography;
 
     final borderColor = _isOpen ? colors.primary : colors.border;
-    final opacity = widget.enabled ? 1.0 : 0.5;
+    final opacity = widget.enabled ? 1.0 : theme.components.disabledOpacity;
 
     List<BoxShadow>? shadows;
     if (_isOpen && theme.useGlow && colors.glow != null) {
@@ -180,12 +180,15 @@ class _UiAutoCompleteState<T> extends State<UiAutoComplete<T>> {
               ),
               decoration: BoxDecoration(
                 color: colors.surface,
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.controlBorderRadius,
                 border: Border.all(
                   color: borderColor,
                   width: theme.borderWidth,
                 ),
                 boxShadow: shadows,
+              ),
+              constraints: BoxConstraints(
+                minHeight: theme.components.controlHeightMedium,
               ),
               child: EditableText(
                 controller: _controller,
@@ -231,10 +234,7 @@ class _AutoCompleteOverlay<T> extends StatelessWidget {
     List<BoxShadow>? shadows;
     if (theme.useGlow && colors.glow != null) {
       shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 16,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.15), blurRadius: 16),
       ];
     } else if (theme.useShadows) {
       shadows = [
@@ -262,7 +262,7 @@ class _AutoCompleteOverlay<T> extends StatelessWidget {
               constraints: const BoxConstraints(maxHeight: 200),
               decoration: BoxDecoration(
                 color: colors.surface,
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.cardBorderRadius,
                 border: Border.all(
                   color: colors.border,
                   width: theme.borderWidth,
@@ -270,7 +270,7 @@ class _AutoCompleteOverlay<T> extends StatelessWidget {
                 boxShadow: shadows,
               ),
               child: ClipRRect(
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.cardBorderRadius,
                 child: ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(vertical: spacing.xs),

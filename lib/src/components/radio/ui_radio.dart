@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed radio button.
@@ -62,13 +63,17 @@ class _UiRadioState<T> extends State<UiRadio<T>> {
 
     List<BoxShadow>? glow;
     if (widget._selected && theme.useGlow && colors.glow != null) {
-      glow = [BoxShadow(color: colors.glow!.withValues(alpha: 0.25), blurRadius: 8)];
+      glow = [
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.25), blurRadius: 8),
+      ];
     }
 
     final radio = GestureDetector(
       onTap: _select,
       child: MouseRegion(
-        cursor: widget.enabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+        cursor: widget.enabled
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.forbidden,
         onEnter: (_) => setState(() => _hovered = true),
         onExit: (_) => setState(() => _hovered = false),
         child: Opacity(
@@ -83,7 +88,9 @@ class _UiRadioState<T> extends State<UiRadio<T>> {
               shape: BoxShape.circle,
               border: Border.all(
                 color: borderColor,
-                width: widget._selected ? theme.borderWidth + 1 : theme.borderWidth,
+                width: widget._selected
+                    ? theme.borderWidth + 1
+                    : theme.borderWidth,
               ),
               boxShadow: glow,
             ),
@@ -105,27 +112,40 @@ class _UiRadioState<T> extends State<UiRadio<T>> {
       ),
     );
 
-    if (widget.label == null) return radio;
-
-    return GestureDetector(
-      onTap: _select,
-      child: MouseRegion(
-        cursor: widget.enabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            radio,
-            SizedBox(width: spacing.sm),
-            Flexible(
-              child: Text(
-                widget.label!,
-                style: typo.bodyMedium.copyWith(
-                  color: widget.enabled ? colors.onBackground : colors.onBackground.withValues(alpha: 0.5),
+    final content = widget.label == null
+        ? Center(child: radio)
+        : GestureDetector(
+            onTap: _select,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                radio,
+                SizedBox(width: spacing.sm),
+                Flexible(
+                  child: Text(
+                    widget.label!,
+                    style: typo.bodyMedium.copyWith(
+                      color: widget.enabled
+                          ? colors.onBackground
+                          : colors.onBackground.withValues(
+                              alpha: theme.components.disabledOpacity,
+                            ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+
+    return UiInteractiveRegion(
+      enabled: widget.enabled && widget.onChanged != null,
+      onActivate: _select,
+      semanticLabel: widget.label,
+      selected: widget._selected,
+      borderRadius: BorderRadius.circular(widget.size / 2),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+        child: content,
       ),
     );
   }

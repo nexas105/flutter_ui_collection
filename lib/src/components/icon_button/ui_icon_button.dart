@@ -20,8 +20,8 @@ class UiIconButton extends StatefulWidget {
     super.key,
     required this.icon,
     this.onPressed,
-    this.size = 40,
-    this.iconSize = 20,
+    this.size,
+    this.iconSize,
     this.tooltip,
     this.variant = UiIconButtonVariant.filled,
     this.color,
@@ -30,8 +30,8 @@ class UiIconButton extends StatefulWidget {
 
   final IconData icon;
   final VoidCallback? onPressed;
-  final double size;
-  final double iconSize;
+  final double? size;
+  final double? iconSize;
   final String? tooltip;
   final UiIconButtonVariant variant;
   final Color? color;
@@ -52,6 +52,7 @@ class _UiIconButtonState extends State<UiIconButton> {
     final theme = UiTheme.of(context);
     final colors = theme.colorScheme;
     final spacing = theme.spacing;
+    final components = theme.components;
 
     final effectiveColor = widget.color ?? colors.primary;
 
@@ -64,8 +65,8 @@ class _UiIconButtonState extends State<UiIconButton> {
       case UiIconButtonVariant.filled:
         bgColor = widget._enabled
             ? (_pressed
-                ? effectiveColor.withValues(alpha: 0.8)
-                : effectiveColor)
+                  ? effectiveColor.withValues(alpha: 0.8)
+                  : effectiveColor)
             : effectiveColor.withValues(alpha: 0.4);
         fgColor = colors.onPrimary;
         if (theme.useGlow && colors.glow != null && widget._enabled) {
@@ -114,18 +115,21 @@ class _UiIconButtonState extends State<UiIconButton> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTapDown:
-            widget._enabled ? (_) => setState(() => _pressed = true) : null,
-        onTapUp:
-            widget._enabled ? (_) => setState(() => _pressed = false) : null,
-        onTapCancel:
-            widget._enabled ? () => setState(() => _pressed = false) : null,
+        onTapDown: widget._enabled
+            ? (_) => setState(() => _pressed = true)
+            : null,
+        onTapUp: widget._enabled
+            ? (_) => setState(() => _pressed = false)
+            : null,
+        onTapCancel: widget._enabled
+            ? () => setState(() => _pressed = false)
+            : null,
         onTap: widget._enabled ? widget.onPressed : null,
         child: AnimatedContainer(
           duration: theme.animationDuration,
           curve: theme.animationCurve,
-          width: widget.size,
-          height: widget.size,
+          width: widget.size ?? components.controlHeightMedium,
+          height: widget.size ?? components.controlHeightMedium,
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: spacing.radiusMd,
@@ -134,9 +138,12 @@ class _UiIconButtonState extends State<UiIconButton> {
           ),
           alignment: Alignment.center,
           child: Icon(
-            widget.icon,
-            size: widget.iconSize,
+            theme.icons.resolve(widget.icon),
+            size: widget.iconSize ?? components.iconSizeMedium,
             color: fgColor,
+            weight: theme.icons.weight,
+            grade: theme.icons.grade,
+            opticalSize: theme.icons.opticalSize,
           ),
         ),
       ),
@@ -144,11 +151,7 @@ class _UiIconButtonState extends State<UiIconButton> {
 
     if (widget.tooltip != null) {
       // Wrap with a simple semantic label since we avoid Material Tooltip
-      button = Semantics(
-        label: widget.tooltip,
-        button: true,
-        child: button,
-      );
+      button = Semantics(label: widget.tooltip, button: true, child: button);
     }
 
     return button;

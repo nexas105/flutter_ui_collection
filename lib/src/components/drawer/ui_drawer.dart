@@ -78,26 +78,40 @@ class UiDrawer extends StatelessWidget {
       ];
     }
 
-    return Align(
-      alignment: side == UiDrawerSide.left
-          ? Alignment.centerLeft
-          : Alignment.centerRight,
-      child: Container(
-        width: width,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: colors.surface,
-          border: Border(
-            right: side == UiDrawerSide.left
-                ? BorderSide(color: colors.border, width: theme.borderWidth)
-                : BorderSide.none,
-            left: side == UiDrawerSide.right
-                ? BorderSide(color: colors.border, width: theme.borderWidth)
-                : BorderSide.none,
+    return Semantics(
+      scopesRoute: true,
+      explicitChildNodes: true,
+      child: FocusTraversalGroup(
+        child: Align(
+          alignment: side == UiDrawerSide.left
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
+          child: Container(
+            width: width,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: colors.resolvedSurfaceOverlay,
+              border: shadows == null
+                  ? Border(
+                      right: side == UiDrawerSide.left
+                          ? BorderSide(
+                              color: colors.border,
+                              width: theme.borderWidth,
+                            )
+                          : BorderSide.none,
+                      left: side == UiDrawerSide.right
+                          ? BorderSide(
+                              color: colors.border,
+                              width: theme.borderWidth,
+                            )
+                          : BorderSide.none,
+                    )
+                  : null,
+              boxShadow: shadows,
+            ),
+            child: child,
           ),
-          boxShadow: shadows,
         ),
-        child: child,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 
 /// A shopping cart icon with an animated item count badge.
@@ -68,10 +69,7 @@ class _UiCartBadgeState extends State<UiCartBadge>
     List<BoxShadow>? glow;
     if (theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.4),
-          blurRadius: 8,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.4), blurRadius: 8),
       ];
     }
 
@@ -92,7 +90,7 @@ class _UiCartBadgeState extends State<UiCartBadge>
                 left: 0,
                 bottom: 0,
                 child: Icon(
-                  const IconData(0xe854, fontFamily: 'MaterialIcons'), // shopping_cart
+                  UiIcons.cart,
                   size: widget.iconSize,
                   color: colors.onSurface,
                 ),
@@ -106,14 +104,17 @@ class _UiCartBadgeState extends State<UiCartBadge>
                     animation: _bounce,
                     builder: (context, child) {
                       final scale = 1.0 + 0.3 * _bounceCurve(_bounce.value);
-                      return Transform.scale(
-                        scale: scale,
-                        child: child,
-                      );
+                      return Transform.scale(scale: scale, child: child);
                     },
                     child: Container(
-                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 1,
+                      ),
                       decoration: BoxDecoration(
                         color: colors.error,
                         borderRadius: BorderRadius.circular(999),

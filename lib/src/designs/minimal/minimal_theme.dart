@@ -31,7 +31,8 @@ abstract final class MinimalTheme {
       shadow: Color(0x33000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Helvetica Neue',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFFE5E5E7),
       baseWeight: FontWeight.w400,
     ),
@@ -71,7 +72,8 @@ abstract final class MinimalTheme {
       shadow: Color(0x14000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'Helvetica Neue',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFF1C1C1E),
       baseWeight: FontWeight.w400,
     ),

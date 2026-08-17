@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A chip-based tag input with a text field for adding new tags.
@@ -84,16 +85,14 @@ class _UiTagInputState extends State<UiTagInput> {
     List<BoxShadow>? shadows;
     if (_focused && widget.enabled && theme.useGlow && colors.glow != null) {
       shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.3),
-          blurRadius: 12,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 12),
       ];
     }
 
     final bgLuminance = colors.background.computeLuminance();
-    final keyboardBrightness =
-        bgLuminance > 0.5 ? Brightness.light : Brightness.dark;
+    final keyboardBrightness = bgLuminance > 0.5
+        ? Brightness.light
+        : Brightness.dark;
 
     return Opacity(
       opacity: widget.enabled ? 1.0 : 0.5,
@@ -139,8 +138,7 @@ class _UiTagInputState extends State<UiTagInput> {
                             child: Text(
                               widget.placeholder,
                               style: typo.bodyMedium.copyWith(
-                                color:
-                                    colors.onSurface.withValues(alpha: 0.35),
+                                color: colors.onSurface.withValues(alpha: 0.35),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -150,8 +148,9 @@ class _UiTagInputState extends State<UiTagInput> {
                       EditableText(
                         controller: _controller,
                         focusNode: _focusNode,
-                        style: typo.bodyMedium
-                            .copyWith(color: colors.onSurface),
+                        style: typo.bodyMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
                         cursorColor: colors.primary,
                         backgroundCursorColor: colors.surface,
                         keyboardAppearance: keyboardBrightness,
@@ -165,8 +164,7 @@ class _UiTagInputState extends State<UiTagInput> {
                           _submitTag(value);
                           _focusNode.requestFocus();
                         },
-                        selectionColor:
-                            colors.primary.withValues(alpha: 0.3),
+                        selectionColor: colors.primary.withValues(alpha: 0.3),
                       ),
                     ],
                   ),
@@ -180,10 +178,7 @@ class _UiTagInputState extends State<UiTagInput> {
 }
 
 class _TagChip extends StatelessWidget {
-  const _TagChip({
-    required this.label,
-    this.onDelete,
-  });
+  const _TagChip({required this.label, this.onDelete});
 
   final String label;
   final VoidCallback? onDelete;
@@ -210,10 +205,7 @@ class _TagChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: typo.labelSmall.copyWith(color: colors.primary),
-          ),
+          Text(label, style: typo.labelSmall.copyWith(color: colors.primary)),
           if (onDelete != null) ...[
             SizedBox(width: spacing.xs),
             GestureDetector(
@@ -221,7 +213,7 @@ class _TagChip extends StatelessWidget {
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Icon(
-                  const IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                  UiIcons.close,
                   size: 12,
                   color: colors.primary.withValues(alpha: 0.6),
                 ),

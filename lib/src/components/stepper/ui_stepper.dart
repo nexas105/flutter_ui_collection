@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -82,7 +83,9 @@ class UiStepper extends StatelessWidget {
             ],
           ),
         // Current step content
-        if (currentStep >= 0 && currentStep < steps.length && steps[currentStep].content != null)
+        if (currentStep >= 0 &&
+            currentStep < steps.length &&
+            steps[currentStep].content != null)
           Padding(
             padding: EdgeInsets.only(top: spacing.lg),
             child: steps[currentStep].content!,
@@ -130,13 +133,17 @@ class _StepIndicator extends StatelessWidget {
 
     List<BoxShadow>? glow;
     if (isActive && theme.useGlow && colors.glow != null) {
-      glow = [BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 10)];
+      glow = [
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 10),
+      ];
     }
 
     return GestureDetector(
       onTap: onTap,
       child: MouseRegion(
-        cursor: onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        cursor: onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -151,15 +158,20 @@ class _StepIndicator extends StatelessWidget {
               ),
               child: Center(
                 child: isCompleted
-                    ? Icon(const IconData(0xe156, fontFamily: 'MaterialIcons'), size: 18, color: textColor)
-                    : Text('${index + 1}', style: typo.labelMedium.copyWith(color: textColor)),
+                    ? Icon(UiIcons.check, size: 18, color: textColor)
+                    : Text(
+                        '${index + 1}',
+                        style: typo.labelMedium.copyWith(color: textColor),
+                      ),
               ),
             ),
             SizedBox(height: spacing.xs),
             Text(
               step.title,
               style: typo.labelSmall.copyWith(
-                color: isActive ? colors.primary : colors.onSurface.withValues(alpha: 0.6),
+                color: isActive
+                    ? colors.primary
+                    : colors.onSurface.withValues(alpha: 0.6),
                 fontWeight: isActive ? FontWeight.w600 : null,
               ),
               textAlign: TextAlign.center,

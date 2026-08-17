@@ -4,11 +4,7 @@ import '../../theme/ui_theme.dart';
 
 /// A speed-dial action for [UiFloatingActionButton].
 class UiFabAction {
-  const UiFabAction({
-    required this.icon,
-    this.label,
-    required this.onTap,
-  });
+  const UiFabAction({required this.icon, this.label, required this.onTap});
 
   final Widget icon;
   final String? label;
@@ -41,8 +37,7 @@ class UiFloatingActionButton extends StatefulWidget {
   final double size;
 
   @override
-  State<UiFloatingActionButton> createState() =>
-      _UiFloatingActionButtonState();
+  State<UiFloatingActionButton> createState() => _UiFloatingActionButtonState();
 }
 
 class _UiFloatingActionButtonState extends State<UiFloatingActionButton>
@@ -89,17 +84,21 @@ class _UiFloatingActionButtonState extends State<UiFloatingActionButton>
 
     final List<BoxShadow> shadows = [];
     if (theme.useGlow && colors.glow != null) {
-      shadows.add(BoxShadow(
-        color: colors.glow!.withValues(alpha: 0.4),
-        blurRadius: 20,
-        spreadRadius: 2,
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.glow!.withValues(alpha: 0.4),
+          blurRadius: 20,
+          spreadRadius: 2,
+        ),
+      );
     } else if (theme.useShadows) {
-      shadows.add(BoxShadow(
-        color: colors.shadow,
-        blurRadius: 12,
-        offset: const Offset(0, 4),
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.shadow,
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+        ),
+      );
     }
 
     final miniSize = widget.size * 0.7;
@@ -112,7 +111,8 @@ class _UiFloatingActionButtonState extends State<UiFloatingActionButton>
         if (widget.actions.isNotEmpty)
           SizeTransition(
             sizeFactor: _controller,
-            axisAlignment: 1.0,
+            axis: Axis.vertical,
+            alignment: Alignment.bottomCenter,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -139,8 +139,9 @@ class _UiFloatingActionButtonState extends State<UiFloatingActionButton>
                             ),
                             child: Text(
                               action.label!,
-                              style: typo.labelSmall
-                                  .copyWith(color: colors.onSurface),
+                              style: typo.labelSmall.copyWith(
+                                color: colors.onSurface,
+                              ),
                             ),
                           ),
                           SizedBox(width: spacing.sm),
@@ -156,16 +157,15 @@ class _UiFloatingActionButtonState extends State<UiFloatingActionButton>
                             decoration: BoxDecoration(
                               color: colors.secondary,
                               shape: BoxShape.circle,
-                              boxShadow:
-                                  theme.useShadows
-                                      ? [
-                                          BoxShadow(
-                                            color: colors.shadow,
-                                            blurRadius: 6,
-                                            offset: const Offset(0, 2),
-                                          ),
-                                        ]
-                                      : null,
+                              boxShadow: theme.useShadows
+                                  ? [
+                                      BoxShadow(
+                                        color: colors.shadow,
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : null,
                             ),
                             alignment: Alignment.center,
                             child: action.icon,

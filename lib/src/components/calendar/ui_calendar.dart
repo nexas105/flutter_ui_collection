@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -91,15 +92,30 @@ class _UiCalendarState extends State<UiCalendar> {
     ).day;
 
     // Day of week for the 1st (adjusted for firstDayOfWeek)
-    final firstWeekday = DateTime(_displayedMonth.year, _displayedMonth.month, 1).weekday;
+    final firstWeekday = DateTime(
+      _displayedMonth.year,
+      _displayedMonth.month,
+      1,
+    ).weekday;
     final startOffset = (firstWeekday - widget.firstDayOfWeek + 7) % 7;
 
     // Month name
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
-    final monthLabel = '${months[_displayedMonth.month - 1]} ${_displayedMonth.year}';
+    final monthLabel =
+        '${months[_displayedMonth.month - 1]} ${_displayedMonth.year}';
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -115,14 +131,17 @@ class _UiCalendarState extends State<UiCalendar> {
                 child: Padding(
                   padding: EdgeInsets.all(spacing.xs),
                   child: Icon(
-                    const IconData(0xe14b, fontFamily: 'MaterialIcons'),
+                    UiIcons.chevronLeft,
                     size: 20,
                     color: colors.onSurface,
                   ),
                 ),
               ),
             ),
-            Text(monthLabel, style: typo.titleSmall.copyWith(color: colors.onSurface)),
+            Text(
+              monthLabel,
+              style: typo.titleSmall.copyWith(color: colors.onSurface),
+            ),
             GestureDetector(
               onTap: _nextMonth,
               child: MouseRegion(
@@ -130,7 +149,7 @@ class _UiCalendarState extends State<UiCalendar> {
                 child: Padding(
                   padding: EdgeInsets.all(spacing.xs),
                   child: Icon(
-                    const IconData(0xe14f, fontFamily: 'MaterialIcons'),
+                    UiIcons.chevronRight,
                     size: 20,
                     color: colors.onSurface,
                   ),
@@ -176,8 +195,7 @@ class _UiCalendarState extends State<UiCalendar> {
             ],
           ),
           // Stop if we've passed all days
-          if ((week + 1) * 7 - startOffset >= daysInMonth && week >= 3)
-            ...[],
+          if ((week + 1) * 7 - startOffset >= daysInMonth && week >= 3) ...[],
         ],
       ],
     );
@@ -204,11 +222,15 @@ class _UiCalendarState extends State<UiCalendar> {
 
     List<BoxShadow>? glow;
     if (isSelected && theme.useGlow && colors.glow != null) {
-      glow = [BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 6)];
+      glow = [
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 6),
+      ];
     }
 
     return GestureDetector(
-      onTap: widget.onDateSelected != null ? () => widget.onDateSelected!(date) : null,
+      onTap: widget.onDateSelected != null
+          ? () => widget.onDateSelected!(date)
+          : null,
       child: MouseRegion(
         cursor: widget.onDateSelected != null
             ? SystemMouseCursors.click
@@ -236,9 +258,7 @@ class _UiCalendarState extends State<UiCalendar> {
                   Text(
                     '$day',
                     style: typo.bodySmall.copyWith(
-                      color: isSelected
-                          ? colors.onPrimary
-                          : colors.onSurface,
+                      color: isSelected ? colors.onPrimary : colors.onSurface,
                       fontWeight: isToday ? FontWeight.w700 : null,
                     ),
                   ),

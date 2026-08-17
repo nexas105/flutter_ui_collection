@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_ecommerce_models.dart';
 
@@ -54,7 +55,7 @@ class UiCartItemTile extends StatelessWidget {
               height: 64,
               color: colors.border.withValues(alpha: 0.3),
               child: Icon(
-                const IconData(0xe332, fontFamily: 'MaterialIcons'),
+                UiIcons.image,
                 size: 28,
                 color: colors.onSurface.withValues(alpha: 0.2),
               ),
@@ -106,11 +107,7 @@ class UiCartItemTile extends StatelessWidget {
                     color: colors.error.withValues(alpha: 0.1),
                     borderRadius: spacing.radiusSm,
                   ),
-                  child: Icon(
-                    const IconData(0xe1b9, fontFamily: 'MaterialIcons'), // delete
-                    size: 18,
-                    color: colors.error,
-                  ),
+                  child: Icon(UiIcons.delete, size: 18, color: colors.error),
                 ),
               ),
             ),
@@ -146,7 +143,7 @@ class _QuantitySelector extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _QuantityButton(
-            icon: const IconData(0xe52b, fontFamily: 'MaterialIcons'), // remove
+            icon: UiIcons.remove,
             enabled: quantity > 1 && onChanged != null,
             onTap: () => onChanged?.call(quantity - 1),
             theme: theme,
@@ -164,7 +161,7 @@ class _QuantitySelector extends StatelessWidget {
             ),
           ),
           _QuantityButton(
-            icon: const IconData(0xe047, fontFamily: 'MaterialIcons'), // add
+            icon: UiIcons.add,
             enabled: onChanged != null,
             onTap: () => onChanged?.call(quantity + 1),
             theme: theme,

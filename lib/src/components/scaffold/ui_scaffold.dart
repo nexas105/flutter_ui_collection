@@ -63,7 +63,9 @@ class UiScaffold extends StatelessWidget {
     final showSidebar = sidebar != null && screenWidth >= sidebarBreakpoint;
 
     // Use surface color behind status bar when appBar is present
-    final statusBarColor = appBar != null ? colors.surface : (backgroundColor ?? colors.background);
+    final statusBarColor = appBar != null
+        ? colors.resolvedSurfaceRaised
+        : (backgroundColor ?? colors.resolvedCanvas);
 
     return Column(
       children: [
@@ -78,61 +80,73 @@ class UiScaffold extends StatelessWidget {
         // Main content
         Expanded(
           child: ColoredBox(
-            color: backgroundColor ?? colors.background,
+            color: backgroundColor ?? colors.resolvedCanvas,
             child: Column(
               children: [
                 // App bar
                 ?appBar,
 
-          // Body + Sidebar
-          Expanded(
-            child: Row(
-              children: [
-                // Sidebar (desktop only)
-                if (showSidebar) sidebar!,
-
-                // Main content area
+                // Body + Sidebar
                 Expanded(
-                  child: Stack(
+                  child: Row(
                     children: [
-                      // Body
-                      Positioned.fill(child: body),
+                      // Sidebar (desktop only)
+                      if (showSidebar) sidebar!,
 
-                      // Floating action
-                      if (floatingAction != null)
-                        Positioned(
-                          right: floatingActionAlignment == Alignment.bottomRight ||
-                                  floatingActionAlignment == Alignment.topRight
-                              ? spacing.lg
-                              : null,
-                          left: floatingActionAlignment == Alignment.bottomLeft ||
-                                  floatingActionAlignment == Alignment.topLeft
-                              ? spacing.lg
-                              : null,
-                          bottom: floatingActionAlignment == Alignment.bottomRight ||
-                                  floatingActionAlignment == Alignment.bottomLeft
-                              ? spacing.lg
-                              : null,
-                          top: floatingActionAlignment == Alignment.topRight ||
-                                  floatingActionAlignment == Alignment.topLeft
-                              ? spacing.lg
-                              : null,
-                          child: floatingAction!,
+                      // Main content area
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            // Body
+                            Positioned.fill(child: body),
+
+                            // Floating action
+                            if (floatingAction != null)
+                              Positioned(
+                                right:
+                                    floatingActionAlignment ==
+                                            Alignment.bottomRight ||
+                                        floatingActionAlignment ==
+                                            Alignment.topRight
+                                    ? spacing.lg
+                                    : null,
+                                left:
+                                    floatingActionAlignment ==
+                                            Alignment.bottomLeft ||
+                                        floatingActionAlignment ==
+                                            Alignment.topLeft
+                                    ? spacing.lg
+                                    : null,
+                                bottom:
+                                    floatingActionAlignment ==
+                                            Alignment.bottomRight ||
+                                        floatingActionAlignment ==
+                                            Alignment.bottomLeft
+                                    ? spacing.lg
+                                    : null,
+                                top:
+                                    floatingActionAlignment ==
+                                            Alignment.topRight ||
+                                        floatingActionAlignment ==
+                                            Alignment.topLeft
+                                    ? spacing.lg
+                                    : null,
+                                child: floatingAction!,
+                              ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                 ),
+
+                // Bottom bar
+                ?bottomBar,
               ],
             ),
           ),
-
-              // Bottom bar
-              ?bottomBar,
-            ],
-          ),
         ),
-      ),
-    ],
+      ],
     );
   }
 }
@@ -153,7 +167,7 @@ class UiResponsiveBody extends StatelessWidget {
   const UiResponsiveBody({
     super.key,
     required this.child,
-    this.maxWidth = 960,
+    this.maxWidth,
     this.padding,
     this.center = true,
   });
@@ -161,7 +175,7 @@ class UiResponsiveBody extends StatelessWidget {
   final Widget child;
 
   /// Maximum width of the content area.
-  final double maxWidth;
+  final double? maxWidth;
 
   /// Padding around the content.
   final EdgeInsets? padding;
@@ -173,16 +187,14 @@ class UiResponsiveBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = UiTheme.of(context);
     final resolvedPadding = padding ?? theme.spacing.paddingMd;
+    final resolvedMaxWidth = maxWidth ?? theme.components.contentMaxWidth;
 
-    Widget content = Padding(
-      padding: resolvedPadding,
-      child: child,
-    );
+    Widget content = Padding(padding: resolvedPadding, child: child);
 
-    if (maxWidth < double.infinity) {
+    if (resolvedMaxWidth < double.infinity) {
       content = Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
+          constraints: BoxConstraints(maxWidth: resolvedMaxWidth),
           child: content,
         ),
       );

@@ -29,9 +29,7 @@ class UiCommand {
 /// );
 /// ```
 class UiCommandPalette extends StatefulWidget {
-  const UiCommandPalette._({
-    required this.commands,
-  });
+  const UiCommandPalette._({required this.commands});
 
   final List<UiCommand> commands;
 
@@ -79,17 +77,21 @@ class _UiCommandPaletteState extends State<UiCommandPalette> {
 
     final List<BoxShadow> shadows = [];
     if (theme.useGlow && colors.glow != null) {
-      shadows.add(BoxShadow(
-        color: colors.glow!.withValues(alpha: 0.25),
-        blurRadius: 24,
-        spreadRadius: 2,
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.glow!.withValues(alpha: 0.25),
+          blurRadius: 24,
+          spreadRadius: 2,
+        ),
+      );
     } else if (theme.useShadows) {
-      shadows.add(BoxShadow(
-        color: colors.shadow,
-        blurRadius: 24,
-        offset: const Offset(0, 8),
-      ));
+      shadows.add(
+        BoxShadow(
+          color: colors.shadow,
+          blurRadius: 24,
+          offset: const Offset(0, 8),
+        ),
+      );
     }
 
     final filtered = _filtered;
@@ -105,9 +107,12 @@ class _UiCommandPaletteState extends State<UiCommandPalette> {
             width: 520,
             constraints: const BoxConstraints(maxHeight: 420),
             decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: spacing.radiusLg,
-              border: Border.all(color: colors.border, width: theme.borderWidth),
+              color: colors.resolvedSurfaceOverlay,
+              borderRadius: theme.components.cardBorderRadius,
+              border: Border.all(
+                color: colors.border,
+                width: theme.borderWidth,
+              ),
               boxShadow: shadows,
             ),
             child: Column(

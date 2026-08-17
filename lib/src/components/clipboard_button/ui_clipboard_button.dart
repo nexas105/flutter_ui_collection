@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A button that copies text to the clipboard and shows confirmation.
@@ -60,10 +61,7 @@ class _UiClipboardButtonState extends State<UiClipboardButton> {
     List<BoxShadow>? glow;
     if (theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 6,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.15), blurRadius: 6),
       ];
     }
 
@@ -74,11 +72,7 @@ class _UiClipboardButtonState extends State<UiClipboardButton> {
               key: const ValueKey('copied'),
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  const IconData(0xe156, fontFamily: 'MaterialIcons'),
-                  size: 16,
-                  color: colors.success,
-                ),
+                Icon(UiIcons.check, size: 16, color: colors.success),
                 SizedBox(width: spacing.xs),
                 Text(
                   widget.copiedLabel,
@@ -88,7 +82,7 @@ class _UiClipboardButtonState extends State<UiClipboardButton> {
             )
           : Icon(
               key: const ValueKey('copy'),
-              const IconData(0xe190, fontFamily: 'MaterialIcons'),
+              UiIcons.copy,
               size: 16,
               color: colors.onSurface,
             ),
@@ -97,9 +91,7 @@ class _UiClipboardButtonState extends State<UiClipboardButton> {
     return GestureDetector(
       onTap: _copied ? null : _copy,
       child: MouseRegion(
-        cursor: _copied
-            ? SystemMouseCursors.basic
-            : SystemMouseCursors.click,
+        cursor: _copied ? SystemMouseCursors.basic : SystemMouseCursors.click,
         child: Container(
           padding: EdgeInsets.all(spacing.xs),
           decoration: BoxDecoration(

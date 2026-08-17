@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_ecommerce_models.dart';
 
@@ -121,18 +122,15 @@ class _StatusStep extends StatelessWidget {
     List<BoxShadow>? glow;
     if (isActive && theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: circleColor.withValues(alpha: 0.4),
-          blurRadius: 10,
-        ),
+        BoxShadow(color: circleColor.withValues(alpha: 0.4), blurRadius: 10),
       ];
     }
 
     final IconData icon;
     if (isCancelled) {
-      icon = const IconData(0xe16a, fontFamily: 'MaterialIcons'); // close
+      icon = UiIcons.close;
     } else if (isCompleted) {
-      icon = const IconData(0xe156, fontFamily: 'MaterialIcons'); // check
+      icon = UiIcons.check;
     } else {
       icon = _statusIcon(status);
     }
@@ -149,9 +147,7 @@ class _StatusStep extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: glow,
           ),
-          child: Center(
-            child: Icon(icon, size: 18, color: iconColor),
-          ),
+          child: Center(child: Icon(icon, size: 18, color: iconColor)),
         ),
         SizedBox(height: spacing.xs),
         Text(
@@ -197,22 +193,32 @@ class _StatusStep extends StatelessWidget {
   IconData _statusIcon(UiOrderStatus status) {
     switch (status) {
       case UiOrderStatus.pending:
-        return const IconData(0xe8b5, fontFamily: 'MaterialIcons'); // schedule
+        return UiIcons.clock;
       case UiOrderStatus.confirmed:
-        return const IconData(0xe156, fontFamily: 'MaterialIcons'); // check
+        return UiIcons.check;
       case UiOrderStatus.shipped:
-        return const IconData(0xe558, fontFamily: 'MaterialIcons'); // local_shipping
+        return UiIcons.shipping;
       case UiOrderStatus.delivered:
-        return const IconData(0xe30c, fontFamily: 'MaterialIcons'); // home
+        return UiIcons.homeFilled;
       case UiOrderStatus.cancelled:
-        return const IconData(0xe16a, fontFamily: 'MaterialIcons'); // close
+        return UiIcons.close;
     }
   }
 
   String _formatDate(DateTime date) {
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}';
   }

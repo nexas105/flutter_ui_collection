@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
+
 /// The current state of an authentication operation.
 enum UiAuthState {
   /// No operation in progress.
@@ -17,11 +19,7 @@ enum UiAuthState {
 
 /// The result of an authentication operation.
 class UiAuthResult {
-  const UiAuthResult({
-    required this.success,
-    this.errorMessage,
-    this.userData,
-  });
+  const UiAuthResult({required this.success, this.errorMessage, this.userData});
 
   /// Whether the operation succeeded.
   final bool success;
@@ -43,12 +41,12 @@ class UiAuthResult {
 
 /// Supported social login providers.
 enum UiSocialProvider {
-  google('Google', IconData(0xe1cb, fontFamily: 'MaterialIcons')),
-  apple('Apple', IconData(0xf04be, fontFamily: 'MaterialIcons')),
-  github('GitHub', IconData(0xe169, fontFamily: 'MaterialIcons')),
-  facebook('Facebook', IconData(0xe27a, fontFamily: 'MaterialIcons')),
-  twitter('Twitter', IconData(0xe602, fontFamily: 'MaterialIcons')),
-  custom('Custom', IconData(0xe491, fontFamily: 'MaterialIcons'));
+  google('Google', UiIcons.google),
+  apple('Apple', UiIcons.apple),
+  github('GitHub', UiIcons.code),
+  facebook('Facebook', UiIcons.facebook),
+  twitter('Twitter', UiIcons.twitter),
+  custom('Custom', UiIcons.person);
 
   const UiSocialProvider(this.label, this.icon);
 

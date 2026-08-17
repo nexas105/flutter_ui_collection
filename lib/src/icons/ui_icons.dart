@@ -13,13 +13,13 @@ class UiIcon extends StatelessWidget {
   const UiIcon(
     this.icon, {
     super.key,
-    this.size = 20,
+    this.size,
     this.color,
     this.useGlow = false,
   });
 
   final IconData icon;
-  final double size;
+  final double? size;
   final Color? color;
 
   /// Override to force glow regardless of theme.
@@ -29,8 +29,11 @@ class UiIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = UiTheme.of(context);
     final resolvedColor = color ?? theme.colorScheme.onSurface;
+    final resolvedSize = size ?? theme.components.iconSizeMedium;
+    final resolvedIcon = theme.icons.resolve(icon);
 
-    final showGlow = useGlow || (theme.useGlow && theme.colorScheme.glow != null);
+    final showGlow =
+        useGlow || (theme.useGlow && theme.colorScheme.glow != null);
 
     if (showGlow) {
       final glowColor = theme.colorScheme.glow ?? resolvedColor;
@@ -39,20 +42,37 @@ class UiIcon extends StatelessWidget {
         children: [
           // Glow layer
           Icon(
-            icon,
-            size: size,
+            resolvedIcon,
+            size: resolvedSize,
             color: glowColor.withValues(alpha: 0.4),
+            weight: theme.icons.weight,
+            grade: theme.icons.grade,
+            opticalSize: theme.icons.opticalSize,
             shadows: [
               Shadow(color: glowColor.withValues(alpha: 0.6), blurRadius: 12),
             ],
           ),
           // Main icon
-          Icon(icon, size: size, color: resolvedColor),
+          Icon(
+            resolvedIcon,
+            size: resolvedSize,
+            color: resolvedColor,
+            weight: theme.icons.weight,
+            grade: theme.icons.grade,
+            opticalSize: theme.icons.opticalSize,
+          ),
         ],
       );
     }
 
-    return Icon(icon, size: size, color: resolvedColor);
+    return Icon(
+      resolvedIcon,
+      size: resolvedSize,
+      color: resolvedColor,
+      weight: theme.icons.weight,
+      grade: theme.icons.grade,
+      opticalSize: theme.icons.opticalSize,
+    );
   }
 }
 
@@ -110,4 +130,23 @@ abstract final class UiIcons {
   static const darkMode = IconData(0xf159, fontFamily: 'MaterialIcons');
   static const lightMode = IconData(0xf15b, fontFamily: 'MaterialIcons');
   static const palette = IconData(0xe40a, fontFamily: 'MaterialIcons');
+  static const userPlaceholder = IconData(0xE7FD, fontFamily: 'MaterialIcons');
+  static const circle = IconData(0xe834, fontFamily: 'MaterialIcons');
+  static const unavailable = IconData(0xe159, fontFamily: 'MaterialIcons');
+  static const notFound = IconData(0xe1f6, fontFamily: 'MaterialIcons');
+  static const maintenance = IconData(0xf1f3, fontFamily: 'MaterialIcons');
+  static const offline = IconData(0xe0ce, fontFamily: 'MaterialIcons');
+  static const increment = IconData(0xe145, fontFamily: 'MaterialIcons');
+  static const decrement = IconData(0xe15b, fontFamily: 'MaterialIcons');
+  static const cart = IconData(0xe854, fontFamily: 'MaterialIcons');
+  static const clock = IconData(0xe8b5, fontFamily: 'MaterialIcons');
+  static const shipping = IconData(0xe558, fontFamily: 'MaterialIcons');
+  static const homeFilled = IconData(0xe30c, fontFamily: 'MaterialIcons');
+  static const creditCard = IconData(0xe870, fontFamily: 'MaterialIcons');
+  static const payment = IconData(0xe8a7, fontFamily: 'MaterialIcons');
+  static const bank = IconData(0xe084, fontFamily: 'MaterialIcons');
+  static const google = IconData(0xe1cb, fontFamily: 'MaterialIcons');
+  static const apple = IconData(0xf04be, fontFamily: 'MaterialIcons');
+  static const facebook = IconData(0xe27a, fontFamily: 'MaterialIcons');
+  static const twitter = IconData(0xe602, fontFamily: 'MaterialIcons');
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
+import '../icon_button/ui_icon_button.dart';
 
 /// A themed modal dialog.
 ///
@@ -101,69 +103,73 @@ class UiDialog extends StatelessWidget {
       ];
     }
 
-    return Center(
-      child: Container(
-        width: width ?? 400,
-        margin: spacing.paddingLg,
-        padding: padding ?? spacing.paddingLg,
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: spacing.radiusLg,
-          border: Border.all(color: colors.border, width: theme.borderWidth),
-          boxShadow: shadows,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (title != null || showCloseButton)
-              Row(
-                children: [
-                  if (title != null)
-                    Expanded(
-                      child: Text(
-                        title!,
-                        style: typo.titleLarge.copyWith(color: colors.onSurface),
-                      ),
-                    ),
-                  if (showCloseButton)
-                    GestureDetector(
-                      onTap: onClose ?? () => Navigator.of(context).pop(),
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Padding(
-                          padding: EdgeInsets.all(spacing.xs),
+    return Semantics(
+      scopesRoute: true,
+      namesRoute: title != null,
+      label: title,
+      explicitChildNodes: true,
+      child: FocusTraversalGroup(
+        child: Center(
+          child: Container(
+            width: width ?? 400,
+            margin: spacing.paddingLg,
+            padding: padding ?? spacing.paddingLg,
+            decoration: BoxDecoration(
+              color: colors.resolvedSurfaceOverlay,
+              borderRadius: theme.components.cardBorderRadius,
+              border: shadows == null
+                  ? Border.all(color: colors.border, width: theme.borderWidth)
+                  : null,
+              boxShadow: shadows,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (title != null || showCloseButton)
+                  Row(
+                    children: [
+                      if (title != null)
+                        Expanded(
                           child: Text(
-                            '\u2715',
-                            style: typo.titleMedium.copyWith(
-                              color: colors.onSurface.withValues(alpha: 0.5),
+                            title!,
+                            style: typo.titleLarge.copyWith(
+                              color: colors.onSurface,
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      if (showCloseButton)
+                        UiIconButton(
+                          icon: UiIcons.close,
+                          tooltip: 'Close dialog',
+                          variant: UiIconButtonVariant.ghost,
+                          onPressed:
+                              onClose ?? () => Navigator.of(context).pop(),
+                        ),
+                    ],
+                  ),
+                if (title != null && content != null)
+                  SizedBox(height: spacing.md),
+                if (content != null)
+                  DefaultTextStyle(
+                    style: typo.bodyMedium.copyWith(color: colors.onSurface),
+                    child: content!,
+                  ),
+                if (actions != null && actions!.isNotEmpty) ...[
+                  SizedBox(height: spacing.lg),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      for (int i = 0; i < actions!.length; i++) ...[
+                        if (i > 0) SizedBox(width: spacing.sm),
+                        actions![i],
+                      ],
+                    ],
+                  ),
                 ],
-              ),
-            if (title != null && content != null)
-              SizedBox(height: spacing.md),
-            if (content != null)
-              DefaultTextStyle(
-                style: typo.bodyMedium.copyWith(color: colors.onSurface),
-                child: content!,
-              ),
-            if (actions != null && actions!.isNotEmpty) ...[
-              SizedBox(height: spacing.lg),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  for (int i = 0; i < actions!.length; i++) ...[
-                    if (i > 0) SizedBox(width: spacing.sm),
-                    actions![i],
-                  ],
-                ],
-              ),
-            ],
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

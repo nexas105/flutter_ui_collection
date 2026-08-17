@@ -1,14 +1,10 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// The type of status to display.
-enum UiStatusType {
-  success,
-  error,
-  notFound,
-  maintenance,
-}
+enum UiStatusType { success, error, notFound, maintenance }
 
 /// A full-page status display with an icon, title, description, and
 /// optional action widget.
@@ -51,16 +47,16 @@ class UiStatusPage extends StatelessWidget {
     switch (type) {
       case UiStatusType.success:
         // check_circle
-        return const IconData(0xe159, fontFamily: 'MaterialIcons');
+        return UiIcons.unavailable;
       case UiStatusType.error:
         // error_outline
-        return const IconData(0xe1f6, fontFamily: 'MaterialIcons');
+        return UiIcons.notFound;
       case UiStatusType.notFound:
         // search_off
-        return const IconData(0xf1f3, fontFamily: 'MaterialIcons');
+        return UiIcons.maintenance;
       case UiStatusType.maintenance:
         // build
-        return const IconData(0xe0ce, fontFamily: 'MaterialIcons');
+        return UiIcons.offline;
     }
   }
 
@@ -113,16 +109,9 @@ class UiStatusPage extends StatelessWidget {
           children: [
             Container(
               decoration: glow != null
-                  ? BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: glow,
-                    )
+                  ? BoxDecoration(shape: BoxShape.circle, boxShadow: glow)
                   : null,
-              child: Icon(
-                effectiveIcon,
-                size: 72,
-                color: color,
-              ),
+              child: Icon(effectiveIcon, size: 72, color: color),
             ),
             SizedBox(height: spacing.lg),
             Text(
@@ -140,10 +129,7 @@ class UiStatusPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ],
-            if (action != null) ...[
-              SizedBox(height: spacing.xl),
-              action!,
-            ],
+            if (action != null) ...[SizedBox(height: spacing.xl), action!],
           ],
         ),
       ),

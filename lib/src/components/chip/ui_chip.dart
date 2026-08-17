@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A compact element for tags, filters, or selections.
@@ -55,10 +56,7 @@ class _UiChipState extends State<UiChip> {
     List<BoxShadow>? glow;
     if (widget.selected && theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.15),
-          blurRadius: 6,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.15), blurRadius: 6),
       ];
     }
 
@@ -92,7 +90,10 @@ class _UiChipState extends State<UiChip> {
                   Icon(widget.icon, size: 14, color: fgColor),
                   SizedBox(width: spacing.xs),
                 ],
-                Text(widget.label, style: typo.labelSmall.copyWith(color: fgColor)),
+                Text(
+                  widget.label,
+                  style: typo.labelSmall.copyWith(color: fgColor),
+                ),
                 if (widget.onDelete != null && widget.enabled) ...[
                   SizedBox(width: spacing.xs),
                   GestureDetector(
@@ -100,7 +101,7 @@ class _UiChipState extends State<UiChip> {
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Icon(
-                        const IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                        UiIcons.close,
                         size: 12,
                         color: fgColor.withValues(alpha: 0.6),
                       ),

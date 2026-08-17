@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed search bar with clear button and search icon.
@@ -92,15 +93,21 @@ class _UiSearchBarState extends State<UiSearchBar> {
       curve: theme.animationCurve,
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: spacing.radiusFull,
+        borderRadius: theme.components.controlBorderRadius,
         border: Border.all(color: borderColor, width: theme.borderWidth),
         boxShadow: shadows,
       ),
-      padding: EdgeInsets.symmetric(horizontal: spacing.md, vertical: spacing.xs),
+      padding: EdgeInsets.symmetric(
+        horizontal: spacing.md,
+        vertical: spacing.xs,
+      ),
+      constraints: BoxConstraints(
+        minHeight: theme.components.controlHeightMedium,
+      ),
       child: Row(
         children: [
           Icon(
-            const IconData(0xe567, fontFamily: 'MaterialIcons'),
+            UiIcons.search,
             size: 20,
             color: colors.onSurface.withValues(alpha: 0.4),
           ),
@@ -143,7 +150,7 @@ class _UiSearchBarState extends State<UiSearchBar> {
                 child: Padding(
                   padding: EdgeInsets.only(left: spacing.sm),
                   child: Icon(
-                    const IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                    UiIcons.close,
                     size: 18,
                     color: colors.onSurface.withValues(alpha: 0.5),
                   ),

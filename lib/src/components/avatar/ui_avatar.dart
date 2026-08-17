@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_color_scheme.dart';
 import '../../theme/ui_theme.dart';
 
@@ -62,10 +63,7 @@ class UiAvatar extends StatelessWidget {
     List<BoxShadow>? glow;
     if (theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.25),
-          blurRadius: 10,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.25), blurRadius: 10),
       ];
     }
 
@@ -95,7 +93,7 @@ class UiAvatar extends StatelessWidget {
     } else {
       child = Center(
         child: Icon(
-          icon ?? const IconData(0xE7FD, fontFamily: 'MaterialIcons'),
+          icon ?? UiIcons.userPlaceholder,
           size: diameter * 0.5,
           color: colors.onPrimary,
         ),
@@ -131,10 +129,7 @@ class UiAvatar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: statusColor,
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: colors.surface,
-                  width: 2,
-                ),
+                border: Border.all(color: colors.surface, width: 2),
               ),
             ),
           ),

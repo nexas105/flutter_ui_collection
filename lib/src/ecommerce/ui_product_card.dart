@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_ecommerce_models.dart';
 import 'ui_price_display.dart';
@@ -47,7 +48,8 @@ class _UiProductCardState extends State<UiProductCard> {
     final typo = theme.typography;
 
     final product = widget.product;
-    final hasSale = product.salePrice != null && product.salePrice! < product.price;
+    final hasSale =
+        product.salePrice != null && product.salePrice! < product.price;
 
     List<BoxShadow>? shadows;
     if (theme.useGlow && colors.glow != null) {
@@ -103,18 +105,21 @@ class _UiProductCardState extends State<UiProductCard> {
                 ),
                 // Content
                 Padding(
-                  padding: EdgeInsets.all(widget.compact ? spacing.sm : spacing.md),
+                  padding: EdgeInsets.all(
+                    widget.compact ? spacing.sm : spacing.md,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Product name
                       Text(
                         product.name,
-                        style: (widget.compact ? typo.bodySmall : typo.titleSmall)
-                            .copyWith(
-                          color: colors.onSurface,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style:
+                            (widget.compact ? typo.bodySmall : typo.titleSmall)
+                                .copyWith(
+                                  color: colors.onSurface,
+                                  fontWeight: FontWeight.w600,
+                                ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -187,7 +192,7 @@ class _ImageArea extends StatelessWidget {
               color: (colors.border as Color).withValues(alpha: 0.3),
               child: Center(
                 child: Icon(
-                  const IconData(0xe332, fontFamily: 'MaterialIcons'),
+                  UiIcons.image,
                   size: 48,
                   color: (colors.onSurface as Color).withValues(alpha: 0.2),
                 ),
@@ -290,12 +295,7 @@ class _RatingRow extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 1),
             child: Icon(
-              IconData(
-                i < rating.floor()
-                    ? 0xe5f9 // star filled
-                    : (i < rating ? 0xe5f9 : 0xe5fa), // star_border
-                fontFamily: 'MaterialIcons',
-              ),
+              i < rating ? UiIcons.star : UiIcons.starBorder,
               size: 14,
               color: i < rating ? colors.warning : colors.border,
             ),
@@ -360,11 +360,11 @@ class _AddToCartButtonState extends State<_AddToCartButton> {
         child: AnimatedContainer(
           duration: theme.animationDuration,
           curve: theme.animationCurve,
-          padding: EdgeInsets.symmetric(
-            vertical: spacing.sm,
-          ),
+          padding: EdgeInsets.symmetric(vertical: spacing.sm),
           decoration: BoxDecoration(
-            color: _pressed ? (bgColor as Color).withValues(alpha: 0.8) : bgColor,
+            color: _pressed
+                ? (bgColor as Color).withValues(alpha: 0.8)
+                : bgColor,
             borderRadius: spacing.radiusSm,
             boxShadow: glow,
           ),
@@ -373,7 +373,7 @@ class _AddToCartButtonState extends State<_AddToCartButton> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                const IconData(0xe854, fontFamily: 'MaterialIcons'), // shopping_cart
+                UiIcons.cart,
                 size: 16,
                 color: enabled ? colors.onPrimary : colors.onSurface,
               ),

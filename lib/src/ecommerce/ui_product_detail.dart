@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_ecommerce_models.dart';
 import 'ui_price_display.dart';
@@ -68,8 +69,7 @@ class UiProductDetail extends StatelessWidget {
                         ),
                       ),
                       child: Icon(
-                        const IconData(0xe5c4,
-                            fontFamily: 'MaterialIcons'), // arrow_back
+                        UiIcons.arrowBack,
                         size: 20,
                         color: colors.onSurface,
                       ),
@@ -190,12 +190,7 @@ class _RatingStars extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 2),
             child: Icon(
-              IconData(
-                i < rating.floor()
-                    ? 0xe5f9 // star filled
-                    : (i < rating ? 0xe5f9 : 0xe5fa), // star_border
-                fontFamily: 'MaterialIcons',
-              ),
+              i < rating ? UiIcons.star : UiIcons.starBorder,
               size: 16,
               color: i < rating ? colors.warning : colors.border,
             ),
@@ -237,8 +232,7 @@ class _AddToCartFullWidthState extends State<_AddToCartFullWidth> {
     final spacing = theme.spacing;
     final typo = theme.typography;
     final enabled = widget.inStock && widget.onTap != null;
-    final bgColor =
-        enabled ? colors.primary as Color : colors.border as Color;
+    final bgColor = enabled ? colors.primary as Color : colors.border as Color;
 
     List<BoxShadow>? glow;
     if (enabled && theme.useGlow && colors.glow != null) {
@@ -271,8 +265,7 @@ class _AddToCartFullWidthState extends State<_AddToCartFullWidth> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                const IconData(0xe854,
-                    fontFamily: 'MaterialIcons'), // shopping_cart
+                UiIcons.cart,
                 size: 20,
                 color: enabled ? colors.onPrimary : colors.onSurface,
               ),

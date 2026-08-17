@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -23,6 +25,10 @@ class UiDropdown<T> extends StatefulWidget {
     required this.onChanged,
     this.placeholder,
     this.selectedBuilder,
+    this.enabled = true,
+    this.loading = false,
+    this.errorText,
+    this.emptyText = 'No options available',
   });
 
   final T? value;
@@ -30,6 +36,10 @@ class UiDropdown<T> extends StatefulWidget {
   final Widget Function(T item) itemBuilder;
   final ValueChanged<T> onChanged;
   final String? placeholder;
+  final bool enabled;
+  final bool loading;
+  final String? errorText;
+  final String emptyText;
 
   /// Custom builder for the selected value display.
   /// If null, uses [itemBuilder].
@@ -44,7 +54,11 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
   OverlayEntry? _overlayEntry;
   bool _isOpen = false;
 
+  bool get _interactive =>
+      widget.enabled && !widget.loading && widget.items.isNotEmpty;
+
   void _toggle() {
+    if (!_interactive) return;
     if (_isOpen) {
       _close();
     } else {
@@ -53,6 +67,7 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
   }
 
   void _open() {
+    if (!_interactive) return;
     final theme = UiTheme.of(context);
     final renderBox = context.findRenderObject()! as RenderBox;
     final size = renderBox.size;
@@ -96,7 +111,11 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    final borderColor = _isOpen ? colors.primary : colors.border;
+    final borderColor = widget.errorText != null
+        ? colors.error
+        : _isOpen
+        ? colors.primary
+        : colors.border;
 
     List<BoxShadow>? shadows;
     if (_isOpen && theme.useGlow && colors.glow != null) {
@@ -106,7 +125,21 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
     }
 
     Widget display;
-    if (widget.value != null) {
+    if (widget.loading) {
+      display = Text(
+        'Loading…',
+        style: typo.bodyMedium.copyWith(
+          color: colors.onSurface.withValues(alpha: 0.65),
+        ),
+      );
+    } else if (widget.items.isEmpty) {
+      display = Text(
+        widget.emptyText,
+        style: typo.bodyMedium.copyWith(
+          color: colors.onSurface.withValues(alpha: 0.65),
+        ),
+      );
+    } else if (widget.value != null) {
       final builder = widget.selectedBuilder ?? widget.itemBuilder;
       display = DefaultTextStyle(
         style: typo.bodyMedium.copyWith(color: colors.onSurface),
@@ -121,12 +154,17 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
       );
     }
 
-    return CompositedTransformTarget(
+    final control = CompositedTransformTarget(
       link: _layerLink,
-      child: GestureDetector(
-        onTap: _toggle,
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
+      child: UiInteractiveRegion(
+        enabled: _interactive,
+        onActivate: _toggle,
+        semanticLabel: widget.placeholder,
+        button: true,
+        selected: _isOpen,
+        borderRadius: theme.components.controlBorderRadius,
+        child: GestureDetector(
+          onTap: _interactive ? _toggle : null,
           child: AnimatedContainer(
             duration: theme.animationDuration,
             curve: theme.animationCurve,
@@ -136,9 +174,12 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
             ),
             decoration: BoxDecoration(
               color: colors.surface,
-              borderRadius: spacing.radiusMd,
+              borderRadius: theme.components.controlBorderRadius,
               border: Border.all(color: borderColor, width: theme.borderWidth),
               boxShadow: shadows,
+            ),
+            constraints: BoxConstraints(
+              minHeight: theme.components.controlHeightMedium,
             ),
             child: Row(
               children: [
@@ -147,18 +188,34 @@ class _UiDropdownState<T> extends State<UiDropdown<T>> {
                 AnimatedRotation(
                   turns: _isOpen ? 0.5 : 0.0,
                   duration: theme.animationDuration,
-                  child: Text(
-                    '\u25BE',
-                    style: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                      fontSize: 14,
-                    ),
+                  child: Icon(
+                    theme.icons.resolve(UiIcons.expandMore),
+                    color: colors.onSurface.withValues(alpha: 0.5),
+                    size: theme.components.iconSizeSmall,
                   ),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+
+    return Opacity(
+      opacity: widget.enabled ? 1 : theme.components.disabledOpacity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          control,
+          if (widget.errorText != null) ...[
+            SizedBox(height: spacing.xs),
+            Text(
+              widget.errorText!,
+              style: typo.bodySmall.copyWith(color: colors.error),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -219,12 +276,15 @@ class _DropdownOverlay<T> extends StatelessWidget {
               constraints: const BoxConstraints(maxHeight: 250),
               decoration: BoxDecoration(
                 color: colors.surface,
-                borderRadius: spacing.radiusMd,
-                border: Border.all(color: colors.border, width: theme.borderWidth),
+                borderRadius: theme.components.cardBorderRadius,
+                border: Border.all(
+                  color: colors.border,
+                  width: theme.borderWidth,
+                ),
                 boxShadow: shadows,
               ),
               child: ClipRRect(
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.cardBorderRadius,
                 child: ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(vertical: spacing.xs),

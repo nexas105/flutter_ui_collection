@@ -24,6 +24,10 @@ class UiColorScheme {
     required this.shadow,
     this.glow,
     this.gradient,
+    this.canvas,
+    this.surfaceRaised,
+    this.surfaceOverlay,
+    this.onSurfaceMuted,
   });
 
   final Color primary;
@@ -49,6 +53,18 @@ class UiColorScheme {
   /// Optional gradient colors for advanced designs.
   final List<Color>? gradient;
 
+  /// Optional semantic surface levels. Each falls back to the legacy palette.
+  final Color? canvas;
+  final Color? surfaceRaised;
+  final Color? surfaceOverlay;
+  final Color? onSurfaceMuted;
+
+  Color get resolvedCanvas => canvas ?? background;
+  Color get resolvedSurfaceRaised => surfaceRaised ?? surface;
+  Color get resolvedSurfaceOverlay => surfaceOverlay ?? surface;
+  Color get resolvedOnSurfaceMuted =>
+      onSurfaceMuted ?? onSurface.withValues(alpha: 0.62);
+
   UiColorScheme copyWith({
     Color? primary,
     Color? onPrimary,
@@ -68,6 +84,10 @@ class UiColorScheme {
     Color? shadow,
     Color? glow,
     List<Color>? gradient,
+    Color? canvas,
+    Color? surfaceRaised,
+    Color? surfaceOverlay,
+    Color? onSurfaceMuted,
   }) {
     return UiColorScheme(
       primary: primary ?? this.primary,
@@ -88,6 +108,10 @@ class UiColorScheme {
       shadow: shadow ?? this.shadow,
       glow: glow ?? this.glow,
       gradient: gradient ?? this.gradient,
+      canvas: canvas ?? this.canvas,
+      surfaceRaised: surfaceRaised ?? this.surfaceRaised,
+      surfaceOverlay: surfaceOverlay ?? this.surfaceOverlay,
+      onSurfaceMuted: onSurfaceMuted ?? this.onSurfaceMuted,
     );
   }
 }

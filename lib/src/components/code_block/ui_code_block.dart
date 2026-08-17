@@ -1,6 +1,7 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed code block with monospace font and copy button.
@@ -78,12 +79,16 @@ class _UiCodeBlockState extends State<UiCodeBlock> {
           if (widget.language != null || widget.showCopyButton)
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: spacing.sm, vertical: spacing.xs),
+                horizontal: spacing.sm,
+                vertical: spacing.xs,
+              ),
               decoration: BoxDecoration(
                 color: colors.border.withValues(alpha: 0.3),
                 border: Border(
                   bottom: BorderSide(
-                      color: colors.border, width: theme.borderWidth),
+                    color: colors.border,
+                    width: theme.borderWidth,
+                  ),
                 ),
               ),
               child: Row(
@@ -105,11 +110,7 @@ class _UiCodeBlockState extends State<UiCodeBlock> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              _copied
-                                  ? const IconData(0xe156,
-                                      fontFamily: 'MaterialIcons')
-                                  : const IconData(0xe190,
-                                      fontFamily: 'MaterialIcons'),
+                              _copied ? UiIcons.check : UiIcons.copy,
                               size: 14,
                               color: _copied
                                   ? colors.success
@@ -153,8 +154,9 @@ class _UiCodeBlockState extends State<UiCodeBlock> {
                               Text(
                                 '${i + 1}',
                                 style: codeStyle.copyWith(
-                                  color:
-                                      colors.onSurface.withValues(alpha: 0.3),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.3,
+                                  ),
                                 ),
                               ),
                           ],

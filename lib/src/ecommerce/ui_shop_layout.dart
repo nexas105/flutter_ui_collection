@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_cart_badge.dart';
 import 'ui_ecommerce_models.dart';
@@ -78,10 +79,7 @@ class UiShopLayout extends StatelessWidget {
                 child: _SearchBar(onSearch: onSearch, theme: theme),
               ),
               SizedBox(width: spacing.md),
-              UiCartBadge(
-                count: cartItemCount,
-                onTap: onCartTap,
-              ),
+              UiCartBadge(count: cartItemCount, onTap: onCartTap),
             ],
           ),
         ),
@@ -128,10 +126,7 @@ class UiShopLayout extends StatelessWidget {
 }
 
 class _SearchBar extends StatefulWidget {
-  const _SearchBar({
-    required this.onSearch,
-    required this.theme,
-  });
+  const _SearchBar({required this.onSearch, required this.theme});
 
   final ValueChanged<String>? onSearch;
   final dynamic theme;
@@ -177,7 +172,7 @@ class _SearchBarState extends State<_SearchBar> {
       child: Row(
         children: [
           Icon(
-            const IconData(0xe567, fontFamily: 'MaterialIcons'), // search
+            UiIcons.search,
             size: 18,
             color: (colors.onSurface as Color).withValues(alpha: 0.5),
           ),
@@ -190,8 +185,7 @@ class _SearchBarState extends State<_SearchBar> {
                   Text(
                     'Search products...',
                     style: (typo.bodyMedium as TextStyle).copyWith(
-                      color: (colors.onSurface as Color)
-                          .withValues(alpha: 0.4),
+                      color: (colors.onSurface as Color).withValues(alpha: 0.4),
                     ),
                   ),
                 EditableText(
@@ -238,8 +232,9 @@ class _CategoryChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: MouseRegion(
-        cursor:
-            onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        cursor: onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 import '../../theme/ui_theme_data.dart';
 
@@ -54,6 +55,7 @@ class _UiPopoverMenuState extends State<UiPopoverMenu> {
   final LayerLink _link = LayerLink();
   OverlayEntry? _entry;
   bool _open = false;
+  final FocusNode _triggerFocusNode = FocusNode();
 
   void _toggle() {
     if (_open) {
@@ -90,11 +92,13 @@ class _UiPopoverMenuState extends State<UiPopoverMenu> {
     _entry?.remove();
     _entry = null;
     if (mounted) setState(() => _open = false);
+    _triggerFocusNode.requestFocus();
   }
 
   @override
   void dispose() {
     _entry?.remove();
+    _triggerFocusNode.dispose();
     super.dispose();
   }
 
@@ -102,12 +106,13 @@ class _UiPopoverMenuState extends State<UiPopoverMenu> {
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _link,
-      child: GestureDetector(
-        onTap: _toggle,
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: widget.child,
-        ),
+      child: UiInteractiveRegion(
+        enabled: true,
+        onActivate: _toggle,
+        button: true,
+        selected: _open,
+        focusNode: _triggerFocusNode,
+        child: GestureDetector(onTap: _toggle, child: widget.child),
       ),
     );
   }
@@ -139,9 +144,17 @@ class _PopoverOverlay extends StatelessWidget {
 
     List<BoxShadow>? shadows;
     if (theme.useGlow && colors.glow != null) {
-      shadows = [BoxShadow(color: colors.glow!.withValues(alpha: 0.15), blurRadius: 16)];
+      shadows = [
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.15), blurRadius: 16),
+      ];
     } else if (theme.useShadows) {
-      shadows = [BoxShadow(color: colors.shadow, blurRadius: 16, offset: const Offset(0, 4))];
+      shadows = [
+        BoxShadow(
+          color: colors.shadow,
+          blurRadius: 16,
+          offset: const Offset(0, 4),
+        ),
+      ];
     }
 
     return GestureDetector(
@@ -158,13 +171,16 @@ class _PopoverOverlay extends StatelessWidget {
             child: Container(
               constraints: const BoxConstraints(minWidth: 160, maxWidth: 280),
               decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: spacing.radiusMd,
-                border: Border.all(color: colors.border, width: theme.borderWidth),
+                color: colors.resolvedSurfaceOverlay,
+                borderRadius: theme.components.cardBorderRadius,
+                border: Border.all(
+                  color: colors.border,
+                  width: theme.borderWidth,
+                ),
                 boxShadow: shadows,
               ),
               child: ClipRRect(
-                borderRadius: spacing.radiusMd,
+                borderRadius: theme.components.cardBorderRadius,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -172,10 +188,14 @@ class _PopoverOverlay extends StatelessWidget {
                       _MenuItem(
                         item: items[i],
                         theme: theme,
+                        autofocus: i == 0,
                         onTap: items[i].enabled ? () => onSelected(i) : null,
                       ),
                       if (dividerAfter.contains(i))
-                        Container(height: theme.borderWidth, color: colors.border),
+                        Container(
+                          height: theme.borderWidth,
+                          color: colors.border,
+                        ),
                     ],
                   ],
                 ),
@@ -189,9 +209,15 @@ class _PopoverOverlay extends StatelessWidget {
 }
 
 class _MenuItem extends StatefulWidget {
-  const _MenuItem({required this.item, required this.theme, this.onTap});
+  const _MenuItem({
+    required this.item,
+    required this.theme,
+    required this.autofocus,
+    this.onTap,
+  });
   final UiPopoverItem item;
   final UiThemeData theme;
+  final bool autofocus;
   final VoidCallback? onTap;
 
   @override
@@ -210,27 +236,52 @@ class _MenuItemState extends State<_MenuItem> {
 
     final fgColor = item.destructive
         ? colors.error
-        : (item.enabled ? colors.onSurface : colors.onSurface.withValues(alpha: 0.4));
+        : (item.enabled
+              ? colors.onSurface
+              : colors.onSurface.withValues(alpha: 0.4));
 
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: MouseRegion(
-        cursor: item.enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+    return UiInteractiveRegion(
+      enabled: item.enabled,
+      onActivate: widget.onTap,
+      semanticLabel: item.label,
+      button: true,
+      autofocus: widget.autofocus,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: MouseRegion(
         onEnter: (_) => setState(() => _hovered = true),
         onExit: (_) => setState(() => _hovered = false),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: spacing.md, vertical: spacing.sm),
-          color: _hovered ? colors.onSurface.withValues(alpha: 0.06) : const Color(0x00000000),
+          constraints: BoxConstraints(
+            minHeight: widget.theme.components.controlHeightMedium,
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: spacing.md,
+            vertical: spacing.sm,
+          ),
+          color: _hovered
+              ? colors.onSurface.withValues(alpha: 0.06)
+              : const Color(0x00000000),
           child: Row(
             children: [
               if (item.icon != null) ...[
-                Icon(item.icon, size: 18, color: fgColor),
+                Icon(
+                  widget.theme.icons.resolve(item.icon!),
+                  size: widget.theme.components.iconSizeMedium,
+                  color: fgColor,
+                ),
                 SizedBox(width: spacing.sm),
               ],
-              Expanded(child: Text(item.label, style: typo.bodyMedium.copyWith(color: fgColor))),
+              Expanded(
+                child: Text(
+                  item.label,
+                  style: typo.bodyMedium.copyWith(color: fgColor),
+                ),
+              ),
             ],
           ),
         ),
+      ),
       ),
     );
   }

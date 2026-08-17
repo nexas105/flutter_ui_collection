@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_cart_controller.dart';
 import 'ui_cart_item_tile.dart';
@@ -40,9 +41,7 @@ class UiCartScreen extends StatelessWidget {
       listenable: controller,
       builder: (context, _) {
         if (controller.isEmpty) {
-          return _EmptyCart(
-            onContinueShopping: onContinueShopping,
-          );
+          return _EmptyCart(onContinueShopping: onContinueShopping);
         }
 
         final theme = UiTheme.of(context);
@@ -112,8 +111,7 @@ class _EmptyCart extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            const IconData(0xe854,
-                fontFamily: 'MaterialIcons'), // shopping_cart
+            UiIcons.cart,
             size: 64,
             color: colors.onSurface.withValues(alpha: 0.2),
           ),
@@ -141,9 +139,7 @@ class _EmptyCart extends StatelessWidget {
                   ),
                   child: Text(
                     'Continue Shopping',
-                    style: typo.labelLarge.copyWith(
-                      color: colors.onPrimary,
-                    ),
+                    style: typo.labelLarge.copyWith(color: colors.onPrimary),
                   ),
                 ),
               ),

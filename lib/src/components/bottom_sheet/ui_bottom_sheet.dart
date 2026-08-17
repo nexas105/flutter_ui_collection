@@ -51,13 +51,13 @@ class UiBottomSheet extends StatelessWidget {
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 1),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: theme.animationCurve,
-            )),
+            position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                .animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: theme.animationCurve,
+                  ),
+                ),
             child: child,
           );
         },
@@ -94,48 +94,56 @@ class UiBottomSheet extends StatelessWidget {
       ];
     }
 
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: mediaQuery.size.height * resolvedMaxHeight,
-        ),
-        child: Container(
-          width: double.infinity,
-          padding: padding ?? spacing.paddingLg,
-          decoration: BoxDecoration(
-            color: colors.surface,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(spacing.borderRadiusXl),
-              topRight: Radius.circular(spacing.borderRadiusXl),
-            ),
-            border: Border.all(color: colors.border, width: theme.borderWidth),
-            boxShadow: shadows,
+    return Semantics(
+      scopesRoute: true,
+      namesRoute: title != null,
+      label: title,
+      explicitChildNodes: true,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: mediaQuery.size.height * resolvedMaxHeight,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (showHandle)
-                Padding(
-                  padding: EdgeInsets.only(bottom: spacing.md),
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: colors.onSurface.withValues(alpha: 0.2),
-                      borderRadius: spacing.radiusFull,
+          child: Container(
+            width: double.infinity,
+            padding: padding ?? spacing.paddingLg,
+            decoration: BoxDecoration(
+              color: colors.resolvedSurfaceOverlay,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(spacing.borderRadiusXl),
+                topRight: Radius.circular(spacing.borderRadiusXl),
+              ),
+              border: shadows == null
+                  ? Border.all(color: colors.border, width: theme.borderWidth)
+                  : null,
+              boxShadow: shadows,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (showHandle)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: spacing.md),
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: colors.onSurface.withValues(alpha: 0.2),
+                        borderRadius: spacing.radiusFull,
+                      ),
                     ),
                   ),
-                ),
-              if (title != null) ...[
-                Text(
-                  title!,
-                  style: typo.titleLarge.copyWith(color: colors.onSurface),
-                ),
-                SizedBox(height: spacing.md),
+                if (title != null) ...[
+                  Text(
+                    title!,
+                    style: typo.titleLarge.copyWith(color: colors.onSurface),
+                  ),
+                  SizedBox(height: spacing.md),
+                ],
+                Flexible(child: child),
               ],
-              Flexible(child: child),
-            ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A themed image widget that opens a fullscreen zoomable dialog on tap.
@@ -58,7 +59,7 @@ class UiImageViewer extends StatelessWidget {
                 color: theme.colorScheme.surface,
                 child: Center(
                   child: Icon(
-                    const IconData(0xe332, fontFamily: 'MaterialIcons'),
+                    UiIcons.image,
                     size: 32,
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
                   ),
@@ -74,10 +75,7 @@ class UiImageViewer extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => _openFullscreen(context),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.zoomIn,
-        child: imageWidget,
-      ),
+      child: MouseRegion(cursor: SystemMouseCursors.zoomIn, child: imageWidget),
     );
   }
 
@@ -142,10 +140,7 @@ class _FullscreenViewState extends State<_FullscreenView> {
       minScale: 0.5,
       maxScale: 4.0,
       child: Center(
-        child: Image(
-          image: widget.image,
-          fit: BoxFit.contain,
-        ),
+        child: Image(image: widget.image, fit: BoxFit.contain),
       ),
     );
 
@@ -176,7 +171,7 @@ class _FullscreenViewState extends State<_FullscreenView> {
                   ),
                   child: const Center(
                     child: Icon(
-                      IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                      UiIcons.close,
                       size: 20,
                       color: Color(0xFFFFFFFF),
                     ),

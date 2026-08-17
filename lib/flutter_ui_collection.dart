@@ -1,5 +1,7 @@
 // Theme system
 export 'src/theme/ui_color_scheme.dart';
+export 'src/theme/ui_component_tokens.dart';
+export 'src/theme/ui_icon_set.dart';
 export 'src/theme/ui_spacing.dart';
 export 'src/theme/ui_theme.dart';
 export 'src/theme/ui_theme_data.dart';
@@ -14,6 +16,9 @@ export 'src/responsive/ui_responsive.dart';
 
 // Icons
 export 'src/icons/ui_icons.dart';
+
+// Interaction
+export 'src/interaction/ui_interactive_region.dart';
 
 // Design presets
 export 'src/designs/neon/neon_theme.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A numeric stepper input with increment and decrement buttons.
@@ -54,13 +55,17 @@ class _UiNumberInputState extends State<UiNumberInput> {
   void _decrement() {
     if (!_canDecrement) return;
     final next = widget.value - widget.step;
-    widget.onChanged(widget.min != null && next < widget.min! ? widget.min! : next);
+    widget.onChanged(
+      widget.min != null && next < widget.min! ? widget.min! : next,
+    );
   }
 
   void _increment() {
     if (!_canIncrement) return;
     final next = widget.value + widget.step;
-    widget.onChanged(widget.max != null && next > widget.max! ? widget.max! : next);
+    widget.onChanged(
+      widget.max != null && next > widget.max! ? widget.max! : next,
+    );
   }
 
   @override
@@ -87,11 +92,10 @@ class _UiNumberInputState extends State<UiNumberInput> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _StepperButton(
-                icon: const IconData(0xe15b, fontFamily: 'MaterialIcons'), // remove
+                icon: UiIcons.decrement,
                 enabled: _canDecrement,
                 hovered: _decrementHovered,
-                onHoverChanged: (v) =>
-                    setState(() => _decrementHovered = v),
+                onHoverChanged: (v) => setState(() => _decrementHovered = v),
                 onTap: _decrement,
               ),
               SizedBox(width: spacing.sm),
@@ -122,11 +126,10 @@ class _UiNumberInputState extends State<UiNumberInput> {
               ),
               SizedBox(width: spacing.sm),
               _StepperButton(
-                icon: const IconData(0xe145, fontFamily: 'MaterialIcons'), // add
+                icon: UiIcons.increment,
                 enabled: _canIncrement,
                 hovered: _incrementHovered,
-                onHoverChanged: (v) =>
-                    setState(() => _incrementHovered = v),
+                onHoverChanged: (v) => setState(() => _incrementHovered = v),
                 onTap: _increment,
               ),
             ],
@@ -161,20 +164,19 @@ class _StepperButton extends StatelessWidget {
     final bgColor = !enabled
         ? colors.surface.withValues(alpha: 0.5)
         : hovered
-            ? colors.primary.withValues(alpha: 0.15)
-            : colors.surface;
+        ? colors.primary.withValues(alpha: 0.15)
+        : colors.surface;
     final fgColor = !enabled
         ? colors.onSurface.withValues(alpha: 0.3)
         : colors.primary;
-    final borderColor = !enabled ? colors.border.withValues(alpha: 0.4) : colors.primary;
+    final borderColor = !enabled
+        ? colors.border.withValues(alpha: 0.4)
+        : colors.primary;
 
     List<BoxShadow>? glow;
     if (enabled && hovered && theme.useGlow && colors.glow != null) {
       glow = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.2),
-          blurRadius: 8,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.2), blurRadius: 8),
       ];
     }
 

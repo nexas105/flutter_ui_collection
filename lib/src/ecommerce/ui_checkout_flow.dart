@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
 import '../theme/ui_theme.dart';
 import 'ui_cart_controller.dart';
 
@@ -14,11 +15,7 @@ import 'ui_cart_controller.dart';
 /// )
 /// ```
 class UiCheckoutFlow extends StatefulWidget {
-  const UiCheckoutFlow({
-    super.key,
-    required this.controller,
-    this.onComplete,
-  });
+  const UiCheckoutFlow({super.key, required this.controller, this.onComplete});
 
   /// Cart controller used to read totals for the review step.
   final UiCartController controller;
@@ -122,9 +119,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
                   child: Text(
                     '${i + 1}',
                     style: typo.labelMedium.copyWith(
-                      color: i <= _step
-                          ? colors.onPrimary
-                          : colors.onSurface,
+                      color: i <= _step ? colors.onPrimary : colors.onSurface,
                     ),
                   ),
                 ),
@@ -260,11 +255,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
     final typo = theme.typography;
 
     const labels = ['Credit / Debit Card', 'PayPal', 'Bank Transfer'];
-    const icons = [
-      IconData(0xe870, fontFamily: 'MaterialIcons'), // credit_card
-      IconData(0xe8a7, fontFamily: 'MaterialIcons'), // payment
-      IconData(0xe084, fontFamily: 'MaterialIcons'), // account_balance
-    ];
+    const icons = [UiIcons.creditCard, UiIcons.payment, UiIcons.bank];
 
     return Column(
       children: [
@@ -280,9 +271,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
                   color: colors.surface,
                   borderRadius: spacing.radiusMd,
                   border: Border.all(
-                    color: _paymentMethod == i
-                        ? colors.primary
-                        : colors.border,
+                    color: _paymentMethod == i ? colors.primary : colors.border,
                     width: theme.borderWidth,
                   ),
                 ),
@@ -315,11 +304,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
                           : null,
                     ),
                     SizedBox(width: spacing.md),
-                    Icon(
-                      icons[i],
-                      size: 20,
-                      color: colors.onSurface,
-                    ),
+                    Icon(icons[i], size: 20, color: colors.onSurface),
                     SizedBox(width: spacing.sm),
                     Text(
                       labels[i],
@@ -354,10 +339,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
           decoration: BoxDecoration(
             color: colors.surface,
             borderRadius: spacing.radiusMd,
-            border: Border.all(
-              color: colors.border,
-              width: theme.borderWidth,
-            ),
+            border: Border.all(color: colors.border, width: theme.borderWidth),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,16 +360,14 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
               SizedBox(height: spacing.xs),
               _ReviewRow(
                 label: 'Subtotal',
-                value:
-                    '${cart.currency}${cart.subtotal.toStringAsFixed(2)}',
+                value: '${cart.currency}${cart.subtotal.toStringAsFixed(2)}',
                 theme: theme,
               ),
               if (cart.shipping > 0) ...[
                 SizedBox(height: spacing.xs),
                 _ReviewRow(
                   label: 'Shipping',
-                  value:
-                      '${cart.currency}${cart.shipping.toStringAsFixed(2)}',
+                  value: '${cart.currency}${cart.shipping.toStringAsFixed(2)}',
                   theme: theme,
                 ),
               ],
@@ -395,8 +375,7 @@ class _UiCheckoutFlowState extends State<UiCheckoutFlow> {
                 SizedBox(height: spacing.xs),
                 _ReviewRow(
                   label: 'Tax',
-                  value:
-                      '${cart.currency}${cart.tax.toStringAsFixed(2)}',
+                  value: '${cart.currency}${cart.tax.toStringAsFixed(2)}',
                   theme: theme,
                 ),
               ],
@@ -537,18 +516,13 @@ class _NavButtonState extends State<_NavButton> {
             borderRadius: spacing.radiusMd,
             border: widget.isPrimary
                 ? null
-                : Border.all(
-                    color: colors.border,
-                    width: theme.borderWidth,
-                  ),
+                : Border.all(color: colors.border, width: theme.borderWidth),
             boxShadow: glow,
           ),
           alignment: Alignment.center,
           child: Text(
             widget.label,
-            style: (typo.labelLarge as TextStyle).copyWith(
-              color: fgColor,
-            ),
+            style: (typo.labelLarge as TextStyle).copyWith(color: fgColor),
           ),
         ),
       ),

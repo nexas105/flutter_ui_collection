@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// Delivery status of a chat message.
@@ -93,13 +94,13 @@ class UiChatBubble extends StatelessWidget {
       final Color iconColor;
       switch (status!) {
         case UiChatBubbleStatus.sent:
-          iconData = const IconData(0xe156, fontFamily: 'MaterialIcons');
+          iconData = UiIcons.check;
           iconColor = fgColor.withValues(alpha: 0.5);
         case UiChatBubbleStatus.delivered:
-          iconData = const IconData(0xe834, fontFamily: 'MaterialIcons');
+          iconData = UiIcons.circle;
           iconColor = fgColor.withValues(alpha: 0.7);
         case UiChatBubbleStatus.read:
-          iconData = const IconData(0xe834, fontFamily: 'MaterialIcons');
+          iconData = UiIcons.circle;
           iconColor = colors.success;
       }
       statusIcon = Icon(iconData, size: 12, color: iconColor);
@@ -154,15 +155,9 @@ class UiChatBubble extends StatelessWidget {
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (!isMe && avatar != null) ...[
-          avatar!,
-          SizedBox(width: spacing.sm),
-        ],
+        if (!isMe && avatar != null) ...[avatar!, SizedBox(width: spacing.sm)],
         Flexible(child: bubble),
-        if (isMe && avatar != null) ...[
-          SizedBox(width: spacing.sm),
-          avatar!,
-        ],
+        if (isMe && avatar != null) ...[SizedBox(width: spacing.sm), avatar!],
       ],
     );
 

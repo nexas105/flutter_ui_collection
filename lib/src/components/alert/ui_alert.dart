@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// Alert severity determines color and icon.
@@ -50,16 +51,16 @@ class UiAlert extends StatelessWidget {
     switch (type) {
       case UiAlertType.info:
         accentColor = colors.primary;
-        icon = const IconData(0xe335, fontFamily: 'MaterialIcons');
+        icon = UiIcons.info;
       case UiAlertType.success:
         accentColor = colors.success;
-        icon = const IconData(0xe156, fontFamily: 'MaterialIcons');
+        icon = UiIcons.check;
       case UiAlertType.warning:
         accentColor = colors.warning;
-        icon = const IconData(0xe645, fontFamily: 'MaterialIcons');
+        icon = UiIcons.warning;
       case UiAlertType.error:
         accentColor = colors.error;
-        icon = const IconData(0xe237, fontFamily: 'MaterialIcons');
+        icon = UiIcons.error;
     }
 
     return Container(
@@ -67,7 +68,10 @@ class UiAlert extends StatelessWidget {
       decoration: BoxDecoration(
         color: accentColor.withValues(alpha: 0.08),
         borderRadius: spacing.radiusMd,
-        border: Border.all(color: accentColor.withValues(alpha: 0.3), width: theme.borderWidth),
+        border: Border.all(
+          color: accentColor.withValues(alpha: 0.3),
+          width: theme.borderWidth,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,9 +86,15 @@ class UiAlert extends StatelessWidget {
                 if (title != null)
                   Padding(
                     padding: EdgeInsets.only(bottom: spacing.xs),
-                    child: Text(title!, style: typo.titleSmall.copyWith(color: accentColor)),
+                    child: Text(
+                      title!,
+                      style: typo.titleSmall.copyWith(color: accentColor),
+                    ),
                   ),
-                Text(message, style: typo.bodyMedium.copyWith(color: colors.onSurface)),
+                Text(
+                  message,
+                  style: typo.bodyMedium.copyWith(color: colors.onSurface),
+                ),
                 if (action != null)
                   Padding(
                     padding: EdgeInsets.only(top: spacing.sm),
@@ -101,7 +111,7 @@ class UiAlert extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: spacing.sm),
                   child: Icon(
-                    const IconData(0xe16a, fontFamily: 'MaterialIcons'),
+                    UiIcons.close,
                     size: 16,
                     color: colors.onSurface.withValues(alpha: 0.4),
                   ),

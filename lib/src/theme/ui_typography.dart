@@ -45,118 +45,120 @@ class UiTypography {
     required Color color,
     double baseSize = 14.0,
     FontWeight baseWeight = FontWeight.w400,
+    String? displayFontFamily,
+    List<String>? fontFamilyFallback,
   }) {
+    final resolvedFallback =
+        fontFamilyFallback ??
+        (fontFamily == 'monospace'
+            ? const ['SFMono-Regular', 'Menlo', 'Consolas']
+            : const ['SF Pro Text', 'Segoe UI', 'Roboto']);
+
+    TextStyle style({
+      required double size,
+      required FontWeight weight,
+      required double height,
+      double? letterSpacing,
+      bool display = false,
+    }) {
+      return TextStyle(
+        fontFamily: display ? displayFontFamily ?? fontFamily : fontFamily,
+        fontFamilyFallback: resolvedFallback,
+        fontSize: size,
+        fontWeight: weight,
+        height: height,
+        color: color,
+        letterSpacing: letterSpacing,
+      );
+    }
+
     return UiTypography(
-      displayLarge: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 4.0,
-        fontWeight: FontWeight.w300,
-        color: color,
+      displayLarge: style(
+        size: baseSize * 4.0,
+        weight: FontWeight.w600,
+        height: 1.02,
         letterSpacing: -1.5,
+        display: true,
       ),
-      displayMedium: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 3.5,
-        fontWeight: FontWeight.w300,
-        color: color,
-        letterSpacing: -0.5,
+      displayMedium: style(
+        size: baseSize * 3.5,
+        weight: FontWeight.w600,
+        height: 1.05,
+        letterSpacing: -1.0,
+        display: true,
       ),
-      displaySmall: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 3.0,
-        fontWeight: FontWeight.w400,
-        color: color,
+      displaySmall: style(
+        size: baseSize * 3.0,
+        weight: FontWeight.w600,
+        height: 1.08,
+        letterSpacing: -0.7,
+        display: true,
       ),
-      headlineLarge: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 2.25,
-        fontWeight: FontWeight.w600,
-        color: color,
-        letterSpacing: 0.25,
+      headlineLarge: style(
+        size: baseSize * 2.25,
+        weight: FontWeight.w600,
+        height: 1.15,
+        letterSpacing: -0.4,
+        display: true,
       ),
-      headlineMedium: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 2.0,
-        fontWeight: FontWeight.w600,
-        color: color,
+      headlineMedium: style(
+        size: baseSize * 2.0,
+        weight: FontWeight.w600,
+        height: 1.18,
+        letterSpacing: -0.3,
+        display: true,
       ),
-      headlineSmall: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 1.7,
-        fontWeight: FontWeight.w600,
-        color: color,
+      headlineSmall: style(
+        size: baseSize * 1.7,
+        weight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: -0.2,
+        display: true,
       ),
-      titleLarge: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 1.55,
-        fontWeight: FontWeight.w500,
-        color: color,
-        letterSpacing: 0.15,
+      titleLarge: style(
+        size: baseSize * 1.55,
+        weight: FontWeight.w600,
+        height: 1.25,
+        letterSpacing: -0.15,
       ),
-      titleMedium: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 1.15,
-        fontWeight: FontWeight.w500,
-        color: color,
-        letterSpacing: 0.15,
+      titleMedium: style(
+        size: baseSize * 1.15,
+        weight: FontWeight.w600,
+        height: 1.3,
       ),
-      titleSmall: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize,
-        fontWeight: FontWeight.w500,
-        color: color,
+      titleSmall: style(size: baseSize, weight: FontWeight.w600, height: 1.35),
+      bodyLarge: style(size: baseSize * 1.15, weight: baseWeight, height: 1.5),
+      bodyMedium: style(size: baseSize, weight: baseWeight, height: 1.5),
+      bodySmall: style(
+        size: baseSize * 0.85,
+        weight: baseWeight,
+        height: 1.45,
         letterSpacing: 0.1,
       ),
-      bodyLarge: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 1.15,
-        fontWeight: baseWeight,
-        color: color,
-        letterSpacing: 0.5,
+      labelLarge: style(
+        size: baseSize,
+        weight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: 0.1,
       ),
-      bodyMedium: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize,
-        fontWeight: baseWeight,
-        color: color,
-        letterSpacing: 0.25,
+      labelMedium: style(
+        size: baseSize * 0.85,
+        weight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: 0.15,
       ),
-      bodySmall: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 0.85,
-        fontWeight: baseWeight,
-        color: color,
-        letterSpacing: 0.4,
-      ),
-      labelLarge: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize,
-        fontWeight: FontWeight.w600,
-        color: color,
-        letterSpacing: 1.25,
-      ),
-      labelMedium: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 0.85,
-        fontWeight: FontWeight.w600,
-        color: color,
-        letterSpacing: 1.0,
-      ),
-      labelSmall: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: baseSize * 0.75,
-        fontWeight: FontWeight.w600,
-        color: color,
-        letterSpacing: 1.5,
+      labelSmall: style(
+        size: baseSize * 0.75,
+        weight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: 0.2,
       ),
     );
   }
 
   UiTypography apply({Color? color, String? fontFamily}) {
-    TextStyle applyOverrides(TextStyle style) => style.copyWith(
-          color: color,
-          fontFamily: fontFamily,
-        );
+    TextStyle applyOverrides(TextStyle style) =>
+        style.copyWith(color: color, fontFamily: fontFamily);
 
     return UiTypography(
       displayLarge: applyOverrides(displayLarge),

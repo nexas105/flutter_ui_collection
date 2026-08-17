@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 
 /// An iOS-style segmented control with an animated sliding highlight.
@@ -47,10 +48,7 @@ class _UiSegmentedControlState extends State<UiSegmentedControl> {
     List<BoxShadow>? highlightShadows;
     if (theme.useGlow && colors.glow != null) {
       highlightShadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.25),
-          blurRadius: 8,
-        ),
+        BoxShadow(color: colors.glow!.withValues(alpha: 0.25), blurRadius: 8),
       ];
     } else if (theme.useShadows) {
       highlightShadows = [
@@ -100,32 +98,42 @@ class _UiSegmentedControlState extends State<UiSegmentedControl> {
               ),
               // Segments
               Row(
-                mainAxisSize:
-                    widget.expand ? MainAxisSize.max : MainAxisSize.min,
+                mainAxisSize: widget.expand
+                    ? MainAxisSize.max
+                    : MainAxisSize.min,
                 children: List.generate(segmentCount, (index) {
                   final isSelected = index == widget.selectedIndex;
                   return Expanded(
                     flex: widget.expand ? 1 : 0,
-                    child: GestureDetector(
-                      onTap: () => widget.onChanged(index),
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Container(
-                          color: const Color(0x00000000),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: spacing.md,
-                            vertical: spacing.sm,
-                          ),
-                          child: Center(
-                            child: AnimatedDefaultTextStyle(
-                              duration: theme.animationDuration,
-                              curve: theme.animationCurve,
-                              style: typo.labelMedium.copyWith(
-                                color: isSelected
-                                    ? colors.onPrimary
-                                    : colors.onSurface,
+                    child: UiInteractiveRegion(
+                      enabled: true,
+                      onActivate: () => widget.onChanged(index),
+                      semanticLabel: widget.segments[index],
+                      button: true,
+                      selected: isSelected,
+                      borderRadius: BorderRadius.circular(
+                        spacing.borderRadiusMd - 2,
+                      ),
+                      child: GestureDetector(
+                        onTap: () => widget.onChanged(index),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(minHeight: 44),
+                          child: Container(
+                            color: const Color(0x00000000),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: spacing.md,
+                            ),
+                            child: Center(
+                              child: AnimatedDefaultTextStyle(
+                                duration: theme.animationDuration,
+                                curve: theme.animationCurve,
+                                style: typo.labelMedium.copyWith(
+                                  color: isSelected
+                                      ? colors.onPrimary
+                                      : colors.onSurface,
+                                ),
+                                child: Text(widget.segments[index]),
                               ),
-                              child: Text(widget.segments[index]),
                             ),
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../interaction/ui_interactive_region.dart';
 import '../../theme/ui_theme.dart';
 
 /// A single bottom navigation item.
@@ -51,21 +52,31 @@ class UiBottomNav extends StatelessWidget {
     final typo = theme.typography;
 
     return Container(
+      constraints: BoxConstraints(
+        minHeight: theme.components.controlHeightLarge + spacing.sm,
+      ),
       decoration: BoxDecoration(
-        color: colors.surface,
-        border: Border(top: BorderSide(color: colors.border, width: theme.borderWidth)),
+        color: colors.resolvedSurfaceRaised,
+        border: Border(
+          top: BorderSide(color: colors.border, width: theme.borderWidth),
+        ),
       ),
       padding: EdgeInsets.symmetric(vertical: spacing.xs),
       child: Row(
         children: [
           for (int i = 0; i < items.length; i++)
             Expanded(
-              child: GestureDetector(
-                onTap: () => onChanged(i),
-                behavior: HitTestBehavior.opaque,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
+              child: UiInteractiveRegion(
+                enabled: true,
+                onActivate: () => onChanged(i),
+                semanticLabel: items[i].label,
+                button: true,
+                selected: i == selectedIndex,
+                child: GestureDetector(
+                  onTap: () => onChanged(i),
+                  behavior: HitTestBehavior.opaque,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Stack(
@@ -74,15 +85,27 @@ class UiBottomNav extends StatelessWidget {
                           AnimatedContainer(
                             duration: theme.animationDuration,
                             padding: EdgeInsets.all(spacing.xs),
-                            decoration: i == selectedIndex && theme.useGlow && colors.glow != null
-                                ? BoxDecoration(boxShadow: [
-                                    BoxShadow(color: colors.glow!.withValues(alpha: 0.3), blurRadius: 10),
-                                  ])
+                            decoration:
+                                i == selectedIndex &&
+                                    theme.useGlow &&
+                                    colors.glow != null
+                                ? BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: colors.glow!.withValues(
+                                          alpha: 0.3,
+                                        ),
+                                        blurRadius: 10,
+                                      ),
+                                    ],
+                                  )
                                 : null,
                             child: Icon(
-                              items[i].icon,
-                              size: 24,
-                              color: i == selectedIndex ? colors.primary : colors.onSurface.withValues(alpha: 0.5),
+                              theme.icons.resolve(items[i].icon),
+                              size: theme.components.iconSizeLarge,
+                              color: i == selectedIndex
+                                  ? colors.primary
+                                  : colors.resolvedOnSurfaceMuted,
                             ),
                           ),
                           if (items[i].badge != null && items[i].badge! > 0)
@@ -90,15 +113,23 @@ class UiBottomNav extends StatelessWidget {
                               right: -4,
                               top: -2,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 1,
+                                ),
                                 decoration: BoxDecoration(
                                   color: colors.error,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 constraints: const BoxConstraints(minWidth: 16),
                                 child: Text(
-                                  items[i].badge! > 99 ? '99+' : '${items[i].badge}',
-                                  style: typo.labelSmall.copyWith(color: colors.onError, fontSize: 9),
+                                  items[i].badge! > 99
+                                      ? '99+'
+                                      : '${items[i].badge}',
+                                  style: typo.labelSmall.copyWith(
+                                    color: colors.onError,
+                                    fontSize: 9,
+                                  ),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -110,7 +141,9 @@ class UiBottomNav extends StatelessWidget {
                         Text(
                           items[i].label,
                           style: typo.labelSmall.copyWith(
-                            color: i == selectedIndex ? colors.primary : colors.onSurface.withValues(alpha: 0.5),
+                            color: i == selectedIndex
+                                ? colors.primary
+                                : colors.resolvedOnSurfaceMuted,
                             fontSize: 10,
                           ),
                           maxLines: 1,

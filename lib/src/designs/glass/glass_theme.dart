@@ -32,7 +32,9 @@ abstract final class GlassTheme {
       shadow: Color(0x11000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'SF Pro Text',
+      displayFontFamily: 'SF Pro Display',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFFFFFFFF),
       baseWeight: FontWeight.w300,
     ),
@@ -71,7 +73,9 @@ abstract final class GlassTheme {
       shadow: Color(0x08000000),
     ),
     typography: UiTypography.fromFont(
-      fontFamily: 'sans-serif',
+      fontFamily: 'SF Pro Text',
+      displayFontFamily: 'SF Pro Display',
+      fontFamilyFallback: const ['Segoe UI', 'Roboto'],
       color: const Color(0xFF1A1A2E),
       baseWeight: FontWeight.w300,
     ),

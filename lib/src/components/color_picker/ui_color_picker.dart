@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../icons/ui_icons.dart';
 import '../../theme/ui_theme.dart';
 
 /// A grid of color swatches for selecting a color.
@@ -150,8 +151,8 @@ class _ColorSwatchState extends State<_ColorSwatch> {
               color: widget.selected
                   ? colors.primary
                   : _hovered
-                      ? colors.border
-                      : colors.border.withValues(alpha: 0.3),
+                  ? colors.border
+                  : colors.border.withValues(alpha: 0.3),
               width: widget.selected ? 2.0 : theme.borderWidth,
             ),
             boxShadow: shadows,
@@ -159,7 +160,7 @@ class _ColorSwatchState extends State<_ColorSwatch> {
           child: widget.selected
               ? Center(
                   child: Icon(
-                    const IconData(0xe156, fontFamily: 'MaterialIcons'),
+                    UiIcons.check,
                     size: widget.size * 0.5,
                     color: _contrastColor(widget.color),
                   ),
@@ -172,10 +173,7 @@ class _ColorSwatchState extends State<_ColorSwatch> {
 
   /// Returns white or black depending on the luminance of [color].
   static Color _contrastColor(Color color) {
-    final luminance =
-        0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
-    return luminance > 0.5
-        ? const Color(0xFF000000)
-        : const Color(0xFFFFFFFF);
+    final luminance = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+    return luminance > 0.5 ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
   }
 }

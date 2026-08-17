@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import 'ui_color_scheme.dart';
+import 'ui_component_tokens.dart';
+import 'ui_icon_set.dart';
 import 'ui_spacing.dart';
 import 'ui_typography.dart';
 
@@ -15,6 +17,8 @@ class UiThemeData {
     required this.colorScheme,
     required this.typography,
     this.spacing = const UiSpacing(),
+    this.components = const UiComponentTokens(),
+    this.icons = const UiIconSet(),
     this.animationDuration = const Duration(milliseconds: 200),
     this.animationCurve = Curves.easeInOut,
     this.useShadows = true,
@@ -30,6 +34,8 @@ class UiThemeData {
   final UiColorScheme colorScheme;
   final UiTypography typography;
   final UiSpacing spacing;
+  final UiComponentTokens components;
+  final UiIconSet icons;
 
   /// Default animation duration for interactive components.
   final Duration animationDuration;
@@ -57,6 +63,8 @@ class UiThemeData {
     UiColorScheme? colorScheme,
     UiTypography? typography,
     UiSpacing? spacing,
+    UiComponentTokens? components,
+    UiIconSet? icons,
     Duration? animationDuration,
     Curve? animationCurve,
     bool? useShadows,
@@ -70,6 +78,8 @@ class UiThemeData {
       colorScheme: colorScheme ?? this.colorScheme,
       typography: typography ?? this.typography,
       spacing: spacing ?? this.spacing,
+      components: components ?? this.components,
+      icons: icons ?? this.icons,
       animationDuration: animationDuration ?? this.animationDuration,
       animationCurve: animationCurve ?? this.animationCurve,
       useShadows: useShadows ?? this.useShadows,
