@@ -16,6 +16,20 @@ import 'package:flutter_ui_collection/flutter_ui_collection.dart';
 
 ---
 
+### Screenshots
+
+Captured from the [example app](example/) on iOS. Every screen is the same widget tree — only the theme changes.
+
+| Dashboard · Neon | Social feed · Glass | Effects · Minimal |
+|:---:|:---:|:---:|
+| <img src="doc/screenshots/modules-dashboard-neon-dark.png" width="240" alt="Dashboard module — line + donut charts, product cards (Neon Dark)"> | <img src="doc/screenshots/modules-social-glass-dark.png" width="240" alt="Social module — story row + post card (Glass Dark)"> | <img src="doc/screenshots/effects-minimal-dark.png" width="240" alt="Visual effects (Minimal Dark)"> |
+
+| Components · Aurora | Components · Terminal | Components · Pastel |
+|:---:|:---:|:---:|
+| <img src="doc/screenshots/components-aurora-dark.png" width="240" alt="Core components (Aurora Dark)"> | <img src="doc/screenshots/components-terminal-dark.png" width="240" alt="Core components (Terminal Dark)"> | <img src="doc/screenshots/components-pastel-dark.png" width="240" alt="Core components (Pastel Dark)"> |
+
+---
+
 **[English](#english)** | **[Deutsch](#deutsch)**
 
 ---
@@ -41,7 +55,7 @@ void main() {
 
 ```yaml
 dependencies:
-  flutter_ui_collection: ^3.1.0
+  flutter_ui_collection: ^3.2.0
 ```
 
 ### What's Inside

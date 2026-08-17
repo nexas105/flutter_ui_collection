@@ -1,3 +1,13 @@
+## 3.2.0
+
+### Premium UI Refactor
+
+- Presets now carry distinct design grammars (Neon, Glass, Minimal, Cyberpunk, Retro, Aurora, Terminal, Pastel) instead of sharing one token set.
+- Product modules migrated to the premium token system for consistent theming.
+- Polished premium settings experience.
+- Rebuilt example showcase app: Overview, product Scenarios, and accessibility State Lab (large-text / reduced-motion) with responsive golden tests.
+- Added iOS screenshots to the README (`doc/screenshots/`).
+
 ## 3.1.0
 
 ### Chat Module Upgrade (8 new widgets)
