@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -36,6 +38,10 @@ abstract final class AuroraTheme {
         Color(0xFF06B6D4),
         Color(0xFF10B981),
       ],
+      canvas: Color(0xFF0F0D24),
+      surfaceRaised: Color(0xFF28234B),
+      surfaceOverlay: Color(0xFF342D5C),
+      onSurfaceMuted: Color(0xFFA8A2D0),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Avenir Next',
@@ -50,6 +56,25 @@ abstract final class AuroraTheme {
       borderRadiusLg: 24.0,
       borderRadiusXl: 32.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 48,
+      controlHeightLarge: 58,
+      controlRadius: 18,
+      cardRadius: 26,
+      cardPadding: 24,
+      appBarHeight: 70,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 25,
+      hoverOpacity: 0.1,
+      pressedOpacity: 0.18,
+      focusRingWidth: 2,
+      shadowBlur: 26,
+      shadowOffset: Offset(0, 9),
+      contentMaxWidth: 1200,
+    ),
+    icons: const UiIconSet(weight: 300, grade: 25, opticalSize: 22),
     useGlow: true,
     useGradients: true,
     useShadows: true,
@@ -79,6 +104,10 @@ abstract final class AuroraTheme {
       shadow: Color(0x1A6366F1),
       glow: Color(0xFF818CF8),
       gradient: [Color(0xFF4F46E5), Color(0xFF7C3AED), Color(0xFF0891B2)],
+      canvas: Color(0xFFF5F3FF),
+      surfaceRaised: Color(0xFFFFFFFF),
+      surfaceOverlay: Color(0xFFEDE9FE),
+      onSurfaceMuted: Color(0xFF696388),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Avenir Next',
@@ -93,6 +122,25 @@ abstract final class AuroraTheme {
       borderRadiusLg: 24.0,
       borderRadiusXl: 32.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 48,
+      controlHeightLarge: 58,
+      controlRadius: 18,
+      cardRadius: 26,
+      cardPadding: 24,
+      appBarHeight: 70,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 25,
+      hoverOpacity: 0.1,
+      pressedOpacity: 0.18,
+      focusRingWidth: 2,
+      shadowBlur: 26,
+      shadowOffset: Offset(0, 9),
+      contentMaxWidth: 1200,
+    ),
+    icons: const UiIconSet(weight: 300, grade: 25, opticalSize: 22),
     useGlow: false,
     useGradients: true,
     useShadows: true,

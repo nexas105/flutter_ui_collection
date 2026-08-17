@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -30,6 +32,10 @@ abstract final class GlassTheme {
       onWarning: Color(0xFF000000),
       border: Color(0x44FFFFFF),
       shadow: Color(0x11000000),
+      canvas: Color(0xFF121224),
+      surfaceRaised: Color(0x4DFFFFFF),
+      surfaceOverlay: Color(0x66FFFFFF),
+      onSurfaceMuted: Color(0xB8FFFFFF),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'SF Pro Text',
@@ -44,6 +50,25 @@ abstract final class GlassTheme {
       borderRadiusLg: 24.0,
       borderRadiusXl: 32.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 18,
+      cardRadius: 24,
+      cardPadding: 24,
+      appBarHeight: 68,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 24,
+      hoverOpacity: 0.1,
+      pressedOpacity: 0.18,
+      focusRingWidth: 1,
+      shadowBlur: 28,
+      shadowOffset: Offset(0, 10),
+      contentMaxWidth: 1160,
+    ),
+    icons: const UiIconSet(weight: 250, grade: -25, opticalSize: 24),
     useShadows: false,
     borderWidth: 1.0,
     elevation: 0,
@@ -71,6 +96,10 @@ abstract final class GlassTheme {
       onWarning: Color(0xFFFFFFFF),
       border: Color(0x33000000),
       shadow: Color(0x08000000),
+      canvas: Color(0xFFE9E9FA),
+      surfaceRaised: Color(0xB3FFFFFF),
+      surfaceOverlay: Color(0xE6FFFFFF),
+      onSurfaceMuted: Color(0xFF63637A),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'SF Pro Text',
@@ -85,6 +114,25 @@ abstract final class GlassTheme {
       borderRadiusLg: 24.0,
       borderRadiusXl: 32.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 18,
+      cardRadius: 24,
+      cardPadding: 24,
+      appBarHeight: 68,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 24,
+      hoverOpacity: 0.1,
+      pressedOpacity: 0.18,
+      focusRingWidth: 1,
+      shadowBlur: 28,
+      shadowOffset: Offset(0, 10),
+      contentMaxWidth: 1160,
+    ),
+    icons: const UiIconSet(weight: 250, grade: -25, opticalSize: 24),
     useShadows: false,
     borderWidth: 1.0,
     elevation: 0,

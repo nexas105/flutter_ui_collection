@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -30,6 +32,10 @@ abstract final class TerminalTheme {
       border: Color(0xFF1A3A1A),
       shadow: Color(0x3333FF33),
       glow: Color(0xFF33FF33),
+      canvas: Color(0xFF000000),
+      surfaceRaised: Color(0xFF0F140F),
+      surfaceOverlay: Color(0xFF151D15),
+      onSurfaceMuted: Color(0xFF74A874),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -48,6 +54,26 @@ abstract final class TerminalTheme {
       borderRadiusXl: 2.0,
       borderRadiusFull: 2.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 32,
+      controlHeightMedium: 40,
+      controlHeightLarge: 48,
+      controlRadius: 0,
+      cardRadius: 2,
+      cardPadding: 14,
+      appBarHeight: 52,
+      iconSizeSmall: 14,
+      iconSizeMedium: 18,
+      iconSizeLarge: 22,
+      hoverOpacity: 0.12,
+      pressedOpacity: 0.22,
+      disabledOpacity: 0.48,
+      focusRingWidth: 1,
+      shadowBlur: 0,
+      shadowOffset: Offset.zero,
+      contentMaxWidth: 960,
+    ),
+    icons: const UiIconSet(weight: 400, grade: 0, opticalSize: 18),
     useGlow: true,
     useShadows: false,
     borderWidth: 1.0,
@@ -76,6 +102,10 @@ abstract final class TerminalTheme {
       border: Color(0xFF3A2A0A),
       shadow: Color(0x33FFBB33),
       glow: Color(0xFFFFBB33),
+      canvas: Color(0xFF000000),
+      surfaceRaised: Color(0xFF141006),
+      surfaceOverlay: Color(0xFF211A08),
+      onSurfaceMuted: Color(0xFFB08B46),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -94,6 +124,26 @@ abstract final class TerminalTheme {
       borderRadiusXl: 2.0,
       borderRadiusFull: 2.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 32,
+      controlHeightMedium: 40,
+      controlHeightLarge: 48,
+      controlRadius: 0,
+      cardRadius: 2,
+      cardPadding: 14,
+      appBarHeight: 52,
+      iconSizeSmall: 14,
+      iconSizeMedium: 18,
+      iconSizeLarge: 22,
+      hoverOpacity: 0.12,
+      pressedOpacity: 0.22,
+      disabledOpacity: 0.48,
+      focusRingWidth: 1,
+      shadowBlur: 0,
+      shadowOffset: Offset.zero,
+      contentMaxWidth: 960,
+    ),
+    icons: const UiIconSet(weight: 400, grade: 0, opticalSize: 18),
     useGlow: true,
     useShadows: false,
     borderWidth: 1.0,

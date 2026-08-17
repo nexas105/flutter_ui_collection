@@ -82,6 +82,82 @@ Widget _wrap(Widget child, {UiThemeData? theme}) {
 }
 
 void main() {
+  group('Premium preset grammar', () {
+    final presets = <UiThemeData>[
+      MinimalTheme.dark,
+      NeonTheme.dark,
+      GlassTheme.dark,
+      CyberpunkTheme.dark,
+      RetroTheme.dark,
+      AuroraTheme.dark,
+      TerminalTheme.dark,
+      PastelTheme.dark,
+    ];
+
+    test('all eight presets have a unique non-color fingerprint', () {
+      final fingerprints = presets.map((theme) {
+        final tokens = theme.components;
+        return <Object?>[
+          theme.typography.bodyMedium.fontFamily,
+          tokens.controlHeightMedium,
+          tokens.controlRadius,
+          tokens.cardRadius,
+          tokens.cardPadding,
+          tokens.appBarHeight,
+          tokens.iconSizeMedium,
+          tokens.shadowBlur,
+          tokens.shadowOffset,
+          theme.icons.weight,
+          theme.icons.grade,
+          theme.animationDuration,
+          theme.animationCurve,
+        ].join('|');
+      }).toSet();
+
+      expect(fingerprints, hasLength(presets.length));
+    });
+
+    test('every preset defines a complete semantic surface hierarchy', () {
+      for (final theme in presets) {
+        final colors = theme.colorScheme;
+        expect(colors.canvas, isNotNull, reason: theme.name);
+        expect(colors.surfaceRaised, isNotNull, reason: theme.name);
+        expect(colors.surfaceOverlay, isNotNull, reason: theme.name);
+        expect(colors.onSurfaceMuted, isNotNull, reason: theme.name);
+        expect(
+          colors.resolvedCanvas,
+          isNot(colors.resolvedSurfaceRaised),
+          reason: theme.name,
+        );
+        expect(
+          colors.resolvedSurfaceRaised,
+          isNot(colors.resolvedSurfaceOverlay),
+          reason: theme.name,
+        );
+      }
+    });
+
+    test('light and dark variants preserve their preset geometry', () {
+      final variants = <(UiThemeData, UiThemeData)>[
+        (MinimalTheme.light, MinimalTheme.dark),
+        (NeonTheme.light, NeonTheme.dark),
+        (GlassTheme.light, GlassTheme.dark),
+        (CyberpunkTheme.light, CyberpunkTheme.dark),
+        (RetroTheme.light, RetroTheme.dark),
+        (AuroraTheme.light, AuroraTheme.dark),
+        (PastelTheme.light, PastelTheme.dark),
+      ];
+
+      for (final (light, dark) in variants) {
+        expect(light.components.controlRadius, dark.components.controlRadius);
+        expect(light.components.cardRadius, dark.components.cardRadius);
+        expect(light.components.cardPadding, dark.components.cardPadding);
+        expect(light.icons.weight, dark.icons.weight);
+        expect(light.animationDuration, dark.animationDuration);
+      }
+    });
+  });
+
   group('UiTheme', () {
     testWidgets('provides theme data to descendants', (tester) async {
       late UiThemeData resolved;
@@ -173,7 +249,10 @@ void main() {
     });
 
     test('copyWith supports component tokens', () {
-      final tokens = const UiComponentTokens().copyWith(controlHeightMedium: 48, cardRadius: 20);
+      final tokens = const UiComponentTokens().copyWith(
+        controlHeightMedium: 48,
+        cardRadius: 20,
+      );
       final copied = NeonTheme.dark.copyWith(components: tokens);
 
       expect(copied.components.controlHeightMedium, 48);
@@ -218,7 +297,10 @@ void main() {
 
   group('UiTypography', () {
     test('fromFont creates all levels', () {
-      final typo = UiTypography.fromFont(fontFamily: 'TestFont', color: const Color(0xFFFFFFFF));
+      final typo = UiTypography.fromFont(
+        fontFamily: 'TestFont',
+        color: const Color(0xFFFFFFFF),
+      );
 
       expect(typo.displayLarge.fontFamily, 'TestFont');
       expect(typo.bodyMedium.color, const Color(0xFFFFFFFF));
@@ -241,8 +323,14 @@ void main() {
     });
 
     test('apply overrides color and fontFamily', () {
-      final typo = UiTypography.fromFont(fontFamily: 'Original', color: const Color(0xFFFFFFFF));
-      final applied = typo.apply(color: const Color(0xFF000000), fontFamily: 'NewFont');
+      final typo = UiTypography.fromFont(
+        fontFamily: 'Original',
+        color: const Color(0xFFFFFFFF),
+      );
+      final applied = typo.apply(
+        color: const Color(0xFF000000),
+        fontFamily: 'NewFont',
+      );
 
       expect(applied.bodyMedium.color, const Color(0xFF000000));
       expect(applied.bodyMedium.fontFamily, 'NewFont');
@@ -272,7 +360,9 @@ void main() {
 
   group('UiButton', () {
     testWidgets('renders label text', (tester) async {
-      await tester.pumpWidget(_wrap(UiButton(label: 'Click me', onPressed: () {})));
+      await tester.pumpWidget(
+        _wrap(UiButton(label: 'Click me', onPressed: () {})),
+      );
 
       expect(find.text('Click me'), findsOneWidget);
     });
@@ -297,7 +387,9 @@ void main() {
     testWidgets('calls onPressed on tap', (tester) async {
       var tapped = false;
 
-      await tester.pumpWidget(_wrap(UiButton(label: 'Tap', onPressed: () => tapped = true)));
+      await tester.pumpWidget(
+        _wrap(UiButton(label: 'Tap', onPressed: () => tapped = true)),
+      );
 
       await tester.tap(find.text('Tap'));
       expect(tapped, isTrue);
@@ -331,7 +423,9 @@ void main() {
     testWidgets('renders all variants without error', (tester) async {
       for (final variant in UiButtonVariant.values) {
         await tester.pumpWidget(
-          _wrap(UiButton(label: variant.name, variant: variant, onPressed: () {})),
+          _wrap(
+            UiButton(label: variant.name, variant: variant, onPressed: () {}),
+          ),
         );
         expect(find.text(variant.name), findsOneWidget);
       }
@@ -366,7 +460,9 @@ void main() {
       var tapped = false;
 
       await tester.pumpWidget(
-        _wrap(UiCard(onTap: () => tapped = true, child: const Text('Tap Card'))),
+        _wrap(
+          UiCard(onTap: () => tapped = true, child: const Text('Tap Card')),
+        ),
       );
 
       await tester.tap(find.text('Tap Card'));
@@ -396,7 +492,12 @@ void main() {
       await tester.pumpWidget(
         StatefulBuilder(
           builder: (context, setState) {
-            return _wrap(UiToggle(value: value, onChanged: (v) => setState(() => value = v)));
+            return _wrap(
+              UiToggle(
+                value: value,
+                onChanged: (v) => setState(() => value = v),
+              ),
+            );
           },
         ),
       );
@@ -419,7 +520,10 @@ void main() {
         ),
       );
 
-      expect(tester.getSize(find.byType(UiToggle)).height, greaterThanOrEqualTo(44));
+      expect(
+        tester.getSize(find.byType(UiToggle)).height,
+        greaterThanOrEqualTo(44),
+      );
       expect(find.bySemanticsLabel('Notifications'), findsOneWidget);
     });
   });
@@ -434,7 +538,9 @@ void main() {
     testWidgets('handles tap', (tester) async {
       var tapped = false;
 
-      await tester.pumpWidget(_wrap(UiChip(label: 'Chip', onTap: () => tapped = true)));
+      await tester.pumpWidget(
+        _wrap(UiChip(label: 'Chip', onTap: () => tapped = true)),
+      );
 
       await tester.tap(find.text('Chip'));
       expect(tapped, isTrue);
@@ -464,7 +570,9 @@ void main() {
     });
 
     testWidgets('shows label when enabled', (tester) async {
-      await tester.pumpWidget(_wrap(const UiProgressBar(value: 0.75, showLabel: true)));
+      await tester.pumpWidget(
+        _wrap(const UiProgressBar(value: 0.75, showLabel: true)),
+      );
 
       expect(find.text('75%'), findsOneWidget);
     });
@@ -493,7 +601,9 @@ void main() {
 
     testWidgets('renders actions', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiAppBar(title: Text('App'), actions: [Text('A1'), Text('A2')])),
+        _wrap(
+          const UiAppBar(title: Text('App'), actions: [Text('A1'), Text('A2')]),
+        ),
       );
 
       expect(find.text('A1'), findsOneWidget);
@@ -538,7 +648,9 @@ void main() {
 
     testWidgets('renders actions', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiDialog(title: 'Test', actions: [Text('OK'), Text('Cancel')])),
+        _wrap(
+          const UiDialog(title: 'Test', actions: [Text('OK'), Text('Cancel')]),
+        ),
       );
 
       expect(find.text('OK'), findsOneWidget);
@@ -551,7 +663,9 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(size: Size(400, 800)),
-          child: _wrap(const UiBottomSheet(title: 'Options', child: Text('Content here'))),
+          child: _wrap(
+            const UiBottomSheet(title: 'Options', child: Text('Content here')),
+          ),
         ),
       );
 
@@ -630,7 +744,9 @@ void main() {
 
   group('UiDrawer', () {
     testWidgets('renders child', (tester) async {
-      await tester.pumpWidget(_wrap(const UiDrawer(child: Text('Drawer Content'))));
+      await tester.pumpWidget(
+        _wrap(const UiDrawer(child: Text('Drawer Content'))),
+      );
 
       expect(find.text('Drawer Content'), findsOneWidget);
     });
@@ -886,20 +1002,26 @@ void main() {
 
   group('UiTextField (improved)', () {
     testWidgets('shows error text', (tester) async {
-      await tester.pumpWidget(_wrap(const UiTextField(label: 'Email', errorText: 'Invalid email')));
+      await tester.pumpWidget(
+        _wrap(const UiTextField(label: 'Email', errorText: 'Invalid email')),
+      );
 
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Invalid email'), findsOneWidget);
     });
 
     testWidgets('shows helper text', (tester) async {
-      await tester.pumpWidget(_wrap(const UiTextField(helperText: 'Enter your name')));
+      await tester.pumpWidget(
+        _wrap(const UiTextField(helperText: 'Enter your name')),
+      );
 
       expect(find.text('Enter your name'), findsOneWidget);
     });
 
     testWidgets('disabled state renders', (tester) async {
-      await tester.pumpWidget(_wrap(const UiTextField(label: 'Disabled', enabled: false)));
+      await tester.pumpWidget(
+        _wrap(const UiTextField(label: 'Disabled', enabled: false)),
+      );
 
       expect(find.text('Disabled'), findsOneWidget);
     });
@@ -907,7 +1029,9 @@ void main() {
 
   group('UiAvatar (improved)', () {
     testWidgets('shows status indicator', (tester) async {
-      await tester.pumpWidget(_wrap(const UiAvatar(initials: 'TL', status: UiAvatarStatus.online)));
+      await tester.pumpWidget(
+        _wrap(const UiAvatar(initials: 'TL', status: UiAvatarStatus.online)),
+      );
 
       expect(find.text('TL'), findsOneWidget);
       // Status indicator adds a Stack
@@ -924,7 +1048,9 @@ void main() {
     });
 
     testWidgets('renders with icon', (tester) async {
-      await tester.pumpWidget(_wrap(const UiBadge(label: 'NEW', icon: UiIcons.star)));
+      await tester.pumpWidget(
+        _wrap(const UiBadge(label: 'NEW', icon: UiIcons.star)),
+      );
 
       expect(find.text('NEW'), findsOneWidget);
     });
@@ -1043,14 +1169,18 @@ void main() {
 
   group('UiTextField (placeholder)', () {
     testWidgets('shows placeholder when empty', (tester) async {
-      await tester.pumpWidget(_wrap(const UiTextField(placeholder: 'Type here...')));
+      await tester.pumpWidget(
+        _wrap(const UiTextField(placeholder: 'Type here...')),
+      );
 
       expect(find.text('Type here...'), findsOneWidget);
     });
 
     testWidgets('shows character counter', (tester) async {
       final controller = TextEditingController(text: 'Hello');
-      await tester.pumpWidget(_wrap(UiTextField(controller: controller, maxLength: 10)));
+      await tester.pumpWidget(
+        _wrap(UiTextField(controller: controller, maxLength: 10)),
+      );
 
       expect(find.text('5/10'), findsOneWidget);
     });
@@ -1070,7 +1200,9 @@ void main() {
       var tapped = false;
 
       await tester.pumpWidget(
-        _wrap(UiListTile(title: const Text('Item'), onTap: () => tapped = true)),
+        _wrap(
+          UiListTile(title: const Text('Item'), onTap: () => tapped = true),
+        ),
       );
 
       await tester.tap(find.text('Item'));
@@ -1083,7 +1215,9 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(size: Size(1200, 800)),
-          child: _wrap(const UiResponsiveBody(maxWidth: 600, child: Text('Centered'))),
+          child: _wrap(
+            const UiResponsiveBody(maxWidth: 600, child: Text('Centered')),
+          ),
         ),
       );
 
@@ -1101,7 +1235,11 @@ void main() {
             key: formKey,
             child: Column(
               children: [
-                UiFormField(fieldKey: 'email', label: 'Email', validators: [UiValidators.required]),
+                UiFormField(
+                  fieldKey: 'email',
+                  label: 'Email',
+                  validators: [UiValidators.required],
+                ),
               ],
             ),
           ),
@@ -1155,7 +1293,9 @@ void main() {
 
   group('UiHero', () {
     testWidgets('renders child with hero tag', (tester) async {
-      await tester.pumpWidget(_wrap(const UiHero(tag: 'test', child: Text('Hero'))));
+      await tester.pumpWidget(
+        _wrap(const UiHero(tag: 'test', child: Text('Hero'))),
+      );
 
       expect(find.text('Hero'), findsOneWidget);
       expect(find.byType(Hero), findsOneWidget);
@@ -1164,7 +1304,13 @@ void main() {
     testWidgets('all flight styles build', (tester) async {
       for (final style in UiHeroFlightStyle.values) {
         await tester.pumpWidget(
-          _wrap(UiHero(tag: 'test-$style', flightStyle: style, child: const Text('H'))),
+          _wrap(
+            UiHero(
+              tag: 'test-$style',
+              flightStyle: style,
+              child: const Text('H'),
+            ),
+          ),
         );
         expect(find.text('H'), findsOneWidget);
       }
@@ -1186,7 +1332,12 @@ void main() {
 
     testWidgets('uses custom colors', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiGradientText('Custom', colors: [Color(0xFFFF0000), Color(0xFF0000FF)])),
+        _wrap(
+          const UiGradientText(
+            'Custom',
+            colors: [Color(0xFFFF0000), Color(0xFF0000FF)],
+          ),
+        ),
       );
 
       expect(find.text('Custom'), findsOneWidget);
@@ -1211,7 +1362,9 @@ void main() {
     });
 
     testWidgets('can be disabled', (tester) async {
-      await tester.pumpWidget(_wrap(const UiPulse(enabled: false, child: Text('Static'))));
+      await tester.pumpWidget(
+        _wrap(const UiPulse(enabled: false, child: Text('Static'))),
+      );
 
       expect(find.text('Static'), findsOneWidget);
     });
@@ -1219,14 +1372,18 @@ void main() {
 
   group('UiGlowContainer', () {
     testWidgets('renders child with glow', (tester) async {
-      await tester.pumpWidget(_wrap(const UiGlowContainer(child: Text('Glow'))));
+      await tester.pumpWidget(
+        _wrap(const UiGlowContainer(child: Text('Glow'))),
+      );
 
       expect(find.text('Glow'), findsOneWidget);
     });
 
     testWidgets('static glow mode', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiGlowContainer(animate: false, child: Text('Static Glow'))),
+        _wrap(
+          const UiGlowContainer(animate: false, child: Text('Static Glow')),
+        ),
       );
 
       expect(find.text('Static Glow'), findsOneWidget);
@@ -1236,7 +1393,9 @@ void main() {
   group('UiTypewriter', () {
     testWidgets('types text progressively', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiTypewriter(text: 'Hello', speed: Duration(milliseconds: 50))),
+        _wrap(
+          const UiTypewriter(text: 'Hello', speed: Duration(milliseconds: 50)),
+        ),
       );
 
       // Initially should be empty or very short
@@ -1261,7 +1420,13 @@ void main() {
 
     testWidgets('formats with prefix and separator', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiCountUp(end: 1234, prefix: '\$', duration: Duration(milliseconds: 100))),
+        _wrap(
+          const UiCountUp(
+            end: 1234,
+            prefix: '\$',
+            duration: Duration(milliseconds: 100),
+          ),
+        ),
       );
 
       await tester.pumpAndSettle();
@@ -1271,7 +1436,9 @@ void main() {
 
   group('UiStagger', () {
     testWidgets('renders all children', (tester) async {
-      await tester.pumpWidget(_wrap(const UiStagger(children: [Text('A'), Text('B'), Text('C')])));
+      await tester.pumpWidget(
+        _wrap(const UiStagger(children: [Text('A'), Text('B'), Text('C')])),
+      );
 
       await tester.pumpAndSettle();
       expect(find.text('A'), findsOneWidget);
@@ -1281,7 +1448,9 @@ void main() {
 
     testWidgets('all directions work', (tester) async {
       for (final dir in UiStaggerDirection.values) {
-        await tester.pumpWidget(_wrap(UiStagger(direction: dir, children: const [Text('X')])));
+        await tester.pumpWidget(
+          _wrap(UiStagger(direction: dir, children: const [Text('X')])),
+        );
         await tester.pumpAndSettle();
         expect(find.text('X'), findsOneWidget);
       }
@@ -1295,7 +1464,10 @@ void main() {
         StatefulBuilder(
           builder: (context, setState) {
             return _wrap(
-              UiCheckbox(value: value, onChanged: (v) => setState(() => value = v ?? false)),
+              UiCheckbox(
+                value: value,
+                onChanged: (v) => setState(() => value = v ?? false),
+              ),
             );
           },
         ),
@@ -1307,14 +1479,22 @@ void main() {
     });
 
     testWidgets('renders with label', (tester) async {
-      await tester.pumpWidget(_wrap(UiCheckbox(value: false, onChanged: (_) {}, label: 'Accept')));
+      await tester.pumpWidget(
+        _wrap(UiCheckbox(value: false, onChanged: (_) {}, label: 'Accept')),
+      );
       expect(find.text('Accept'), findsOneWidget);
     });
 
     testWidgets('disabled does not toggle', (tester) async {
       var value = false;
       await tester.pumpWidget(
-        _wrap(UiCheckbox(value: value, onChanged: (v) => value = v ?? false, enabled: false)),
+        _wrap(
+          UiCheckbox(
+            value: value,
+            onChanged: (v) => value = v ?? false,
+            enabled: false,
+          ),
+        ),
       );
       await tester.tap(find.byType(UiCheckbox));
       expect(value, isFalse);
@@ -1358,7 +1538,14 @@ void main() {
   group('UiSlider', () {
     testWidgets('renders with label and value', (tester) async {
       await tester.pumpWidget(
-        _wrap(UiSlider(value: 0.5, onChanged: (_) {}, label: 'Volume', showValue: true)),
+        _wrap(
+          UiSlider(
+            value: 0.5,
+            onChanged: (_) {},
+            label: 'Volume',
+            showValue: true,
+          ),
+        ),
       );
 
       expect(find.text('Volume'), findsOneWidget);
@@ -1391,8 +1578,14 @@ void main() {
         _wrap(
           const UiAccordion(
             sections: [
-              UiAccordionSection(title: 'Section 1', content: Text('Content 1')),
-              UiAccordionSection(title: 'Section 2', content: Text('Content 2')),
+              UiAccordionSection(
+                title: 'Section 1',
+                content: Text('Content 1'),
+              ),
+              UiAccordionSection(
+                title: 'Section 2',
+                content: Text('Content 2'),
+              ),
             ],
           ),
         ),
@@ -1410,14 +1603,18 @@ void main() {
 
   group('UiSearchBar', () {
     testWidgets('renders placeholder', (tester) async {
-      await tester.pumpWidget(_wrap(const UiSearchBar(placeholder: 'Search...')));
+      await tester.pumpWidget(
+        _wrap(const UiSearchBar(placeholder: 'Search...')),
+      );
 
       expect(find.text('Search...'), findsOneWidget);
     });
 
     testWidgets('calls onChanged', (tester) async {
       String? lastQuery;
-      await tester.pumpWidget(_wrap(UiSearchBar(onChanged: (q) => lastQuery = q)));
+      await tester.pumpWidget(
+        _wrap(UiSearchBar(onChanged: (q) => lastQuery = q)),
+      );
 
       await tester.enterText(find.byType(EditableText), 'hello');
       expect(lastQuery, 'hello');
@@ -1427,7 +1624,12 @@ void main() {
   group('UiEmptyState', () {
     testWidgets('renders title and description', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiEmptyState(title: 'No items', description: 'Add your first item.')),
+        _wrap(
+          const UiEmptyState(
+            title: 'No items',
+            description: 'Add your first item.',
+          ),
+        ),
       );
 
       expect(find.text('No items'), findsOneWidget);
@@ -1435,7 +1637,9 @@ void main() {
     });
 
     testWidgets('renders action widget', (tester) async {
-      await tester.pumpWidget(_wrap(const UiEmptyState(title: 'Empty', action: Text('Add'))));
+      await tester.pumpWidget(
+        _wrap(const UiEmptyState(title: 'Empty', action: Text('Add'))),
+      );
 
       expect(find.text('Add'), findsOneWidget);
     });
@@ -1449,7 +1653,9 @@ void main() {
     });
 
     testWidgets('shows message', (tester) async {
-      await tester.pumpWidget(_wrap(const UiLoadingOverlay(message: 'Loading...')));
+      await tester.pumpWidget(
+        _wrap(const UiLoadingOverlay(message: 'Loading...')),
+      );
 
       expect(find.text('Loading...'), findsOneWidget);
     });
@@ -1486,7 +1692,13 @@ void main() {
       await tester.pumpWidget(
         _wrap(
           UiBottomNav(
-            items: const [UiBottomNavItem(icon: UiIcons.notifications, label: 'Alerts', badge: 5)],
+            items: const [
+              UiBottomNavItem(
+                icon: UiIcons.notifications,
+                label: 'Alerts',
+                badge: 5,
+              ),
+            ],
             selectedIndex: 0,
             onChanged: (_) {},
           ),
@@ -1549,7 +1761,9 @@ void main() {
 
     testWidgets('renders title and dismiss', (tester) async {
       await tester.pumpWidget(
-        _wrap(UiAlert(title: 'Warning', message: 'Disk full', onDismiss: () {})),
+        _wrap(
+          UiAlert(title: 'Warning', message: 'Disk full', onDismiss: () {}),
+        ),
       );
 
       expect(find.text('Warning'), findsOneWidget);
@@ -1575,14 +1789,18 @@ void main() {
 
   group('UiNotificationDot', () {
     testWidgets('shows count', (tester) async {
-      await tester.pumpWidget(_wrap(const UiNotificationDot(count: 7, child: Text('Icon'))));
+      await tester.pumpWidget(
+        _wrap(const UiNotificationDot(count: 7, child: Text('Icon'))),
+      );
 
       expect(find.text('7'), findsOneWidget);
       expect(find.text('Icon'), findsOneWidget);
     });
 
     testWidgets('caps at 99+', (tester) async {
-      await tester.pumpWidget(_wrap(const UiNotificationDot(count: 150, child: Text('X'))));
+      await tester.pumpWidget(
+        _wrap(const UiNotificationDot(count: 150, child: Text('X'))),
+      );
 
       expect(find.text('99+'), findsOneWidget);
     });
@@ -1629,7 +1847,9 @@ void main() {
 
   group('UiPinInput', () {
     testWidgets('renders cells', (tester) async {
-      await tester.pumpWidget(_wrap(const UiPinInput(length: 4, autofocus: false)));
+      await tester.pumpWidget(
+        _wrap(const UiPinInput(length: 4, autofocus: false)),
+      );
 
       expect(find.byType(UiPinInput), findsOneWidget);
     });
@@ -1641,7 +1861,11 @@ void main() {
         _wrap(
           UiSwipeAction(
             trailingActions: [
-              UiSwipeActionData(label: 'Delete', color: const Color(0xFFFF0000), onTap: () {}),
+              UiSwipeActionData(
+                label: 'Delete',
+                color: const Color(0xFFFF0000),
+                onTap: () {},
+              ),
             ],
             child: const Text('Swipe me'),
           ),
@@ -1682,7 +1906,12 @@ void main() {
   group('UiCarousel', () {
     testWidgets('renders children with indicators', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiCarousel(height: 100, children: [Text('Slide 1'), Text('Slide 2')])),
+        _wrap(
+          const UiCarousel(
+            height: 100,
+            children: [Text('Slide 1'), Text('Slide 2')],
+          ),
+        ),
       );
 
       expect(find.text('Slide 1'), findsOneWidget);
@@ -1697,7 +1926,11 @@ void main() {
           SizedBox(
             width: 100,
             height: 100,
-            child: UiImageViewer(image: MemoryImage(_kTransparentPixel), width: 100, height: 100),
+            child: UiImageViewer(
+              image: MemoryImage(_kTransparentPixel),
+              width: 100,
+              height: 100,
+            ),
           ),
         ),
       );
@@ -1714,7 +1947,10 @@ void main() {
             width: 200,
             height: 200,
             child: UiGallery(
-              images: [MemoryImage(_kTransparentPixel), MemoryImage(_kTransparentPixel)],
+              images: [
+                MemoryImage(_kTransparentPixel),
+                MemoryImage(_kTransparentPixel),
+              ],
               crossAxisCount: 2,
             ),
           ),
@@ -1727,7 +1963,9 @@ void main() {
 
   group('UiCodeBlock', () {
     testWidgets('renders code text', (tester) async {
-      await tester.pumpWidget(_wrap(const UiCodeBlock(code: 'void main() {}', language: 'dart')));
+      await tester.pumpWidget(
+        _wrap(const UiCodeBlock(code: 'void main() {}', language: 'dart')),
+      );
 
       expect(find.text('void main() {}'), findsOneWidget);
       expect(find.text('dart'), findsOneWidget);
@@ -1746,7 +1984,9 @@ void main() {
   group('UiCalendar', () {
     testWidgets('renders month and day headers', (tester) async {
       await tester.pumpWidget(
-        _wrap(UiCalendar(initialMonth: DateTime(2026, 4), onDateSelected: (_) {})),
+        _wrap(
+          UiCalendar(initialMonth: DateTime(2026, 4), onDateSelected: (_) {}),
+        ),
       );
 
       expect(find.text('April 2026'), findsOneWidget);
@@ -1757,7 +1997,12 @@ void main() {
     testWidgets('selects a date', (tester) async {
       DateTime? selected;
       await tester.pumpWidget(
-        _wrap(UiCalendar(initialMonth: DateTime(2026, 4), onDateSelected: (d) => selected = d)),
+        _wrap(
+          UiCalendar(
+            initialMonth: DateTime(2026, 4),
+            onDateSelected: (d) => selected = d,
+          ),
+        ),
       );
 
       await tester.tap(find.text('15'));
@@ -1772,7 +2017,12 @@ void main() {
       final future = Future.value('Hello');
 
       await tester.pumpWidget(
-        _wrap(UiAsyncBuilder<String>(future: future, builder: (context, data) => Text(data))),
+        _wrap(
+          UiAsyncBuilder<String>(
+            future: future,
+            builder: (context, data) => Text(data),
+          ),
+        ),
       );
 
       // After future completes
@@ -1818,7 +2068,9 @@ void main() {
   group('UiConfirmDialog', () {
     testWidgets('renders title and message', (tester) async {
       // Just test the widget directly (not via show)
-      await tester.pumpWidget(_wrap(const Center(child: Text('UiConfirmDialog exists'))));
+      await tester.pumpWidget(
+        _wrap(const Center(child: Text('UiConfirmDialog exists'))),
+      );
 
       expect(find.text('UiConfirmDialog exists'), findsOneWidget);
     });
@@ -1838,7 +2090,11 @@ void main() {
     testWidgets('renders existing tags', (tester) async {
       await tester.pumpWidget(
         _wrap(
-          UiTagInput(tags: const ['Flutter', 'Dart'], onTagAdded: (_) {}, onTagRemoved: (_) {}),
+          UiTagInput(
+            tags: const ['Flutter', 'Dart'],
+            onTagAdded: (_) {},
+            onTagRemoved: (_) {},
+          ),
         ),
       );
 
@@ -1849,7 +2105,9 @@ void main() {
 
   group('UiNumberInput', () {
     testWidgets('renders value and buttons', (tester) async {
-      await tester.pumpWidget(_wrap(UiNumberInput(value: 5, onChanged: (_) {}, label: 'Quantity')));
+      await tester.pumpWidget(
+        _wrap(UiNumberInput(value: 5, onChanged: (_) {}, label: 'Quantity')),
+      );
 
       expect(find.text('5'), findsOneWidget);
       expect(find.text('Quantity'), findsOneWidget);
@@ -1859,7 +2117,12 @@ void main() {
   group('UiExpandableText', () {
     testWidgets('renders text', (tester) async {
       await tester.pumpWidget(
-        _wrap(const SizedBox(width: 200, child: UiExpandableText(text: 'Short text', maxLines: 3))),
+        _wrap(
+          const SizedBox(
+            width: 200,
+            child: UiExpandableText(text: 'Short text', maxLines: 3),
+          ),
+        ),
       );
 
       expect(find.byType(UiExpandableText), findsOneWidget);
@@ -1913,7 +2176,11 @@ void main() {
     testWidgets('renders color swatches', (tester) async {
       await tester.pumpWidget(
         _wrap(
-          UiColorPicker(value: const Color(0xFFFF0000), onChanged: (_) {}, label: 'Pick color'),
+          UiColorPicker(
+            value: const Color(0xFFFF0000),
+            onChanged: (_) {},
+            label: 'Pick color',
+          ),
         ),
       );
 
@@ -1973,7 +2240,10 @@ void main() {
     testWidgets('renders avatars with overflow', (tester) async {
       await tester.pumpWidget(
         _wrap(
-          const UiAvatarGroup(maxVisible: 2, avatars: [Text('A'), Text('B'), Text('C'), Text('D')]),
+          const UiAvatarGroup(
+            maxVisible: 2,
+            avatars: [Text('A'), Text('B'), Text('C'), Text('D')],
+          ),
         ),
       );
 
@@ -1985,7 +2255,13 @@ void main() {
     testWidgets('renders all types', (tester) async {
       for (final type in UiStatusType.values) {
         await tester.pumpWidget(
-          _wrap(UiStatusPage(type: type, title: type.name, description: 'Description')),
+          _wrap(
+            UiStatusPage(
+              type: type,
+              title: type.name,
+              description: 'Description',
+            ),
+          ),
         );
         expect(find.text(type.name), findsOneWidget);
       }
@@ -1993,7 +2269,13 @@ void main() {
 
     testWidgets('renders action', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiStatusPage(type: UiStatusType.error, title: 'Error', action: Text('Retry'))),
+        _wrap(
+          const UiStatusPage(
+            type: UiStatusType.error,
+            title: 'Error',
+            action: Text('Retry'),
+          ),
+        ),
       );
 
       expect(find.text('Retry'), findsOneWidget);
@@ -2004,14 +2286,18 @@ void main() {
 
   group('UiDatePicker', () {
     testWidgets('renders with label', (tester) async {
-      await tester.pumpWidget(_wrap(UiDatePicker(label: 'Birthday', onChanged: (_) {})));
+      await tester.pumpWidget(
+        _wrap(UiDatePicker(label: 'Birthday', onChanged: (_) {})),
+      );
       expect(find.text('Birthday'), findsOneWidget);
     });
   });
 
   group('UiTimePicker', () {
     testWidgets('renders with label', (tester) async {
-      await tester.pumpWidget(_wrap(UiTimePicker(label: 'Start time', onChanged: (_) {})));
+      await tester.pumpWidget(
+        _wrap(UiTimePicker(label: 'Start time', onChanged: (_) {})),
+      );
       expect(find.text('Start time'), findsOneWidget);
     });
   });
@@ -2036,7 +2322,9 @@ void main() {
   group('UiPagination', () {
     testWidgets('renders pages', (tester) async {
       await tester.pumpWidget(
-        _wrap(UiPagination(currentPage: 1, totalPages: 10, onPageChanged: (_) {})),
+        _wrap(
+          UiPagination(currentPage: 1, totalPages: 10, onPageChanged: (_) {}),
+        ),
       );
       expect(find.text('1'), findsOneWidget);
     });
@@ -2044,7 +2332,9 @@ void main() {
 
   group('UiProgressCircle', () {
     testWidgets('renders', (tester) async {
-      await tester.pumpWidget(_wrap(const UiProgressCircle(value: 0.7, showLabel: true)));
+      await tester.pumpWidget(
+        _wrap(const UiProgressCircle(value: 0.7, showLabel: true)),
+      );
       expect(find.text('70%'), findsOneWidget);
     });
   });
@@ -2053,7 +2343,9 @@ void main() {
     testWidgets('renders and handles tap', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
-        _wrap(UiIconButton(icon: UiIcons.settings, onPressed: () => tapped = true)),
+        _wrap(
+          UiIconButton(icon: UiIcons.settings, onPressed: () => tapped = true),
+        ),
       );
       await tester.tap(find.byType(UiIconButton));
       expect(tapped, isTrue);
@@ -2127,7 +2419,12 @@ void main() {
   group('UiResizablePanel', () {
     testWidgets('renders both children', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiResizablePanel(firstChild: Text('Left'), secondChild: Text('Right'))),
+        _wrap(
+          const UiResizablePanel(
+            firstChild: Text('Left'),
+            secondChild: Text('Right'),
+          ),
+        ),
       );
       expect(find.text('Left'), findsOneWidget);
       expect(find.text('Right'), findsOneWidget);
@@ -2160,7 +2457,12 @@ void main() {
   group('UiCollapsible', () {
     testWidgets('toggles content', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiCollapsible(title: Text('Title'), child: Text('Hidden content'))),
+        _wrap(
+          const UiCollapsible(
+            title: Text('Title'),
+            child: Text('Hidden content'),
+          ),
+        ),
       );
       expect(find.text('Title'), findsOneWidget);
     });
@@ -2169,7 +2471,12 @@ void main() {
   group('UiFloatingActionButton', () {
     testWidgets('renders', (tester) async {
       await tester.pumpWidget(
-        _wrap(UiFloatingActionButton(icon: const Icon(UiIcons.add), onPressed: () {})),
+        _wrap(
+          UiFloatingActionButton(
+            icon: const Icon(UiIcons.add),
+            onPressed: () {},
+          ),
+        ),
       );
       expect(find.byType(UiFloatingActionButton), findsOneWidget);
     });
@@ -2178,7 +2485,9 @@ void main() {
   group('UiHoverCard', () {
     testWidgets('renders trigger', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiHoverCard(content: Text('Preview'), child: Text('Hover me'))),
+        _wrap(
+          const UiHoverCard(content: Text('Preview'), child: Text('Hover me')),
+        ),
       );
       expect(find.text('Hover me'), findsOneWidget);
     });
@@ -2204,7 +2513,12 @@ void main() {
   group('UiMasonryGrid', () {
     testWidgets('renders children', (tester) async {
       await tester.pumpWidget(
-        _wrap(const UiMasonryGrid(crossAxisCount: 2, children: [Text('A'), Text('B'), Text('C')])),
+        _wrap(
+          const UiMasonryGrid(
+            crossAxisCount: 2,
+            children: [Text('A'), Text('B'), Text('C')],
+          ),
+        ),
       );
       expect(find.text('A'), findsOneWidget);
       expect(find.text('B'), findsOneWidget);
@@ -2213,19 +2527,25 @@ void main() {
 
   group('UiChatBubble', () {
     testWidgets('renders message', (tester) async {
-      await tester.pumpWidget(_wrap(const UiChatBubble(message: 'Hello!', isMe: true)));
+      await tester.pumpWidget(
+        _wrap(const UiChatBubble(message: 'Hello!', isMe: true)),
+      );
       expect(find.text('Hello!'), findsOneWidget);
     });
 
     testWidgets('renders other person', (tester) async {
-      await tester.pumpWidget(_wrap(const UiChatBubble(message: 'Hi there', isMe: false)));
+      await tester.pumpWidget(
+        _wrap(const UiChatBubble(message: 'Hi there', isMe: false)),
+      );
       expect(find.text('Hi there'), findsOneWidget);
     });
   });
 
   group('UiWatermark', () {
     testWidgets('renders child', (tester) async {
-      await tester.pumpWidget(_wrap(const UiWatermark(text: 'DRAFT', child: Text('Content'))));
+      await tester.pumpWidget(
+        _wrap(const UiWatermark(text: 'DRAFT', child: Text('Content'))),
+      );
       expect(find.text('Content'), findsOneWidget);
     });
   });
@@ -2250,7 +2570,12 @@ void main() {
   group('UiMarquee', () {
     testWidgets('renders child', (tester) async {
       await tester.pumpWidget(
-        _wrap(const SizedBox(width: 200, child: UiMarquee(child: Text('Scrolling')))),
+        _wrap(
+          const SizedBox(
+            width: 200,
+            child: UiMarquee(child: Text('Scrolling')),
+          ),
+        ),
       );
       expect(find.byType(UiMarquee), findsOneWidget);
     });
@@ -2262,7 +2587,13 @@ void main() {
         _wrap(
           UiSpeedDial(
             icon: UiIcons.add,
-            actions: [UiSpeedDialAction(icon: UiIcons.edit, label: 'Edit', onTap: () {})],
+            actions: [
+              UiSpeedDialAction(
+                icon: UiIcons.edit,
+                label: 'Edit',
+                onTap: () {},
+              ),
+            ],
           ),
         ),
       );
@@ -2279,7 +2610,10 @@ void main() {
             children: [
               UiScrollIndicator(controller: controller),
               Expanded(
-                child: ListView(controller: controller, children: const [Text('A')]),
+                child: ListView(
+                  controller: controller,
+                  children: const [Text('A')],
+                ),
               ),
             ],
           ),
@@ -2291,7 +2625,9 @@ void main() {
 
   group('UiSignaturePad', () {
     testWidgets('renders', (tester) async {
-      await tester.pumpWidget(_wrap(const SizedBox(height: 200, child: UiSignaturePad())));
+      await tester.pumpWidget(
+        _wrap(const SizedBox(height: 200, child: UiSignaturePad())),
+      );
       expect(find.byType(UiSignaturePad), findsOneWidget);
     });
   });
@@ -2502,7 +2838,9 @@ void main() {
 
   group('UiTypingIndicator', () {
     testWidgets('renders', (tester) async {
-      await tester.pumpWidget(_wrap(const UiTypingIndicator(userName: 'Alice')));
+      await tester.pumpWidget(
+        _wrap(const UiTypingIndicator(userName: 'Alice')),
+      );
 
       expect(find.byType(UiTypingIndicator), findsOneWidget);
     });

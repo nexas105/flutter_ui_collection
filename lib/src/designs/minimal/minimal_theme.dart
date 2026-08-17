@@ -1,6 +1,8 @@
-import 'dart:ui';
+import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -29,6 +31,10 @@ abstract final class MinimalTheme {
       onWarning: Color(0xFF000000),
       border: Color(0xFF38383A),
       shadow: Color(0x33000000),
+      canvas: Color(0xFF111111),
+      surfaceRaised: Color(0xFF242426),
+      surfaceOverlay: Color(0xFF2C2C2E),
+      onSurfaceMuted: Color(0xFF98989D),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Helvetica Neue',
@@ -46,6 +52,25 @@ abstract final class MinimalTheme {
       borderRadiusLg: 14.0,
       borderRadiusXl: 20.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 36,
+      controlHeightMedium: 44,
+      controlHeightLarge: 50,
+      controlRadius: 8,
+      cardRadius: 12,
+      cardPadding: 24,
+      appBarHeight: 60,
+      iconSizeSmall: 15,
+      iconSizeMedium: 19,
+      iconSizeLarge: 23,
+      focusRingWidth: 1.5,
+      shadowBlur: 14,
+      shadowOffset: Offset(0, 3),
+      contentMaxWidth: 1040,
+    ),
+    icons: const UiIconSet(weight: 300, grade: -25, opticalSize: 20),
+    animationDuration: const Duration(milliseconds: 160),
+    animationCurve: Curves.easeOutCubic,
     useShadows: false,
     useGlow: false,
     borderWidth: 1.0,
@@ -70,6 +95,10 @@ abstract final class MinimalTheme {
       onWarning: Color(0xFFFFFFFF),
       border: Color(0xFFD1D1D6),
       shadow: Color(0x14000000),
+      canvas: Color(0xFFF5F5F7),
+      surfaceRaised: Color(0xFFFFFFFF),
+      surfaceOverlay: Color(0xFFFFFFFF),
+      onSurfaceMuted: Color(0xFF6E6E73),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Helvetica Neue',
@@ -87,6 +116,25 @@ abstract final class MinimalTheme {
       borderRadiusLg: 14.0,
       borderRadiusXl: 20.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 36,
+      controlHeightMedium: 44,
+      controlHeightLarge: 50,
+      controlRadius: 8,
+      cardRadius: 12,
+      cardPadding: 24,
+      appBarHeight: 60,
+      iconSizeSmall: 15,
+      iconSizeMedium: 19,
+      iconSizeLarge: 23,
+      focusRingWidth: 1.5,
+      shadowBlur: 14,
+      shadowOffset: Offset(0, 3),
+      contentMaxWidth: 1040,
+    ),
+    icons: const UiIconSet(weight: 300, grade: -25, opticalSize: 20),
+    animationDuration: const Duration(milliseconds: 160),
+    animationCurve: Curves.easeOutCubic,
     useShadows: true,
     useGlow: false,
     borderWidth: 0.5,

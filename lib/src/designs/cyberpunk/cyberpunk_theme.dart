@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -31,6 +33,10 @@ abstract final class CyberpunkTheme {
       shadow: Color(0x88FFE500),
       glow: Color(0xFFFFE500),
       gradient: [Color(0xFFFFE500), Color(0xFFFF0055), Color(0xFF7B2FBE)],
+      canvas: Color(0xFF07000E),
+      surfaceRaised: Color(0xFF24103D),
+      surfaceOverlay: Color(0xFF30134F),
+      onSurfaceMuted: Color(0xFFA98FC7),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -43,6 +49,26 @@ abstract final class CyberpunkTheme {
       borderRadiusLg: 4.0,
       borderRadiusXl: 4.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 46,
+      controlHeightLarge: 54,
+      controlRadius: 1,
+      cardRadius: 3,
+      cardPadding: 18,
+      appBarHeight: 66,
+      iconSizeSmall: 17,
+      iconSizeMedium: 22,
+      iconSizeLarge: 28,
+      hoverOpacity: 0.14,
+      pressedOpacity: 0.24,
+      disabledOpacity: 0.38,
+      focusRingWidth: 3,
+      shadowBlur: 12,
+      shadowOffset: Offset(0, 4),
+      contentMaxWidth: 1240,
+    ),
+    icons: const UiIconSet(weight: 650, grade: 200, opticalSize: 24),
     useGlow: true,
     useGradients: true,
     useShadows: true,
@@ -72,6 +98,10 @@ abstract final class CyberpunkTheme {
       shadow: Color(0x33BB9900),
       glow: Color(0xFFBB9900),
       gradient: [Color(0xFFBB9900), Color(0xFFCC0044)],
+      canvas: Color(0xFFFFFEF5),
+      surfaceRaised: Color(0xFFF5F0FF),
+      surfaceOverlay: Color(0xFFE9DDF7),
+      onSurfaceMuted: Color(0xFF665675),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -84,6 +114,26 @@ abstract final class CyberpunkTheme {
       borderRadiusLg: 4.0,
       borderRadiusXl: 4.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 38,
+      controlHeightMedium: 46,
+      controlHeightLarge: 54,
+      controlRadius: 1,
+      cardRadius: 3,
+      cardPadding: 18,
+      appBarHeight: 66,
+      iconSizeSmall: 17,
+      iconSizeMedium: 22,
+      iconSizeLarge: 28,
+      hoverOpacity: 0.14,
+      pressedOpacity: 0.24,
+      disabledOpacity: 0.38,
+      focusRingWidth: 3,
+      shadowBlur: 12,
+      shadowOffset: Offset(0, 4),
+      contentMaxWidth: 1240,
+    ),
+    icons: const UiIconSet(weight: 650, grade: 200, opticalSize: 24),
     useGlow: true,
     useGradients: true,
     useShadows: true,

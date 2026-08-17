@@ -117,18 +117,18 @@ Akzeptanzkriterien:
 
 ## Phase 6 — Preset Redesign
 
-Status: **Geplant**
+Status: **Abgeschlossen**
 
 Jedes Preset erhält eine eigene Designgrammatik:
 
-- [ ] Minimal
-- [ ] Neon
-- [ ] Glass
-- [ ] Cyberpunk
-- [ ] Retro
-- [ ] Aurora
-- [ ] Terminal
-- [ ] Pastel
+- [x] Minimal
+- [x] Neon
+- [x] Glass
+- [x] Cyberpunk
+- [x] Retro
+- [x] Aurora
+- [x] Terminal
+- [x] Pastel
 
 Pro Preset zu definieren:
 
@@ -196,8 +196,8 @@ Akzeptanzkriterien:
 
 ## Aktueller Arbeitsblock
 
-1. Gemeinsame Focus-, Hover-, Pressed- und Disabled-Logik erstellen.
-2. Textfelder, Suche und Auswahl-Controls migrieren.
-3. Checkbox, Radio, Toggle, Slider und Segmented Control migrieren.
-4. Touch-Ziele und Semantik testen.
+1. Auth, Chat und Dashboard auf zentrale Tokens und Kernkomponenten prüfen.
+2. E-Commerce, Social und Settings migrieren.
+3. Duplizierte Radius-, Schatten- und Opacity-Konstanten entfernen.
+4. Reale Zustände und lange Inhalte testen.
 5. Analyzer und Tests ausführen.

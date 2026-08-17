@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -30,6 +32,10 @@ abstract final class RetroTheme {
       border: Color(0xFF00CC00),
       shadow: Color(0x4400CC00),
       glow: Color(0xFF00CC00),
+      canvas: Color(0xFF111111),
+      surfaceRaised: Color(0xFF2C2C2C),
+      surfaceOverlay: Color(0xFF383838),
+      onSurfaceMuted: Color(0xFF77A877),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -43,6 +49,26 @@ abstract final class RetroTheme {
       borderRadiusXl: 0.0,
       borderRadiusFull: 0.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 40,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 0,
+      cardRadius: 0,
+      cardPadding: 16,
+      appBarHeight: 64,
+      iconSizeSmall: 16,
+      iconSizeMedium: 24,
+      iconSizeLarge: 32,
+      hoverOpacity: 0.16,
+      pressedOpacity: 0.28,
+      disabledOpacity: 0.5,
+      focusRingWidth: 2,
+      shadowBlur: 0,
+      shadowOffset: Offset(4, 4),
+      contentMaxWidth: 1024,
+    ),
+    icons: const UiIconSet(weight: 700, grade: 200, opticalSize: 24),
     useGlow: true,
     useShadows: false,
     borderWidth: 2.0,
@@ -69,6 +95,10 @@ abstract final class RetroTheme {
       onWarning: Color(0xFF000000),
       border: Color(0xFF333300),
       shadow: Color(0x33333300),
+      canvas: Color(0xFFFFFFF0),
+      surfaceRaised: Color(0xFFFFFFD6),
+      surfaceOverlay: Color(0xFFE5E5B8),
+      onSurfaceMuted: Color(0xFF6B6B43),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'monospace',
@@ -82,6 +112,26 @@ abstract final class RetroTheme {
       borderRadiusXl: 0.0,
       borderRadiusFull: 0.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 40,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 0,
+      cardRadius: 0,
+      cardPadding: 16,
+      appBarHeight: 64,
+      iconSizeSmall: 16,
+      iconSizeMedium: 24,
+      iconSizeLarge: 32,
+      hoverOpacity: 0.16,
+      pressedOpacity: 0.28,
+      disabledOpacity: 0.5,
+      focusRingWidth: 2,
+      shadowBlur: 0,
+      shadowOffset: Offset(4, 4),
+      contentMaxWidth: 1024,
+    ),
+    icons: const UiIconSet(weight: 700, grade: 200, opticalSize: 24),
     useShadows: true,
     borderWidth: 2.0,
     animationDuration: const Duration(milliseconds: 100),

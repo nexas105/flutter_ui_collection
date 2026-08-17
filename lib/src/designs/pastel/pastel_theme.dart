@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/ui_color_scheme.dart';
+import '../../theme/ui_component_tokens.dart';
+import '../../theme/ui_icon_set.dart';
 import '../../theme/ui_spacing.dart';
 import '../../theme/ui_theme_data.dart';
 import '../../theme/ui_typography.dart';
@@ -29,6 +31,10 @@ abstract final class PastelTheme {
       onWarning: Color(0xFF282010),
       border: Color(0xFF3D3550),
       shadow: Color(0x22000000),
+      canvas: Color(0xFF1A1525),
+      surfaceRaised: Color(0xFF342D41),
+      surfaceOverlay: Color(0xFF40374E),
+      onSurfaceMuted: Color(0xFFAAA0B5),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Trebuchet MS',
@@ -42,6 +48,26 @@ abstract final class PastelTheme {
       borderRadiusLg: 26.0,
       borderRadiusXl: 34.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 40,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 18,
+      cardRadius: 26,
+      cardPadding: 26,
+      appBarHeight: 68,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 24,
+      hoverOpacity: 0.08,
+      pressedOpacity: 0.14,
+      disabledOpacity: 0.46,
+      focusRingWidth: 2,
+      shadowBlur: 24,
+      shadowOffset: Offset(0, 8),
+      contentMaxWidth: 1080,
+    ),
+    icons: const UiIconSet(weight: 300, grade: -25, opticalSize: 22),
     useShadows: true,
     useGlow: false,
     borderWidth: 0.0,
@@ -69,6 +95,10 @@ abstract final class PastelTheme {
       onWarning: Color(0xFFFFFFFF),
       border: Color(0xFFE8E0F0),
       shadow: Color(0x11000000),
+      canvas: Color(0xFFF8F4FF),
+      surfaceRaised: Color(0xFFFFFFFF),
+      surfaceOverlay: Color(0xFFF1EAF8),
+      onSurfaceMuted: Color(0xFF756C82),
     ),
     typography: UiTypography.fromFont(
       fontFamily: 'Trebuchet MS',
@@ -82,6 +112,26 @@ abstract final class PastelTheme {
       borderRadiusLg: 26.0,
       borderRadiusXl: 34.0,
     ),
+    components: const UiComponentTokens(
+      controlHeightSmall: 40,
+      controlHeightMedium: 48,
+      controlHeightLarge: 56,
+      controlRadius: 18,
+      cardRadius: 26,
+      cardPadding: 26,
+      appBarHeight: 68,
+      iconSizeSmall: 16,
+      iconSizeMedium: 20,
+      iconSizeLarge: 24,
+      hoverOpacity: 0.08,
+      pressedOpacity: 0.14,
+      disabledOpacity: 0.46,
+      focusRingWidth: 2,
+      shadowBlur: 24,
+      shadowOffset: Offset(0, 8),
+      contentMaxWidth: 1080,
+    ),
+    icons: const UiIconSet(weight: 300, grade: -25, opticalSize: 22),
     useShadows: true,
     useGlow: false,
     borderWidth: 0.0,
