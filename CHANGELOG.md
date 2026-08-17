@@ -1,3 +1,7 @@
+## 3.2.1
+
+- Fix repository / homepage / issue-tracker links to point at the correct GitHub repo.
+
 ## 3.2.0
 
 ### Premium UI Refactor

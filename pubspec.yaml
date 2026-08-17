@@ -3,10 +3,10 @@ description: >
   A complete Flutter UI framework — 89 core components + 6 enhanced modules
   (Auth, Chat/WhatsApp-level, Dashboard/Charts, E-Commerce/Cart+Checkout,
   Social, Settings). 192 files, ~35K LOC. Material-free.
-version: 3.2.0
-homepage: https://github.com/tobiasludwig/flutter_ui_collection
-repository: https://github.com/tobiasludwig/flutter_ui_collection
-issue_tracker: https://github.com/tobiasludwig/flutter_ui_collection/issues
+version: 3.2.1
+homepage: https://github.com/nexas105/flutter_ui_collection
+repository: https://github.com/nexas105/flutter_ui_collection
+issue_tracker: https://github.com/nexas105/flutter_ui_collection/issues
 
 topics:
   - ui
