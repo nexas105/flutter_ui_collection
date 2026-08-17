@@ -40,26 +40,8 @@ class UiSettingsSection extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    List<BoxShadow>? shadows;
-    if (theme.useGlow && colors.glow != null) {
-      shadows = [
-        BoxShadow(
-          color: colors.glow!.withValues(alpha: 0.1),
-          blurRadius: 12,
-          spreadRadius: 1,
-        ),
-      ];
-    } else if (theme.useShadows) {
-      shadows = [
-        BoxShadow(
-          color: colors.shadow,
-          blurRadius: 8,
-          offset: const Offset(0, 2),
-        ),
-      ];
-    }
-
-    final resolvedPadding = padding ??
+    final resolvedPadding =
+        padding ??
         EdgeInsets.symmetric(horizontal: spacing.md, vertical: spacing.sm);
 
     return Padding(
@@ -70,27 +52,19 @@ class UiSettingsSection extends StatelessWidget {
         children: [
           if (title != null) ...[
             Padding(
-              padding: EdgeInsets.only(
-                left: spacing.xs,
-                bottom: spacing.sm,
-              ),
+              padding: EdgeInsets.only(left: spacing.xs, bottom: spacing.sm),
               child: Text(
                 title!,
-                style: typo.labelLarge.copyWith(
-                  color: colors.onBackground.withValues(alpha: 0.6),
+                style: typo.titleSmall.copyWith(
+                  color: colors.resolvedOnSurfaceMuted,
                 ),
               ),
             ),
           ],
           Container(
             decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: spacing.radiusMd,
-              border: Border.all(
-                color: colors.border,
-                width: theme.borderWidth,
-              ),
-              boxShadow: shadows,
+              color: colors.resolvedSurfaceRaised,
+              borderRadius: theme.components.cardBorderRadius,
             ),
             clipBehavior: Clip.antiAlias,
             child: Column(

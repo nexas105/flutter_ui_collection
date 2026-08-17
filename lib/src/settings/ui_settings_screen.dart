@@ -28,6 +28,11 @@ class UiSettingsScreen extends StatelessWidget {
     required this.sections,
     this.title = 'Settings',
     this.showAppBar = true,
+    this.description,
+    this.navigation,
+    this.leading,
+    this.actions = const [],
+    this.maxContentWidth,
   });
 
   /// The sections to display in the scrollable area.
@@ -38,6 +43,13 @@ class UiSettingsScreen extends StatelessWidget {
 
   /// Whether to show the top app bar.
   final bool showAppBar;
+  final String? description;
+
+  /// Optional navigation pane shown beside the settings on wide viewports.
+  final Widget? navigation;
+  final Widget? leading;
+  final List<Widget> actions;
+  final double? maxContentWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -46,50 +58,103 @@ class UiSettingsScreen extends StatelessWidget {
     final spacing = theme.spacing;
     final typo = theme.typography;
 
-    return Container(
-      color: colors.background,
-      child: Column(
-        children: [
-          if (showAppBar) ...[
-            Container(
-              height: 56,
-              padding: EdgeInsets.symmetric(horizontal: spacing.md),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                border: Border(
-                  bottom: BorderSide(
-                    color: colors.border,
-                    width: theme.borderWidth,
+    final header = showAppBar
+        ? Container(
+            constraints: const BoxConstraints(minHeight: 96),
+            padding: EdgeInsets.symmetric(
+              horizontal: spacing.lg,
+              vertical: spacing.md,
+            ),
+            child: Row(
+              children: [
+                if (leading != null) ...[leading!, SizedBox(width: spacing.md)],
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: typo.headlineSmall.copyWith(
+                          color: colors.onBackground,
+                        ),
+                      ),
+                      if (description != null) ...[
+                        SizedBox(height: spacing.xs),
+                        Text(
+                          description!,
+                          style: typo.bodyMedium.copyWith(
+                            color: colors.resolvedOnSurfaceMuted,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: typo.titleMedium.copyWith(
-                        color: colors.onSurface,
+                for (final action in actions) ...[
+                  SizedBox(width: spacing.sm),
+                  action,
+                ],
+              ],
+            ),
+          )
+        : const SizedBox.shrink();
+
+    Widget content() => SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(
+        spacing.md,
+        spacing.sm,
+        spacing.md,
+        spacing.xxl,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: sections,
+      ),
+    );
+
+    return ColoredBox(
+      color: colors.resolvedCanvas,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final wide = constraints.maxWidth >= 720 && navigation != null;
+          final maxWidth = maxContentWidth ?? theme.components.contentMaxWidth;
+
+          final body = wide
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(
+                      width: 280,
+                      child: ColoredBox(
+                        color: colors.resolvedSurfaceRaised,
+                        child: Padding(
+                          padding: EdgeInsets.all(spacing.md),
+                          child: navigation!,
+                        ),
                       ),
                     ),
-                  ),
+                    Container(width: theme.borderWidth, color: colors.border),
+                    Expanded(child: content()),
+                  ],
+                )
+              : content();
+
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (showAppBar) header,
+                  if (showAppBar)
+                    Container(height: theme.borderWidth, color: colors.border),
+                  Expanded(child: body),
                 ],
               ),
             ),
-          ],
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(
-                top: spacing.sm,
-                bottom: spacing.xl,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: sections,
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

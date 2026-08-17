@@ -86,13 +86,13 @@ Akzeptanzkriterien:
 
 ## Phase 4 — Navigation and Surfaces
 
-Status: **In Arbeit**
+Status: **Abgeschlossen**
 
-- [ ] Scaffold und Responsive Body
-- [ ] App Bar, Sidebar und Drawer
-- [ ] Bottom Navigation und Tabs
-- [ ] Dialog, Sheet, Popover und Command Palette
-- [ ] Surface-Level für Hintergrund, Canvas, Raised und Overlay anwenden
+- [x] Scaffold und Responsive Body
+- [x] App Bar, Sidebar und Drawer
+- [x] Bottom Navigation und Tabs
+- [x] Dialog, Sheet, Popover und Command Palette
+- [x] Surface-Level für Hintergrund, Canvas, Raised und Overlay anwenden
 
 Akzeptanzkriterien:
 
@@ -101,13 +101,13 @@ Akzeptanzkriterien:
 
 ## Phase 5 — Premium Settings Reference
 
-Status: **Geplant**
+Status: **Abgeschlossen**
 
-- [ ] Settings-Screen als Referenzoberfläche neu komponieren
-- [ ] Responsive Split-View für breite Viewports
-- [ ] Settings-Zeilen entkarten und visuell beruhigen
-- [ ] Theme-Selector als echte Miniaturvorschau gestalten
-- [ ] About-Screen mit klarer Produktidentität aufwerten
+- [x] Settings-Screen als Referenzoberfläche neu komponieren
+- [x] Responsive Split-View für breite Viewports
+- [x] Settings-Zeilen entkarten und visuell beruhigen
+- [x] Theme-Selector als echte Miniaturvorschau gestalten
+- [x] About-Screen mit klarer Produktidentität aufwerten
 
 Akzeptanzkriterien:
 

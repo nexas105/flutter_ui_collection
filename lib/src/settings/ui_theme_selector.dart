@@ -1,14 +1,13 @@
 import 'package:flutter/widgets.dart';
 
+import '../icons/ui_icons.dart';
+import '../interaction/ui_interactive_region.dart';
 import '../theme/ui_theme.dart';
 import '../theme/ui_theme_data.dart';
 
 /// Represents a theme option for [UiThemeSelector].
 class UiThemePreview {
-  const UiThemePreview({
-    required this.name,
-    required this.data,
-  });
+  const UiThemePreview({required this.name, required this.data});
 
   /// Display name of the theme.
   final String name;
@@ -126,101 +125,151 @@ class _UiThemePreviewCardState extends State<_UiThemePreviewCard> {
       ];
     }
 
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _hovered = true),
-        onExit: (_) => setState(() => _hovered = false),
-        child: AnimatedContainer(
-          duration: theme.animationDuration,
-          curve: theme.animationCurve,
-          width: 140,
-          padding: EdgeInsets.all(spacing.sm + spacing.xs / 2),
-          decoration: BoxDecoration(
-            color: previewColors.surface,
-            borderRadius: spacing.radiusMd,
-            border: Border.all(
-              color: widget.selected
-                  ? colors.primary
-                  : _hovered
-                      ? colors.onSurface.withValues(alpha: 0.2)
-                      : colors.border,
-              width: widget.selected ? 2.0 : theme.borderWidth,
+    return UiInteractiveRegion(
+      enabled: true,
+      onActivate: widget.onTap,
+      semanticLabel: widget.preview.name,
+      button: true,
+      selected: widget.selected,
+      borderRadius: theme.components.cardBorderRadius,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: AnimatedContainer(
+            duration: theme.animationDuration,
+            curve: theme.animationCurve,
+            width: 176,
+            padding: EdgeInsets.all(spacing.sm),
+            decoration: BoxDecoration(
+              color: colors.resolvedSurfaceRaised,
+              borderRadius: theme.components.cardBorderRadius,
+              border: Border.all(
+                color: widget.selected
+                    ? colors.primary
+                    : _hovered
+                    ? colors.onSurface.withValues(alpha: 0.2)
+                    : colors.border,
+                width: widget.selected ? 2.0 : theme.borderWidth,
+              ),
+              boxShadow: shadows,
             ),
-            boxShadow: shadows,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Color swatches row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _ColorDot(color: previewColors.primary, size: 20),
-                  SizedBox(width: spacing.xs),
-                  _ColorDot(color: previewColors.secondary, size: 20),
-                  SizedBox(width: spacing.xs),
-                  _ColorDot(color: previewColors.background, size: 20),
-                ],
-              ),
-              SizedBox(height: spacing.sm),
-              // Theme name + checkmark
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      widget.preview.name,
-                      style: typo.labelMedium.copyWith(
-                        color: previewColors.onSurface,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 92,
+                  padding: const EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                    color: previewColors.resolvedCanvas,
+                    borderRadius:
+                        widget.preview.data.components.cardBorderRadius,
                   ),
-                  if (widget.selected) ...[
-                    SizedBox(width: spacing.xs),
-                    Text(
-                      '\u2713',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: colors.primary,
-                        fontWeight: FontWeight.w700,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: previewColors.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Container(
+                            width: 44,
+                            height: 5,
+                            color: previewColors.resolvedOnSurfaceMuted,
+                          ),
+                          const Spacer(),
+                          Container(
+                            width: 22,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: previewColors.primary,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 22,
+                              decoration: BoxDecoration(
+                                color: previewColors.surface,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color:
+                                            previewColors.resolvedSurfaceRaised,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 12,
+                                          color: previewColors.secondary,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Expanded(
+                                        child: Container(
+                                          height: 12,
+                                          color: previewColors.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: spacing.sm),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.preview.name,
+                        style: typo.labelMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    if (widget.selected)
+                      Icon(
+                        theme.icons.resolve(UiIcons.check),
+                        size: theme.components.iconSizeSmall,
+                        color: colors.primary,
+                      ),
                   ],
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ColorDot extends StatelessWidget {
-  const _ColorDot({
-    required this.color,
-    this.size = 16,
-  });
-
-  final Color color;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = UiTheme.of(context);
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: theme.colorScheme.border,
-          width: theme.borderWidth,
         ),
       ),
     );

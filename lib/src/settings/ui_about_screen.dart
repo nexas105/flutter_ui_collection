@@ -4,11 +4,7 @@ import '../theme/ui_theme.dart';
 
 /// A link entry for [UiAboutScreen].
 class UiAboutLink {
-  const UiAboutLink({
-    required this.label,
-    required this.onTap,
-    this.icon,
-  });
+  const UiAboutLink({required this.label, required this.onTap, this.icon});
 
   /// Display label for the link.
   final String label;
@@ -94,30 +90,51 @@ class UiAboutScreen extends StatelessWidget {
       child: Column(
         children: [
           // Logo + App identity
-          SizedBox(height: spacing.lg),
+          SizedBox(height: spacing.md),
           if (logo != null) ...[
-            logo!,
-            SizedBox(height: spacing.md),
+            Container(
+              width: 88,
+              height: 88,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: colors.resolvedSurfaceRaised,
+                borderRadius: theme.components.cardBorderRadius,
+                boxShadow: cardShadows,
+              ),
+              child: logo!,
+            ),
+            SizedBox(height: spacing.lg),
           ],
           Text(
             appName,
-            style: typo.headlineMedium.copyWith(color: colors.onBackground),
+            style: typo.headlineLarge.copyWith(color: colors.onBackground),
           ),
           SizedBox(height: spacing.xs),
-          Text(
-            'Version $version',
-            style: typo.bodySmall.copyWith(
-              color: colors.onBackground.withValues(alpha: 0.6),
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: spacing.sm,
+              vertical: spacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: colors.primary.withValues(alpha: 0.1),
+              borderRadius: spacing.radiusFull,
+            ),
+            child: Text(
+              'Version $version',
+              style: typo.labelSmall.copyWith(color: colors.primary),
             ),
           ),
           if (description != null) ...[
             SizedBox(height: spacing.md),
-            Text(
-              description!,
-              style: typo.bodyMedium.copyWith(
-                color: colors.onBackground.withValues(alpha: 0.8),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560),
+              child: Text(
+                description!,
+                style: typo.bodyLarge.copyWith(
+                  color: colors.resolvedOnSurfaceMuted,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
           SizedBox(height: spacing.xl),
@@ -125,13 +142,8 @@ class UiAboutScreen extends StatelessWidget {
           if (links.isNotEmpty)
             Container(
               decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: spacing.radiusMd,
-                border: Border.all(
-                  color: colors.border,
-                  width: theme.borderWidth,
-                ),
-                boxShadow: cardShadows,
+                color: colors.resolvedSurfaceRaised,
+                borderRadius: theme.components.cardBorderRadius,
               ),
               clipBehavior: Clip.antiAlias,
               child: Column(
@@ -141,8 +153,7 @@ class UiAboutScreen extends StatelessWidget {
                     _UiAboutLinkTile(link: links[i]),
                     if (i < links.length - 1)
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: spacing.md),
+                        padding: EdgeInsets.symmetric(horizontal: spacing.md),
                         child: Container(
                           height: theme.borderWidth,
                           color: colors.border,
@@ -198,11 +209,7 @@ class _UiAboutLinkTileState extends State<_UiAboutLinkTile> {
           child: Row(
             children: [
               if (widget.link.icon != null) ...[
-                Icon(
-                  widget.link.icon,
-                  size: 20,
-                  color: colors.primary,
-                ),
+                Icon(widget.link.icon, size: 20, color: colors.primary),
                 SizedBox(width: spacing.md),
               ],
               Expanded(

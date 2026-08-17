@@ -2296,6 +2296,44 @@ void main() {
     });
   });
 
+  group('Premium Settings', () {
+    testWidgets('shows split navigation on wide viewports', (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          SizedBox(
+            width: 1000,
+            height: 700,
+            child: UiSettingsScreen(
+              title: 'Preferences',
+              description: 'Shape the workspace around you.',
+              navigation: const Text('Settings navigation'),
+              sections: const [Text('Account settings')],
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Settings navigation'), findsOneWidget);
+      expect(find.text('Account settings'), findsOneWidget);
+      expect(find.text('Shape the workspace around you.'), findsOneWidget);
+    });
+
+    testWidgets('theme selector renders product-like previews', (tester) async {
+      await tester.pumpWidget(
+        _wrap(
+          UiThemeSelector(
+            themes: [UiThemePreview(name: 'Minimal', data: MinimalTheme.dark)],
+            selectedTheme: 'Minimal',
+            onChanged: (_) {},
+          ),
+        ),
+      );
+
+      expect(find.text('Minimal'), findsOneWidget);
+      expect(find.byType(UiThemeSelector), findsOneWidget);
+    });
+  });
+
   // === CHAT MODULE ===
 
   group('UiChatModels', () {

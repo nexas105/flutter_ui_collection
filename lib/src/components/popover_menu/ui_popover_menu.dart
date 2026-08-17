@@ -249,39 +249,39 @@ class _MenuItemState extends State<_MenuItem> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: MouseRegion(
-        onEnter: (_) => setState(() => _hovered = true),
-        onExit: (_) => setState(() => _hovered = false),
-        child: Container(
-          constraints: BoxConstraints(
-            minHeight: widget.theme.components.controlHeightMedium,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: spacing.md,
-            vertical: spacing.sm,
-          ),
-          color: _hovered
-              ? colors.onSurface.withValues(alpha: 0.06)
-              : const Color(0x00000000),
-          child: Row(
-            children: [
-              if (item.icon != null) ...[
-                Icon(
-                  widget.theme.icons.resolve(item.icon!),
-                  size: widget.theme.components.iconSizeMedium,
-                  color: fgColor,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: Container(
+            constraints: BoxConstraints(
+              minHeight: widget.theme.components.controlHeightMedium,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: spacing.md,
+              vertical: spacing.sm,
+            ),
+            color: _hovered
+                ? colors.onSurface.withValues(alpha: 0.06)
+                : const Color(0x00000000),
+            child: Row(
+              children: [
+                if (item.icon != null) ...[
+                  Icon(
+                    widget.theme.icons.resolve(item.icon!),
+                    size: widget.theme.components.iconSizeMedium,
+                    color: fgColor,
+                  ),
+                  SizedBox(width: spacing.sm),
+                ],
+                Expanded(
+                  child: Text(
+                    item.label,
+                    style: typo.bodyMedium.copyWith(color: fgColor),
+                  ),
                 ),
-                SizedBox(width: spacing.sm),
               ],
-              Expanded(
-                child: Text(
-                  item.label,
-                  style: typo.bodyMedium.copyWith(color: fgColor),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
